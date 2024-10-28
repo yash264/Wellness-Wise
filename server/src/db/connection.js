@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
-const DB = 'mongodb+srv://yp5094280:h6jEx0Brauuank3R@practise.btsrssx.mongodb.net/healthRecord';
+const dotenv=require('dotenv')
+const path = require('path');
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+const DB = process.env.MONGODB_URL;
 
 mongoose.connect(DB).then(()=>{
     console.log("Connection Successful");
