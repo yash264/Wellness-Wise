@@ -5,7 +5,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 const DB = process.env.MONGODB_URL;
 
 mongoose.connect(DB).then(()=>{
-    console.log("Connection Successful");
+    console.log("Database connected successfully !!");
 }).catch((e)=>{
-    console.log("No Connection");
+    console.log("Database not connected !!");
 })
