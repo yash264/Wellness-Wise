@@ -78,7 +78,8 @@ def nutrition_summary():
 # Initialize MongoDB Client
 client = MongoClient("mongodb://localhost:27017/")
 db = client["mood_tracker_db"]
-mood_logs_collection = db["mood_logs"]
+mood_logs_collection = db["mood_logs"] # add collection for mood
+sleep_logs_collection = db['sleep_logs'] # add collection for sleep
 
 # Endpoint for logging mood
 @app.route('/api/log_mood', methods=['POST'])
@@ -128,7 +129,59 @@ def analyze_mood():
     return jsonify({"mood_trends": mood_trends, "recommendations": recommendations}), 200
 
     
+
+# Endpoint to log sleep data
+@app.route('/api/log_sleep', methods=['POST'])
+def log_sleep():
+    data = request.json
+    data['timestamp'] = datetime.now().isoformat()
+    result = sleep_logs_collection.insert_one(data)  # Store data in MongoDB
+    data['_id'] = str(result.inserted_id)
+    return jsonify({"message": "Sleep data logged", "data": data}), 200
+
+# Function to analyze sleep patterns
+def analyze_sleep():
+    sleep_logs = list(sleep_logs_collection.find())
+    sleep_hours = [log["sleep_hours"] for log in sleep_logs]
+    avg_sleep = np.mean(sleep_hours) if sleep_hours else 0
+    quality_counts = {
+        "good": sum(1 for log in sleep_logs if log["quality"] == "good"),
+        "fair": sum(1 for log in sleep_logs if log["quality"] == "fair"),
+        "poor": sum(1 for log in sleep_logs if log["quality"] == "poor")
+    }
     
+    return {
+        "average_sleep_hours": avg_sleep,
+        "quality_distribution": quality_counts
+    }
+
+# Function to generate sleep recommendations
+def sleep_recommendations(analysis):
+    recommendations = []
+    avg_sleep = analysis["average_sleep_hours"]
+    quality_counts = analysis["quality_distribution"]
+
+    if avg_sleep < 7:
+        recommendations.append("Try to increase sleep duration to at least 7 hours.")
+    if quality_counts["poor"] > quality_counts["good"]:
+        recommendations.append("Consider reducing screen time before bed or avoid caffeine in the evening.")
+    if quality_counts["fair"] >= quality_counts["good"]:
+        recommendations.append("Maintain a consistent sleep schedule for improved quality.")
+
+    return recommendations
+
+# Endpoint for sleep analysis and recommendations
+@app.route('/api/sleep_analysis', methods=['GET'])
+def sleep_analysis():
+    analysis = analyze_sleep()
+    recommendations = sleep_recommendations(analysis)
+
+    return jsonify({
+        "analysis": analysis,
+        "recommendations": recommendations
+    }), 200
+
+
 # chatbot = ChatBot('MyChatBot')
 # trainer = ChatterBotCorpusTrainer(chatbot)
 # trainer.train('chatterbot.corpus.english')
