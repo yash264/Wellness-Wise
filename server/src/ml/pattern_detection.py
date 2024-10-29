@@ -1,48 +1,33 @@
 from flask import Flask, request, jsonify
+import joblib
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
+# Load model and scaler
+model = joblib.load("kmeans_clustering_model.pkl")
+scaler = joblib.load("scaler.pkl")
+
 @app.route('/api/recommendations', methods=['POST'])
-def get_recommendations():
+def get_recommendation():
     try:
-        # Extract data from the request
-        data = request.get_json()
-        
-        # Debugging print statement to see the incoming data
-        print("Received data:", data)
+        data = request.json
+        activity = data.get("activity")
+        sleep = data.get("sleep")
+        nutrition = data.get("nutrition")
 
-        # Check if the necessary keys are present in the request
-        if not all(key in data for key in ['userId', 'activity', 'sleep', 'nutrition']):
-            return jsonify({'error': 'Missing key in request data'}), 400
+        # Prepare and scale input
+        user_input = scaler.transform([[activity, sleep, nutrition]])
+        cluster = model.predict(user_input)[0]
 
-        user_id = data['userId']
-        activity = data['activity']
-        sleep = data['sleep']
-        nutrition = data['nutrition']
+        # Return the cluster result as JSON
+        return jsonify({"cluster": int(cluster)})
 
-        # Prepare input data for KMeans
-        X = np.array([[activity, sleep, nutrition]])
-
-        # Create and fit KMeans
-        kmeans = KMeans(n_clusters=1)
-        kmeans.fit(X)
-
-        # Get predictions
-        prediction = kmeans.predict(X)
-
-        # Return the result
-        return jsonify({'userId': user_id, 'recommendation': prediction.tolist()})
-
-    except KeyError as ke:
-        print("KeyError:", ke)  # More specific debugging
-        return jsonify({'error': f'Missing key: {str(ke)}'}), 400
     except Exception as e:
-        print("Error:", e)  # General error message
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(port=5001)
 
 
