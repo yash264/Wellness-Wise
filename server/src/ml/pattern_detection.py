@@ -2,12 +2,15 @@ from flask import Flask, request, jsonify
 import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+# from chatterbot import ChatBot
+# from chatterbot.trainers import ChatterBotCorpusTrainer
 
 app = Flask(__name__)
 
 # Load model and scaler
 model = joblib.load("kmeans_clustering_model.pkl")
 scaler = joblib.load("scaler.pkl")
+
 
 @app.route('/api/recommendations', methods=['POST'])
 def get_recommendation():
@@ -26,6 +29,18 @@ def get_recommendation():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+    
+# chatbot = ChatBot('MyChatBot')
+# trainer = ChatterBotCorpusTrainer(chatbot)
+# trainer.train('chatterbot.corpus.english')
+
+# @app.route('/chat', methods=['POST'])
+# def chat():
+#     user_message = request.json['message']
+#     response = chatbot.get_response(user_message)
+#     return jsonify({'response': str(response)})
+
 
 if __name__ == "__main__":
     app.run(port=5001)
