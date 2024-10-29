@@ -8,9 +8,10 @@ const app = express();
 const DB=require("./db/connection");
 DB();
 const port = process.env.PORT || 5000;
-const personData = require("./models/schema");
+
 const partials = require("partials");
 const Machinerouter = require("./routes/Machine.route");
+const UserRoute = require("./routes/User.route");
 
 //  cors policy
 const corsOptions ={
@@ -38,71 +39,24 @@ app.get("/",(req,res)=>{
 
 
 app.use("/api/",Machinerouter)
+app.use("/api/",UserRoute)
 
-//  to register a person 
-app.post("/register",async(req,res)=>{
-    try{
-        const type = "person";
-        const ifExists = await personData.findOne({type:type,email:req.body.email});
-        if(ifExists){
-            res.status(201).json("Email Already Exists");
-        }
-        else{
-            const registerPerson = new personData({
-                type:type,
-                name:req.body.name,
-                gender:req.body.gender,
-                email:req.body.email,
-                password:req.body.password
-            })
-            const registered = await registerPerson.save();
 
-            // to send mail to a person
-            //const email = req.body.email;
-            //const studentName = req.body.name;
-            //registrationMail(email,studentName);
 
-            res.status(201).json("registered");
-        }
-    }catch(error){
-        res.status(400).send(error);
-    }
-})
 
-//  to login a person
-app.post("/login",(req,res)=>{
-    const {email,password} = req.body;
-    personData.findOne({email:email})
-    .then(user=>{
-        if(user){
-            if(user.password==password){
-                res.json("success");
-            }
-            else{
-                res.json("Incorrect Password");
-            }
-        }
-        else{
-            res.json("Please Register");
-        }
-    })
-    .catch(error=>{
-        console.log(error);
-    })
-})
 
 // to fetch data to user profile
-app.post("/dashboardData", async (req,res)=>{
-    try{
-        const email = req.body.email;
-        const userData = await personData.findOne({email:email});
-        if(userData){
-            return res.status(200).json({userData});
-        }
-    }catch(error){
-        console.log(error);
-    }
-})
+// app.post("/dashboardData", async (req,res)=>{
+//     try{
+//         const email = req.body.email;
+//         const userData = await personData.findOne({email:email});
+//         if(userData){
+//             return res.status(200).json({userData});
+//         }
+//     }catch(error){
+//         console.log(error);
+//     }
+// })
 
 
 
