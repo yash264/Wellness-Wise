@@ -5,7 +5,8 @@ const hbs = require("hbs");
 const axios = require("axios")
 const app = express();
 //app.use(cors());
-require("./db/connection");
+const DB=require("./db/connection");
+DB();
 const port = process.env.PORT || 5000;
 const personData = require("./models/schema");
 const partials = require("partials");
