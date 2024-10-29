@@ -4,6 +4,9 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from meals import recommend_meals
 import pandas as pd
+from datetime import datetime
+from textblob import TextBlob
+from pymongo import MongoClient
 # from chatterbot import ChatBot
 # from chatterbot.trainers import ChatterBotCorpusTrainer
 
@@ -71,6 +74,58 @@ def nutrition_summary():
         "total_protein": total_protein,
         "meals_logged": len(nutrition_log)
     })
+
+# Initialize MongoDB Client
+client = MongoClient("mongodb://localhost:27017/")
+db = client["mood_tracker_db"]
+mood_logs_collection = db["mood_logs"]
+
+# Endpoint for logging mood
+@app.route('/api/log_mood', methods=['POST'])
+def log_mood():
+    data = request.get_json()
+    mood = data.get('mood')
+    stress_level = data.get('stress_level')
+    timestamp = datetime.now().isoformat()
+
+    # Insert log into MongoDB
+    mood_logs_collection.insert_one({
+        "mood": mood,
+        "stress_level": stress_level,
+        "timestamp": timestamp
+    })
+
+    return jsonify({"message": "Mood logged successfully"}), 201
+
+# Endpoint for analyzing mood trends
+@app.route('/api/analyze_mood', methods=['GET'])
+def analyze_mood():
+    logs = list(mood_logs_collection.find({}, {"_id": 0}))
+
+    # Analyze trends using sentiment analysis
+    mood_trends = []
+    for log in logs:
+        sentiment = TextBlob(log['mood']).sentiment.polarity
+        trend = "High stress" if log['stress_level'] > 7 else "Low stress"
+        mood_trends.append({
+            "mood": log['mood'],
+            "stress_level": log['stress_level'],
+            "sentiment": sentiment,
+            "trend": trend,
+            "timestamp": log['timestamp']
+        })
+
+    # Provide recommendations based on mood trends
+    recommendations = []
+    for trend in mood_trends:
+        if trend['trend'] == "High stress":
+            recommendations.append("Consider breathing exercises or a short walk.")
+        elif trend['sentiment'] < -0.5:
+            recommendations.append("Try a relaxation exercise or listen to calming music.")
+        else:
+            recommendations.append("Keep up the good mood! Stay active and hydrated.")
+
+    return jsonify({"mood_trends": mood_trends, "recommendations": recommendations}), 200
 
     
     
