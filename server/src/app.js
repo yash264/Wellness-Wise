@@ -38,7 +38,6 @@ app.get("/",(req,res)=>{
 app.post("/register",async(req,res)=>{
     try{
         const type = "person";
-        console.log(req.body);
         const ifExists = await personData.findOne({type:type,email:req.body.email});
         if(ifExists){
             res.status(201).json("Email Already Exists");
@@ -63,6 +62,28 @@ app.post("/register",async(req,res)=>{
     }catch(error){
         res.status(400).send(error);
     }
+})
+
+//  to login a person
+app.post("/login",(req,res)=>{
+    const {email,password} = req.body;
+    personData.findOne({email:email})
+    .then(user=>{
+        if(user){
+            if(user.password==password){
+                res.json("success");
+            }
+            else{
+                res.json("Incorrect Password");
+            }
+        }
+        else{
+            res.json("Please Register");
+        }
+    })
+    .catch(error=>{
+        console.log(error);
+    })
 })
 
 app.post("/api/recommendations", async (req, res) => {
