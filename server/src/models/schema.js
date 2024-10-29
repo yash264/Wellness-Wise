@@ -15,6 +15,15 @@ const personSchema = new mongoose.Schema({
     },
     password:{
         type:String
+    },
+    activity:{
+        type:Number
+    },
+    sleep:{
+        type:Number
+    },
+    nutrition:{
+        type:Number
     }
 });
 

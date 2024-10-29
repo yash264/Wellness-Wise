@@ -86,6 +86,19 @@ app.post("/login",(req,res)=>{
     })
 })
 
+// to fetch data to user profile
+app.post("/dashboardData", async (req,res)=>{
+    try{
+        const email = req.body.email;
+        const userData = await personData.findOne({email:email});
+        if(userData){
+            return res.status(200).json({userData});
+        }
+    }catch(error){
+        console.log(error);
+    }
+})
+
 app.post("/api/recommendations", async (req, res) => {
     try {
         const response = await axios.post("http://127.0.0.1:5001/api/recommendations", req.body);
