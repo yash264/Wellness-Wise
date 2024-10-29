@@ -45,13 +45,13 @@ function DashBoard() {
                                 <Link class="nav-link" to={`../User/dashboard/${email}`}>Dashboard</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={`../User/liveQuiz/${email}`}>Live Quiz</Link>
+                                <Link class="nav-link" to={`../User/dataLogging/${email}`}>Data Logging</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={`../User/pastQuiz/${email}`}>Past Quizes</Link>
+                                <Link class="nav-link" to={`../User/healthGoal/${email}`}>Health Goal</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={`../User/studyMaterial/${email}`}>Study Material</Link>
+                                <Link class="nav-link" to={`../User/googleFit/${email}`}>Google Fit</Link>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
