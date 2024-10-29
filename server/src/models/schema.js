@@ -6,6 +6,24 @@ const personSchema = new mongoose.Schema({
     },
     name:{
         type:String
+    },
+    gender:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    password:{
+        type:String
+    },
+    activity:{
+        type:Number
+    },
+    sleep:{
+        type:Number
+    },
+    nutrition:{
+        type:Number
     }
 });
 
