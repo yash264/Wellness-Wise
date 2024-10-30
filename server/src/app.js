@@ -4,6 +4,8 @@ const cors = require("cors");
 const hbs = require("hbs");
 const axios = require("axios")
 const app = express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 //app.use(cors());
 const DB=require("./db/connection");
 DB();
