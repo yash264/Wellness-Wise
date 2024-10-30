@@ -11,7 +11,6 @@ const login = async (req, res) => {
         const { email, password } = req.body;
         
         const userExists = await user.findOne({ email: email })
-        console.log(userExists.password);
         
         if (userExists) {
             const isPasswordValid = await bcrypt.compare(password, userExists.password);
