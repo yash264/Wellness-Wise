@@ -37,6 +37,27 @@ const recommendations = async (req, res) => {
     }
 }
 
+const burnout_detection = async (req, res) => {
+    const { user_id,stress_level,activity_level,sleep_quality,mood_score} = req.body
+    try {
+    
+       
+        const burnout_res = await detect_burnout({
+            user_id: user_id,
+            stress_level: stress_level,
+            activity_level: activity_level,
+            sleep_quality: sleep_quality,
+            mood_score: mood_score
+        })
+
+        res.status(201).json({
+            burnout_response: burnout_res
+        })
+
+    } catch (error) {
+        res.status(500).send("Error fetching recommendations" + error);
+    }
+}
 
 const analyze_mood = async (body) => {
     //   "mood": "Feeling happy",
@@ -50,7 +71,7 @@ const analyze_mood = async (body) => {
         return response.data
     } catch (error) {
         return error;
-        console.log(error);
+ 
     }
 }
 const analyze_activity = async (body) => {
@@ -64,7 +85,7 @@ const analyze_activity = async (body) => {
         return response.data
     } catch (error) {
         return error;
-        console.log(error);
+ 
     }
 }
 
@@ -76,7 +97,7 @@ const meal_recommendation = async (body) => {
         return response.data
     } catch (error) {
         return error;
-        console.log(error);
+ 
     }
 }
 const analyze_sleep = async (body) => {
@@ -94,7 +115,29 @@ const analyze_sleep = async (body) => {
         return response.data
     } catch (error) {
         return error;
-        console.log(error);
+ 
     }
 }
-module.exports = { recommendations }
+const detect_burnout = async (body) => {
+        // "user_id": "6721c85f0fc9e2e05f0bb6c7",
+        // "stress_level": 7,
+        // "activity_level":8,
+        // "sleep_quality": "fair",
+        // "mood_score": 5
+    try {
+
+        const log_data = await axios.post("http://127.0.0.1:5001/api/log_health_data", body);
+
+        const response = await axios.get("http://127.0.0.1:5001/api/analyze_burnout");
+        
+
+        return response.data
+    } catch (error) {
+        return error;
+ 
+    }
+}
+
+
+
+module.exports = { recommendations , burnout_detection}
