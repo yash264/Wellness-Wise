@@ -4,6 +4,8 @@ const cors = require("cors");
 const hbs = require("hbs");
 const axios = require("axios")
 const app = express();
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 //app.use(cors());
 const DB=require("./db/connection");
 DB();
@@ -12,6 +14,8 @@ const port = process.env.PORT || 5000;
 const partials = require("partials");
 const Machinerouter = require("./routes/Machine.route");
 const UserRoute = require("./routes/User.route");
+const PostRoute = require("./routes/Post.route");
+const CommentRoute = require("./routes/Comment.route");
 
 //  cors policy
 const corsOptions ={
@@ -40,6 +44,8 @@ app.get("/",(req,res)=>{
 
 app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
+app.use("/api/post",PostRoute)
+app.use("/api/comment",CommentRoute)
 
 
 

@@ -1,51 +1,85 @@
 const axios = require("axios")
-const personData = require("../models/schema");
+const user=require("../models/User.model")
+const jwt=require("jsonwebtoken")
+const dotenv=require('dotenv');
+const path = require('path');
+const bcrypt = require('bcrypt');
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+
 const login = async (req, res) => {
-    const { email, password } = req.body;
-    personData.findOne({ email: email })
-        .then(user => {
-            if (user) {
-                if (user.password == password) {
-                    res.json("success");
-                }
-                else {
-                    res.json("Incorrect Password");
-                }
+    try {
+        const { email, password } = req.body;
+        
+        const userExists = await user.findOne({ email: email })
+        console.log(userExists.password);
+        
+        if (userExists) {
+            const isPasswordValid = await bcrypt.compare(password, userExists.password);
+            if (isPasswordValid) {
+
+                const token = jwt.sign(
+                    { id: userExists._id, email: userExists.email },
+                    process.env.JWT_SECRET,
+                    { expiresIn: '1d' } // Token expires in 1 day
+                );
+
+                res.cookie('token', token, {
+                    httpOnly: true,
+                    maxAge: 24 * 60 * 60 * 1000
+                });
+                res.status(201).json({
+                    success: true,
+                    token: token,
+                    message: "success",
+                    password: userExists.password
+                });
             }
             else {
-                res.json("Please Register");
+                res.status(201).json({
+                    success: false,
+                    message: "Incorrect Password"
+                });
             }
-        })
-        .catch(error => {
-            console.log(error);
-        })
+        }
+        else {
+            res.status(201).json({
+                success: false,
+                message: "Please Register"
+            });
+        }
+    } catch (error) {
+        res.status(400).send({
+            success: false,
+            message: ""+error
+        });
+    }   
 }
 const register = async (req, res) => {
     try {
-        const type = "person";
-        const ifExists = await personData.findOne({ type: type, email: req.body.email });
+        const ifExists = await user.findOne({ email: req.body.email });
         if (ifExists) {
-            res.status(201).json("Email Already Exists");
+            res.status(201).json({
+                success: false,
+                message: "Email Already Exists"
+            });
         }
         else {
-            const registerPerson = new personData({
-                type: type,
+            const registerPerson = await user.create({
                 name: req.body.name,
-                gender: req.body.gender,
                 email: req.body.email,
                 password: req.body.password
             })
-            const registered = await registerPerson.save();
 
-            // to send mail to a person
-            //const email = req.body.email;
-            //const studentName = req.body.name;
-            //registrationMail(email,studentName);
-
-            res.status(201).json("registered");
+            res.status(201).json({
+                success: true,
+                message: "Registered"
+            });
         }
     } catch (error) {
-        res.status(400).send(error);
+        res.status(400).send({
+            success: false,
+            message: ""+error
+        });
     }
 }
 
