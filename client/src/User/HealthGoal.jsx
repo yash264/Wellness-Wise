@@ -15,10 +15,10 @@ function HealthGoal() {
     const [values, setValues] = useState([])
     const navigate = useNavigate()
 
-    const [stepGoal, setStepGoal] = useState([])
-    const [hydrationGoal, setHydration] = useState([])
-    const [sleepGoal, setSleepGoal] = useState([])
-    const [streak, setStreak] = useState([])
+    const [stepGoal, setStepGoal] = useState(5000)
+    const [hydrationGoal, setHydration] = useState(5000)
+    const [sleepGoal, setSleepGoal] = useState(7)
+    const [streak, setStreak] = useState(0)
 
     axios.defaults.withCredentials = true;
     const handleSubmit = (e) => {
@@ -46,52 +46,21 @@ function HealthGoal() {
                         <div class="p-3">
                             <form class="row g-3" onSubmit={handleSubmit}>
                                 <div class="col-md-8">
-                                    <label class="form-label">Step Goal</label>
-                                    <select class="form-select" aria-label="Default select example" onChange={(e) => setStepGoal(e.target.value)}>
-                                        <option selected>Choose ... </option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>1</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>2</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>3</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>4</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>5</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>6</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>7</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>8</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>9</option>
-                                        <option onChange={(e) => setStepGoal(e.target.value)}>10</option>
-                                    </select>
+                                    <label class="form-label">Step Goal (in steps)<span className="badge bg-secondary">{stepGoal}</span></label>
+                                    <input type="range" id="vol" name="vol" min="0" max="10000" value={stepGoal}
+                                        onChange={(e) => setStepGoal(e.target.value)} />
+                                    
                                 </div>
                                 <div class="col-md-8">
-                                    <label class="form-label">Hydration Goal</label>
-                                    <select class="form-select" aria-label="Default select example" onChange={(e) => setHydration(e.target.value)}>
-                                        <option selected>Choose ... </option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>1</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>2</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>3</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>4</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>5</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>6</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>7</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>8</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>9</option>
-                                        <option onChange={(e) => setHydration(e.target.value)}>10</option>
-                                    </select>
+                                    <label class="form-label">Hydration Goal (in ml) <span className="badge bg-secondary">{hydrationGoal}</span></label>
+                                    <input type="range" id="vol" name="vol" min="0" max="10000" value={hydrationGoal}
+                                        onChange={(e) => setHydration(e.target.value)} />
+                                   
                                 </div>
                                 <div class="col-md-8">
-                                    <label class="form-label">Sleep Goal</label>
-                                    <select class="form-select" aria-label="Default select example" onChange={(e) => setSleepGoal(e.target.value)}>
-                                        <option selected>Choose ... </option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>1</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>2</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>3</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>4</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>5</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>6</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>7</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>8</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>9</option>
-                                        <option onChange={(e) => setSleepGoal(e.target.value)}>10</option>
-                                    </select>
+                                    <label class="form-label">Sleep Goal (in hours) <span className="badge bg-secondary">{sleepGoal}</span></label>
+                                    <input type="range" id="vol" name="vol" min="0" max="12" value={sleepGoal}
+                                        onChange={(e) => setSleepGoal(e.target.value)} />
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-outline-primary">Set Goal</button>
