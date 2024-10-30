@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -24,6 +24,36 @@ function Register() {
             navigate('/User/login')
         }
     }
+
+    useEffect(() => {
+        const verifyUser = async () => {
+            const isTokenValid = await checkToken();
+            if (isTokenValid.isValid) {
+                navigate(`/User/Dashboard/${isTokenValid.data}`); // Redirect to main page if token is valid
+            }
+        };
+
+        verifyUser();
+    }, [navigate]);
+
+    const checkToken = async () => {
+        const token = localStorage.getItem('authToken');
+        
+        if (!token) return false;
+
+        try {
+            
+            const response = await axios.post('http://localhost:5000/api/verify-token', {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return {isValid:response.data.valid,data:response.data.data}; 
+        } catch (error) {
+            console.error("Token verification failed:", error);
+            return false;
+        }
+    };
 
     return (
         <div style={{ backgroundColor: "#f0f8ff",height:"100%",minHeight:"100vh" }} >

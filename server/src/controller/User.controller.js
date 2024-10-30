@@ -30,6 +30,7 @@ const login = async (req, res) => {
                 res.status(201).json({
                     success: true,
                     token: token,
+                    id: userExists._id,
                     message: "success",
                     password: userExists.password
                 });
@@ -83,5 +84,19 @@ const register = async (req, res) => {
     }
 }
 
+const verifyToken=async(req,res)=>{
+    console.log("verifying token");
+    
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ valid: false,data:null});
 
-module.exports = { login,register }
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(401).json({ valid: false ,data:null});
+        return res.json({ valid: true ,data:decoded.id});
+    });
+}
+
+
+
+
+module.exports = { login,register,verifyToken }
