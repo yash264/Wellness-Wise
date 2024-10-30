@@ -17,7 +17,7 @@ function DataLogging() {
 
     axios.defaults.withCredentials = true;
     useEffect(() => {
-        axios.post('http://localhost:5000/api/recommendations', { email, activity, sleep, nutrition })
+        axios.post('http://localhost:5000/dataLogging', { email, activity, sleep, nutrition })
             .then(result => {
                 console.log(result);
                 setValues(result.data.userData);

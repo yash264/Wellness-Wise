@@ -14,9 +14,9 @@ function App() {
         <Route path="/" element={<Home />}></Route>  
         <Route path="/User/register" element={<Register />}></Route> 
         <Route path="/User/login" element={<Login />}></Route>
-        <Route path="/User/dashBoard/:email" element={<DashBoard />}></Route> 
-        <Route path="/User/dataLogging/:email" element={<DataLogging />}></Route>
-        <Route path="/User/healthGoal/:email" element={<HealthGoal />}></Route> 
+        <Route path="/User/dashBoard" element={<DashBoard />}></Route> 
+        <Route path="/User/dataLogging" element={<DataLogging />}></Route>
+        <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
       </Routes> 
     </BrowserRouter>
   );

@@ -12,11 +12,22 @@ function DashBoard() {
     const email = params.email;
 
     const [values, setValues] = useState([])
+    const [dietType, setDietType] = useState([])
+    const [date, setDate] = useState([])
+    const [sleepQuality, setSleepQuality] = useState([])
+    const [screenTime, setScreenTime] = useState([])
+    const [caffine, setCaffine] = useState([])
+    const [mood, setMood] = useState([])
+    const [stress, setStress] = useState([])
+    const [activity, setActivity] = useState([])
+    const [sleep, setSleep] = useState([])
+    const [nutrition, setNutrition] = useState([])
     const navigate = useNavigate()
 
     axios.defaults.withCredentials = true;
+    //  to show user profile onloading the page
     useEffect(() => {
-        axios.post('http://localhost:5000/dashboardData',{email})
+        axios.post('http://localhost:5000/dashboardData', { email })
             .then(result => {
                 setValues(result.data.userData);
             })
@@ -25,9 +36,22 @@ function DashBoard() {
             })
     }, [email])
 
-    const logout=(e)=>{
+    //  to logout a person
+    const logout = (e) => {
         e.preventDefault();
-            navigate("../User/login");
+        navigate("../User/login");
+    }
+
+    //  to send data to backend
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:5000/dataLogging', { dietType, date, sleepQuality, screenTime, caffine, mood, stress, activity, sleep, nutrition })
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -114,7 +138,133 @@ function DashBoard() {
                                 </tbody>
                             </table>
                         </div>
-                    
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Data Logging
+                </button>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Data Logging</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" onSubmit={handleSubmit}>
+                                    <div class="col-md-6">
+                                        <label for="inputDiet" class="form-label">Diet Type</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setDietType(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setDietType(e.target.value)}>Vegeterian</option>
+                                            <option onChange={(e) => setDietType(e.target.value)}>Non Vegeterian</option>
+                                            <option onChange={(e) => setDietType(e.target.value)}>Vegan</option>
+                                            <option onChange={(e) => setDietType(e.target.value)}>Gluten Free</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputDate" class="form-label">Date</label>
+                                        <input type="date" class="form-control" onChange={(e) => setDate(e.target.value)} />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputSleep" class="form-label">Sleep Quality</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setSleepQuality(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setSleepQuality(e.target.value)}>Good </option>
+                                            <option onChange={(e) => setSleepQuality(e.target.value)}>Moderate </option>
+                                            <option onChange={(e) => setSleepQuality(e.target.value)}>Poor </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputScreen" class="form-label">Screen Time (mins)</label>
+                                        <input type="number" class="form-control" onChange={(e) => setScreenTime(e.target.value)} />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputCaffine" class="form-label">Caffine Intake</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setCaffine(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setCaffine(e.target.value)}>Good </option>
+                                            <option onChange={(e) => setCaffine(e.target.value)}>Moderate </option>
+                                            <option onChange={(e) => setCaffine(e.target.value)}>Poor </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputMood" class="form-label">Mood</label>
+                                        <input type="text" class="form-control" onChange={(e) => setMood(e.target.value)} />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputStress" class="form-label">Stress Level</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setStress(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setStress(e.target.value)}>1</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>2</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>3</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>4</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>5</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>6</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>7</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>8</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>9</option>
+                                            <option onChange={(e) => setStress(e.target.value)}>10</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputActivity" class="form-label">Activity</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setActivity(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>1</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>2</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>3</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>4</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>5</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>6</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>7</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>8</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>9</option>
+                                            <option onChange={(e) => setActivity(e.target.value)}>10</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputSleep" class="form-label">Sleep</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setSleep(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>1</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>2</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>3</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>4</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>5</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>6</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>7</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>8</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>9</option>
+                                            <option onChange={(e) => setSleep(e.target.value)}>10</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputNutrition" class="form-label">Nutrition</label>
+                                        <select class="form-select" aria-label="Default select example" onChange={(e) => setNutrition(e.target.value)}>
+                                            <option selected>Choose ... </option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>1</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>2</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>3</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>4</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>5</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>6</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>7</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>8</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>9</option>
+                                            <option onChange={(e) => setNutrition(e.target.value)}>10</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="footer">
