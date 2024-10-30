@@ -1,15 +1,20 @@
 const axios = require("axios")
-const user=require("../models/schema")
+const user=require("../models/User.model")
 const jwt=require("jsonwebtoken")
+const dotenv=require('dotenv');
+const path = require('path');
+const bcrypt = require('bcrypt');
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         
         const userExists = await user.findOne({ email: email })
+        console.log(userExists.password);
         
         if (userExists) {
-            const isPasswordValid = await userExists.isMatch(password);
+            const isPasswordValid = await bcrypt.compare(password, userExists.password);
             if (isPasswordValid) {
 
                 const token = jwt.sign(
@@ -25,7 +30,8 @@ const login = async (req, res) => {
                 res.status(201).json({
                     success: true,
                     token: token,
-                    message: "success"
+                    message: "success",
+                    password: userExists.password
                 });
             }
             else {
@@ -44,7 +50,7 @@ const login = async (req, res) => {
     } catch (error) {
         res.status(400).send({
             success: false,
-            message: error
+            message: ""+error
         });
     }   
 }
@@ -72,7 +78,7 @@ const register = async (req, res) => {
     } catch (error) {
         res.status(400).send({
             success: false,
-            message:error
+            message: ""+error
         });
     }
 }

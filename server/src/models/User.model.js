@@ -35,21 +35,19 @@ userSchema.pre('save', async function (next) {
     console.log("Hashing password for user:", this.name);
     if (this.isModified('password')) {
         console.log("Hashing password for user:", this.email);
-        this.password = await bcrypt.hash(this.password, 10);
+        const salt = await bcrypt.genSalt(10);
+        const hashPass = await bcrypt.hash(this.password, salt);
+        this.password = hashPass;
     }
 
     // Generate reference_ID if it hasn’t been set
     if (!this.reference_ID) {
         const uid = new ShortUniqueId({ length: 6 });
-        this.reference_ID = uid();
+        this.reference_ID = uid.rnd();
     }
 
     next();
 });
-
-userSchema.methods.isMatch = async function (password) {
-    return await bcrypt.compare(password, this.password);
-};
 
 const userModel = mongoose.model("user", userSchema);
 
