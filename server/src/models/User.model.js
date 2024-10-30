@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     Goals: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"goal"
+    }],
+    post: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"postModel"
     }]
 });
 
