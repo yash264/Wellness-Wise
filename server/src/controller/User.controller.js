@@ -7,6 +7,8 @@ const login = async (req, res) => {
         const { email, password } = req.body;
         
         const userExists = await user.findOne({ email: email })
+        console.log(userExists);
+        
         
         if (userExists) {
             const isPasswordValid = await userExists.isMatch(password);

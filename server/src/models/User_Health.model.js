@@ -36,7 +36,7 @@ const user_Health_Schema = new mongoose.Schema({
         type:String,
         required: true
     },
-    Stress_level:{
+    stress_level:{
         type:Number,
         required: true
     },

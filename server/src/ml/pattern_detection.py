@@ -27,9 +27,13 @@ def get_recommendation():
         # Prepare and scale input
         user_input = scaler.transform([[activity, sleep, nutrition]])
         cluster = model.predict(user_input)[0]
+        
+        if(int(cluster) == 0):
+            return jsonify({"recommendation":"Prefer taking a walk or going for a run. Take proper sleep and maintain a healthy diet." }),200
+        elif(int(cluster) == 1):
+            return jsonify({"recommendation":"Consider maintaining your current routine and taking a healthy and nutritious approach to health." }),200 
 
-        # Return the cluster result as JSON
-        return jsonify({"cluster": int(cluster)})
+        
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -100,29 +104,36 @@ def log_mood():
 def analyze_mood():
     # Analyze trends using sentiment analysis
     mood_trends = []
+
     for log in mood_logs_collection:
-        sentiment = TextBlob(log['mood']).sentiment.polarity
-        trend = "High stress" if log['stress_level'] > 7 else "Low stress"
-        mood_trends.append({
-            "mood": log['mood'],
-            "stress_level": log['stress_level'],
-            "sentiment": sentiment,
-            "trend": trend,
-            "timestamp": log['timestamp']
-        })
+        # Compute sentiment for the current log entry
+        mood_value = log.get('mood')
+        stress_level = int(log.get('stress_level', 0))  # Convert stress_level to int
+
+        if mood_value:  # Check if mood_value is not None
+            sentiment = TextBlob(mood_value).sentiment.polarity
+            trend = "High stress" if stress_level > 7 else "Low stress"
+
+            mood_trends.append({
+                "mood": mood_value,
+                "stress_level": stress_level,
+                "sentiment": sentiment,
+                "trend": trend,
+                "timestamp": log['timestamp']
+            })
 
     # Provide recommendations based on mood trends
     recommendations = []
     for trend in mood_trends:
         if trend['trend'] == "High stress":
             recommendations.append("Consider breathing exercises or a short walk.")
-        elif trend['sentiment'] < -0.5:
+        elif trend['sentiment'] is not None and trend['sentiment'] < -0.5:
             recommendations.append("Try a relaxation exercise or listen to calming music.")
         else:
             recommendations.append("Keep up the good mood! Stay active and hydrated.")
-
     return jsonify({"mood_trends": mood_trends, "recommendations": recommendations}), 200
 
+   
     
 
 # Endpoint to log sleep data
