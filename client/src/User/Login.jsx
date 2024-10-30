@@ -14,23 +14,15 @@ function Login () {
     const navigate = useNavigate()
 
     axios.defaults.withCredentials = true;
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/login',{ email, password })
-            .then(result => {
-                if(result.data === "success"){
-                    navigate(`../User/dashboard/${email}`);
-                }
-                else if(result.data === "Incorrect Password"){
-                    toast.error("Incorrect Password");
-                }
-                else if(result.data === "Please Register"){
-                    toast.error("Please Register");
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        const response = await axios.post('http://localhost:5000/api/login',{ email, password })
+        if(response.data.success){
+            toast.success(response.data.message)
+            navigate(`../User/dashboard/${email}`)
+        }else{
+            toast.error(response.data.message)
+        }
     }
 
     return (

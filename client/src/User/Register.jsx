@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,26 +8,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 function Register() {
-
+   const navigate=useNavigate();
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
     axios.defaults.withCredentials = true;
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5000/register', { name, email, password })
-            .then(result => {
-                if (result.data === "Email Already Exists") {
-                    toast.error("Email Id Already Exists")
-                }
-                else if (result.data === "registered") {
-                    toast.success("Registered Successfully");
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+        const response = await axios.post('http://localhost:5000/api/register', { name, email, password })
+        if(response.data.status===false){
+            toast.error(response.data.message)
+        }else{
+            toast.success(response.data.message)
+            navigate('/User/login')
+        }
     }
 
     return (
