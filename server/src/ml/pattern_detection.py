@@ -217,7 +217,6 @@ def log_health_data():
 # Endpoint for analyzing burnout risk
 @app.route('/api/analyze_burnout', methods=['GET'])
 def analyze_burnout():
-    print("hey!!")
     user_id = request.args.get("user_id")
     days_to_consider = 14  # Define a period to analyze burnout risk
 
