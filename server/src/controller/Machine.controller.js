@@ -26,6 +26,7 @@ const recommendations = async (req, res) => {
         })
 
         res.status(201).json({
+            success: true,
             mood_response: mood_analysis,
             sleep_response: sleep_analysis,
             meal_response: meal,
@@ -33,7 +34,10 @@ const recommendations = async (req, res) => {
         })
 
     } catch (error) {
-        res.status(500).send("Error fetching recommendations" + error);
+        res.status(500).json({
+            suceess: false,
+            message: "Error fetching recommendations" + error
+    });
     }
 }
 
@@ -51,11 +55,15 @@ const burnout_detection = async (req, res) => {
         })
 
         res.status(201).json({
+            success: true,
             burnout_response: burnout_res
         })
 
     } catch (error) {
-        res.status(500).send("Error fetching recommendations" + error);
+        res.status(500).json({
+            suceess: false,
+            message: "Error fetching recommendations" + error
+        });
     }
 }
 

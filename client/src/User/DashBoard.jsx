@@ -41,24 +41,25 @@ function DashBoard() {
 
 
     //  to send data to backend
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        console.log(sleepQuality, screenTime, caffine, mood, stress, activity, sleep, nutrition);
         
-        // axios.post('http://localhost:5000/dataLogging', { dietType, sleepQuality, screenTime, caffine, mood, stress, activity, sleep, nutrition })
-        //     .then(result => {
-        //         console.log(result);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     })
+        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition })
+        
+        if(response.data.success===false){
+            console.log("error");
+            
+        }else{
+             console.log(response.data);
+
+         }
     }
 
     return (
         <>
             
             <Navbar />
-            
+
             <div class="container px-4 text-center">
                 {/* <div class="row gx-5">
                     <div class="col">
