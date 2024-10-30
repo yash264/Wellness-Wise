@@ -123,15 +123,15 @@ def analyze_mood():
             })
 
     # Provide recommendations based on mood trends
-    recommendations = []
+    recommendations = set()  # Use a set to store unique recommendations
     for trend in mood_trends:
         if trend['trend'] == "High stress":
-            recommendations.append("Consider breathing exercises or a short walk.")
+            recommendations.add("Consider breathing exercises or a short walk.")
         elif trend['sentiment'] is not None and trend['sentiment'] < -0.5:
-            recommendations.append("Try a relaxation exercise or listen to calming music.")
+            recommendations.add("Try a relaxation exercise or listen to calming music.")
         else:
-            recommendations.append("Keep up the good mood! Stay active and hydrated.")
-    return jsonify({"mood_trends": mood_trends, "recommendations": recommendations}), 200
+            recommendations.add("Keep up the good mood! Stay active and hydrated.")
+    return jsonify({"mood_trends": mood_trends, "recommendations": list(recommendations)}), 200
 
    
     

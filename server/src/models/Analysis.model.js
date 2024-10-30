@@ -6,21 +6,29 @@ const Analysis_Schema = new mongoose.Schema({
         ref: "user",
         required: true
     },
-    sleep_analysis: {
-        type: String,
+    sleep_analysis:{
+        type:[String],
     },
-    mood_analysis: {
+    mood_analysis: [{
         type: String,
-    },
+    }],
     activity_analysis: {
         type: String,
     },
-    meal_recommendation: {
-        type: String,
-    },
-    burnout_detection: {
-        type: String,
-    },
+    meal_recommendation: [{
+        meal: {
+            type: String, 
+            required: true
+        },
+        calories: {
+            type: Number,
+            required: true
+        },
+        protein: {
+            type: Number,
+            required: true
+        }
+    }],
     date:{
         type: Date,
         default: Date.now

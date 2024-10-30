@@ -1,5 +1,6 @@
 const axios = require("axios")
 const User_Health = require("../models/User_Health.model");
+const Analysis = require("../models/Analysis.model");
 const recommendations = async (req, res) => {
     const { userID, activity, nutrition, sleep, sleep_quality, Scrren_time_minutes, Caffine_intake, mood, stress_level, diet } = req.body
     try {
@@ -24,7 +25,10 @@ const recommendations = async (req, res) => {
             mood: mood,
             stress_level: stress_level
         })
-
+        
+        console.log(meal);        
+        const analysis = Analysis.create({ userID: userID, sleep_analysis: sleep_analysis.recommendations, activity_analysis: activity_analysis.recommendation, meal_recommendation: meal, mood_analysis:mood_analysis.recommendations})
+        
         res.status(201).json({
             success: true,
             mood_response: mood_analysis,
@@ -32,6 +36,7 @@ const recommendations = async (req, res) => {
             meal_response: meal,
             activity_response: activity_analysis
         })
+
 
     } catch (error) {
         res.status(500).json({

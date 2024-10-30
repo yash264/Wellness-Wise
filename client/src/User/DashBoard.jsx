@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from "../Components/Navbar";
+import { toast } from "react-toastify";
+import ShowAnalysis from "../Components/ShowAnalysis";
 
 function DashBoard() {
 
@@ -13,7 +15,7 @@ function DashBoard() {
     const id = params.id;
     
 
-    const [values, setValues] = useState([])
+    const [analysis, setAnalysis] = useState([])
     const [dietType, setDietType] = useState("vegan")
     const [sleepQuality, setSleepQuality] = useState("fair")
     const [screenTime, setScreenTime] = useState()
@@ -26,18 +28,16 @@ function DashBoard() {
     const navigate = useNavigate()
 
     axios.defaults.withCredentials = true;
-    //  to show user profile onloading the page
-    // useEffect(() => {
-    //     axios.get('http://localhost:5000/dashboardData')
-    //         .then(result => {
-    //             setValues(result.data.userData);
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //         })
-    // }, [])
 
-    //  to logout a person
+    // Get User Analysis
+    const getUserAnalysis = async () => {
+        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`)
+        setAnalysis(response.data.analysis)   
+    }
+
+    useEffect(() => {
+        getUserAnalysis()
+    }, [])
 
 
     //  to send data to backend
@@ -50,11 +50,13 @@ function DashBoard() {
             console.log("error");
             
         }else{
-             console.log(response.data);
-
+            toast.success("Analysis Generated");
+            getUserAnalysis();
          }
     }
 
+    console.log(analysis);
+    
     return (
         <>
             
@@ -190,6 +192,7 @@ function DashBoard() {
                     </div>
                 </div>
             </div>
+            <ShowAnalysis data={analysis}/>
         </>
     )
 }

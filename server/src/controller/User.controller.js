@@ -4,6 +4,7 @@ const jwt=require("jsonwebtoken")
 const dotenv=require('dotenv');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const Analysis = require("../models/Analysis.model");
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const login = async (req, res) => {
@@ -95,6 +96,19 @@ const verifyToken=async(req,res)=>{
 }
 
 
+const getAllAnalysis = async (req, res) => {
+    try {
+        const analysis = await Analysis.find({ userID: req.params.id })
+        res.status(201).json({
+            success: true,
+            analysis: analysis
+        });
+    } catch (error) {
+        res.status(400).send({
+            success: false,
+            message: ""+error
+        });
+    }
+}
 
-
-module.exports = { login,register,verifyToken }
+module.exports = { login,register,verifyToken ,getAllAnalysis}
