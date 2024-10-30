@@ -15,7 +15,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    reference_ID: String
+    reference_ID: String,
+    Health: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"health"
+    }],
+    Goals: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"goal"
+    }]
 });
 
 userSchema.pre('save', async function (next) {
