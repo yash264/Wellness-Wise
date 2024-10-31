@@ -3,7 +3,6 @@ import React from 'react';
 
 function ShowAnalysis({ data }) {
     // Format the date for better readability
-    console.log(data);
     
     const formatDate = (isoDate) => new Date(isoDate).toLocaleDateString('en-US', {
         year: 'numeric', month: 'long', day: 'numeric'

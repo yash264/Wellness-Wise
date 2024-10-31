@@ -9,6 +9,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from "../Components/Navbar";
 import { toast } from "react-toastify";
 import ShowAnalysis from "../Components/ShowAnalysis";
+import HealthTrendChart from "../Components/HealthTrendChart";
 
 function DashBoard() {
 
@@ -56,7 +57,6 @@ function DashBoard() {
          }
     }
 
-    console.log(analysis);
     
     return (
         <>
@@ -109,7 +109,7 @@ function DashBoard() {
                         </div>
                     </div>
                 </div> */}
-
+                <HealthTrendChart userID={id}/>
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>

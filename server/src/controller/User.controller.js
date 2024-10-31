@@ -5,6 +5,8 @@ const dotenv=require('dotenv');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const Analysis = require("../models/Analysis.model");
+const Health = require("../models/User_Health.model");
+const { default: mongoose } = require("mongoose");
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const login = async (req, res) => {
@@ -111,4 +113,40 @@ const getAllAnalysis = async (req, res) => {
     }
 }
 
-module.exports = { login,register,verifyToken ,getAllAnalysis}
+
+
+const getHealthData = async (req, res) => {
+    const userID = req.params.id;
+    
+    try {
+        // Fetch data and group it by date
+        const healthData = await Health.aggregate([
+            { $match: { userID: new mongoose.Types.ObjectId(userID) } },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+                    avgActivity: { $avg: "$activity" },
+                    avgNutrition: { $avg: "$nutrition" },
+                    avgSleep: { $avg: "$sleep" },
+                    avgStressLevel: { $avg: "$stress_level" },
+                    mood: { $push: "$mood" }
+                }
+            },
+            { $sort: { _id: 1 } } // Sort by date
+        ]);
+
+        res.status(200).json({
+            success: true,
+            data:healthData,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error fetching data"+error
+            });
+    }
+};
+
+
+
+module.exports = { login, register, verifyToken, getAllAnalysis, getHealthData }
