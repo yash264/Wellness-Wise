@@ -37,7 +37,7 @@ body,html{
 /* Custom styling for previous button */
 .pagination-prev {
     margin-right: 10px;
-    padding: 8px 12px;
+    padding: 2px 7px;
     background-color: #141413;
     color: white !important;
     border-radius: 5px;
@@ -53,7 +53,7 @@ body,html{
 /* Custom styling for next button */
 .pagination-next {
     margin-left: 10px;
-    padding: 8px 12px;
+    padding: 2px 7px;
     background-color: #09090a;
     color: white;
     border-radius: 5px;
@@ -71,5 +71,5 @@ body,html{
 .active {
     font-weight: bold;
     color: #007bff;
-    border-bottom: 2px solid #007bff;
+    /* border-bottom: 2px solid #007bff; */
 }

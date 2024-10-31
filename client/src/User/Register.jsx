@@ -96,11 +96,6 @@ function Register() {
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <br />
-                <p>&copy; 2024 Designed, Developed and Hosted by Dev Dreamers.</p>
-                <br />
-            </div>
             <ToastContainer />
         </div>
     )

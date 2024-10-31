@@ -9,8 +9,8 @@ function Items({ currentItems }) {
     });
     return (
         <>
-            {currentItems && currentItems.sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by date in descending order
-                .map((entry) => (
+            {currentItems && 
+                currentItems.map((entry) => (
                     <div key={entry._id} style={{ border: '1px solid #ccc', padding: '10px', margin: '10px 0' }}>
                         <p><strong>Date:</strong> {formatDate(entry.date)}</p>
 
@@ -70,7 +70,7 @@ function ShowAnalysis({data}) {
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentItems = data.slice(itemOffset, endOffset);
+    const currentItems = data.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(itemOffset, endOffset);
     const pageCount = Math.ceil(data.length / itemsPerPage);
 
     // Invoke when user click to request another page.

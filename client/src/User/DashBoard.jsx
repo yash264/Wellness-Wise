@@ -10,6 +10,7 @@ import Navbar from "../Components/Navbar";
 import { toast } from "react-toastify";
 import ShowAnalysis from "../Components/ShowAnalysis";
 import HealthTrendChart from "../Components/HealthTrendChart";
+import MoodWordCloud from "../Components/MoodWordCloud";
 
 function DashBoard() {
 
@@ -114,6 +115,7 @@ function DashBoard() {
                     </div>
                 </div> */}
                 <HealthTrendChart userID={id} fetch={fetch}/>
+                <MoodWordCloud userID={id} fetch={fetch}/>
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>
