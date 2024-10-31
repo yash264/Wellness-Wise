@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from meals import recommend_meals
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 from textblob import TextBlob
 # from chatterbot import ChatBot
 # from chatterbot.trainers import ChatterBotCorpusTrainer
@@ -27,9 +27,13 @@ def get_recommendation():
         # Prepare and scale input
         user_input = scaler.transform([[activity, sleep, nutrition]])
         cluster = model.predict(user_input)[0]
+        
+        if(int(cluster) == 0):
+            return jsonify({"recommendation":"Prefer taking a walk or going for a run. Take proper sleep and maintain a healthy diet." }),200
+        elif(int(cluster) == 1):
+            return jsonify({"recommendation":"Consider maintaining your current routine and taking a healthy and nutritious approach to health." }),200 
 
-        # Return the cluster result as JSON
-        return jsonify({"cluster": int(cluster)})
+        
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -100,43 +104,54 @@ def log_mood():
 def analyze_mood():
     # Analyze trends using sentiment analysis
     mood_trends = []
+
     for log in mood_logs_collection:
-        sentiment = TextBlob(log['mood']).sentiment.polarity
-        trend = "High stress" if log['stress_level'] > 7 else "Low stress"
-        mood_trends.append({
-            "mood": log['mood'],
-            "stress_level": log['stress_level'],
-            "sentiment": sentiment,
-            "trend": trend,
-            "timestamp": log['timestamp']
-        })
+        # Compute sentiment for the current log entry
+        mood_value = log.get('mood')
+        stress_level = int(log.get('stress_level', 0))  # Convert stress_level to int
+
+        if mood_value:  # Check if mood_value is not None
+            sentiment = TextBlob(mood_value).sentiment.polarity
+            trend = "High stress" if stress_level > 7 else "Low stress"
+
+            mood_trends.append({
+                "mood": mood_value,
+                "stress_level": stress_level,
+                "sentiment": sentiment,
+                "trend": trend,
+                "timestamp": log['timestamp']
+            })
 
     # Provide recommendations based on mood trends
-    recommendations = []
+    recommendations = set()  # Use a set to store unique recommendations
     for trend in mood_trends:
         if trend['trend'] == "High stress":
-            recommendations.append("Consider breathing exercises or a short walk.")
-        elif trend['sentiment'] < -0.5:
-            recommendations.append("Try a relaxation exercise or listen to calming music.")
+            recommendations.add("Consider breathing exercises or a short walk.")
+        elif trend['sentiment'] is not None and trend['sentiment'] < -0.5:
+            recommendations.add("Try a relaxation exercise or listen to calming music.")
         else:
-            recommendations.append("Keep up the good mood! Stay active and hydrated.")
+            recommendations.add("Keep up the good mood! Stay active and hydrated.")
+    return jsonify({"mood_trends": mood_trends, "recommendations": list(recommendations)}), 200
 
-    return jsonify({"mood_trends": mood_trends, "recommendations": recommendations}), 200
-
+   
     
 
 # Endpoint to log sleep data
 @app.route('/api/log_sleep', methods=['POST'])
 def log_sleep():
     data = request.json
+    if "sleep_hours" not in data or not isinstance(data["sleep_hours"], (int, float)):
+        return jsonify({"error": "Invalid or missing sleep_hours"}), 400
     data['timestamp'] = datetime.now().isoformat()
-    sleep_logs_collection.append(data)  # Store data in MongoDB
+    sleep_logs_collection.append(data) 
     return jsonify({"message": "Sleep data logged", "data": data}), 200
 
 # Function to analyze sleep patterns
 def analyze_sleep():
-    sleep_logs = [log["sleep_hours"] for log in sleep_logs_collection]
-    sleep_hours = [log["sleep_hours"] for log in sleep_logs_collection]
+   # Extract sleep_hours values, excluding logs without this field or with non-numeric values
+    sleep_hours = [log.get("sleep_hours", 0) for log in sleep_logs_collection if isinstance(log.get("sleep_hours"), (int, float))]
+    
+    # Calculate average sleep hours if we have valid entries, otherwise default to 0
     avg_sleep = np.mean(sleep_hours) if sleep_hours else 0
     quality_counts = {
         "good": sum(1 for log in sleep_logs_collection if log["quality"] == "good"),
@@ -172,6 +187,84 @@ def sleep_analysis():
 
     return jsonify({
         "analysis": analysis,
+        "recommendations": recommendations
+    }), 200
+
+
+# Mock database collections for demonstration
+user_logs = []
+
+# Helper function to calculate rolling averages
+def calculate_rolling_average(data, window_size):
+    if len(data) < window_size:
+        return np.mean(data)
+    return np.mean(data[-window_size:])
+
+# Endpoint for logging user data
+@app.route('/api/log_health_data', methods=['POST'])
+def log_health_data():
+    
+    data = request.get_json()
+    user_id = data.get("user_id")
+    timestamp = datetime.now()
+    log_entry = {
+        "user_id": user_id,
+        "stress_level": data.get("stress_level"),
+        "activity_level": data.get("activity_level"),
+        "sleep_quality": data.get("sleep_quality"),
+        "mood_score": data.get("mood_score"),
+        "timestamp": timestamp
+    }
+    user_logs.append(log_entry)  # Log entry to mock DB
+    return jsonify({"message": "Health data logged successfully"}), 201
+
+# Endpoint for analyzing burnout risk
+@app.route('/api/analyze_burnout', methods=['GET'])
+def analyze_burnout():
+    user_id = request.args.get("user_id")
+    days_to_consider = 14  # Define a period to analyze burnout risk
+
+    # Filter logs for this user within the specified timeframe
+    recent_logs = [
+        log for log in user_logs
+        if log["user_id"] == user_id and log["timestamp"] >= datetime.now() - timedelta(days=days_to_consider)
+    ]
+
+    # If not enough data is available
+    if len(recent_logs) < days_to_consider:
+        return jsonify({"message": "Not enough data to assess burnout risk"}), 201
+
+    # Extract data points
+    stress_levels = [log["stress_level"] for log in recent_logs]
+    activity_levels = [log["activity_level"] for log in recent_logs]
+    sleep_qualities = [log["sleep_quality"] for log in recent_logs]
+    mood_scores = [log["mood_score"] for log in recent_logs]
+
+    # Calculate average metrics over the analysis period
+    avg_stress = calculate_rolling_average(stress_levels, days_to_consider)
+    avg_activity = calculate_rolling_average(activity_levels, days_to_consider)
+    avg_sleep = calculate_rolling_average(sleep_qualities, days_to_consider)
+    avg_mood = calculate_rolling_average(mood_scores, days_to_consider)
+
+    # Define thresholds for burnout risk
+    burnout_risk = False
+    if avg_stress > 7 and avg_activity < 4 and avg_sleep < 5 and avg_mood < 3:
+        burnout_risk = True
+
+    # Provide recommendations
+    recommendations = []
+    if burnout_risk:
+        recommendations.append("High burnout risk detected. Consider taking a break or engaging in relaxation activities.")
+        recommendations.append("Try to increase physical activity levels and improve sleep quality.")
+    else:
+        recommendations.append("No significant burnout risk detected. Keep maintaining your wellness routines.")
+
+    return jsonify({
+        "burnout_risk": burnout_risk,
+        "average_stress": avg_stress,
+        "average_activity": avg_activity,
+        "average_sleep_quality": avg_sleep,
+        "average_mood_score": avg_mood,
         "recommendations": recommendations
     }), 200
 

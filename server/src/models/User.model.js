@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref:"goal"
     }],
+    Analysis: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"analysis"
+    }],
     post: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"postModel"
@@ -32,9 +36,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function (next) {
     // Hash the password if it has been modified
-    console.log("Hashing password for user:", this.name);
     if (this.isModified('password')) {
-        console.log("Hashing password for user:", this.email);
         const salt = await bcrypt.genSalt(10);
         const hashPass = await bcrypt.hash(this.password, salt);
         this.password = hashPass;
