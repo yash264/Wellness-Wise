@@ -3,14 +3,18 @@ import { Line } from 'react-chartjs-2';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import axios from 'axios';
 
+import AnalyzeHealthData from './AnalyzeHealthData';
+
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend); 
 function HealthTrendChart({ userID,fetch }) {
     const [chartData, setChartData] = useState({});
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.get(`http://localhost:5000/api/health/${userID}`);
             const data = response.data.data;
+            setData(response.data.data);
             const Log_data = {
                 labels: data.map(d => d._id),  // Assuming data has a 'date' field
                 datasets: [
@@ -74,6 +78,7 @@ function HealthTrendChart({ userID,fetch }) {
     
     return (
         <div>
+            {data && <AnalyzeHealthData data={data} />}
             <h2>User Health Trends</h2>
             {chartData.labels && <Line data={chartData} options={options} /> }
         </div>

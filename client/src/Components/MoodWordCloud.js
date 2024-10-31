@@ -4,10 +4,13 @@ import axios from 'axios';
 
 function MoodWordCloud({ userID ,fetch}) {
     const [words, setWords] = useState([]);
+    
 
     useEffect(() => {
         const fetchMoods = async () => {
             const response = await axios.get(`http://localhost:5000/api/health/${userID}`);
+            
+            
             const moods = response.data.data.flatMap(entry => entry.mood);
             const wordCounts = moods.reduce((acc, mood) => {
                 const words = mood.split(' ');
@@ -27,6 +30,7 @@ function MoodWordCloud({ userID ,fetch}) {
         <div>
             <h2>User Mood Word Cloud</h2>
             <WordCloud words={words} />
+          
         </div>
     );
 }
