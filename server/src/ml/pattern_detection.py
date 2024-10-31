@@ -140,14 +140,18 @@ def analyze_mood():
 @app.route('/api/log_sleep', methods=['POST'])
 def log_sleep():
     data = request.json
+    if "sleep_hours" not in data or not isinstance(data["sleep_hours"], (int, float)):
+        return jsonify({"error": "Invalid or missing sleep_hours"}), 400
     data['timestamp'] = datetime.now().isoformat()
-    sleep_logs_collection.append(data)  # Store data in MongoDB
+    sleep_logs_collection.append(data) 
     return jsonify({"message": "Sleep data logged", "data": data}), 200
 
 # Function to analyze sleep patterns
 def analyze_sleep():
-    sleep_logs = [log["sleep_hours"] for log in sleep_logs_collection]
-    sleep_hours = [log["sleep_hours"] for log in sleep_logs_collection]
+   # Extract sleep_hours values, excluding logs without this field or with non-numeric values
+    sleep_hours = [log.get("sleep_hours", 0) for log in sleep_logs_collection if isinstance(log.get("sleep_hours"), (int, float))]
+    
+    # Calculate average sleep hours if we have valid entries, otherwise default to 0
     avg_sleep = np.mean(sleep_hours) if sleep_hours else 0
     quality_counts = {
         "good": sum(1 for log in sleep_logs_collection if log["quality"] == "good"),

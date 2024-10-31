@@ -24,9 +24,7 @@ const recommendations = async (req, res) => {
         const mood_analysis = await analyze_mood({
             mood: mood,
             stress_level: stress_level
-        })
-        
-        console.log(meal);        
+        })        
         const analysis = Analysis.create({ userID: userID, sleep_analysis: sleep_analysis.recommendations, activity_analysis: activity_analysis.recommendation, meal_recommendation: meal, mood_analysis:mood_analysis.recommendations})
         
         res.status(201).json({
