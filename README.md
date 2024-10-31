@@ -1,3 +1,10 @@
+# To push the code 
+git add .  // file name
+git commit -m "message"
+git push origin main
+
+# To pull the code
+git pull origin main
 
 # To start frontend 
 - cd client/
