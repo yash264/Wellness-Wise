@@ -74,7 +74,6 @@ function HealthGoal() {
                     </div>
                 </div>
             </div>
-            <ChatBox />
         </>
     )
 }

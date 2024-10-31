@@ -7,9 +7,12 @@ import DashBoard from "./User/DashBoard";
 import GoogleFit from "./User/GoogleFit";
 import DataLogging from "./User/DataLogging";
 import HealthGoal from "./User/HealthGoal";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import ChatBox from "./Components/ChatBox";
 
 function App() {
   return (
+    <div>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />}></Route>  
@@ -21,6 +24,9 @@ function App() {
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
       </Routes> 
     </BrowserRouter>
+
+    <ChatBox />
+    </div>
   );
 }
 

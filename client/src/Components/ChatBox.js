@@ -27,7 +27,7 @@ export default function ChatBox() {
 
     return (
         <>
-            <button class="btn btn-outline-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style={{ float: "right" }} >Help</button>
+            <button class="btn btn-round btn-outline-success chatbox-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style={{ float: "right" }} ><i class="fa-solid fa-microchip"></i> </button>
 
             <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                 <div class="offcanvas-header">

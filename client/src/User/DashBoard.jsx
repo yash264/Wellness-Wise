@@ -194,7 +194,6 @@ function DashBoard() {
                 </div>
             </div>
             <ShowAnalysis data={analysis}/>
-            <ChatBox />
         </>
     )
 }

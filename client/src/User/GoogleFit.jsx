@@ -13,9 +13,7 @@ function GoogleFit() {
 
     return (
         <>
-            <h2>Google Fit</h2>
             <Navbar />
-            <ChatBox />
         </>
     )
 }
