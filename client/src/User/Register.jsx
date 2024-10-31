@@ -8,7 +8,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 function Register() {
-   const navigate=useNavigate();
+
+    const navigate=useNavigate();
+
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
@@ -77,12 +79,6 @@ function Register() {
                                         <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} placeholder="Enter your Name" />
                                         <label for="floatingInput">Name </label>
                                     </div>
-                                    {/* <select className="form-select" aria-label="Default select example" onChange={(e) => setGender(e.target.value)}>
-                                        <option selected>--Gender--</option>
-                                        <option onChange={(e) => setGender(e.target.value)}>Male</option>
-                                        <option onChange={(e) => setGender(e.target.value)}>Female</option>
-                                    </select> */}
-                                    {/* <br /> */}
                                     <div className="form-floating mb-3">
                                         <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email Address" />
                                         <label for="floatingInput">Email address </label>
@@ -95,13 +91,17 @@ function Register() {
                                     <button type="submit" className="btn m-2 btn-outline-primary">Register</button>
                                     <Link to="/User/login" className="btn btn-outline-secondary m-2">Already Registered?</Link>
                                 </form>
-                                <ToastContainer />
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
+            <div class="footer">
+                <br />
+                <p>&copy; 2024 Designed, Developed and Hosted by Dev Dreamers.</p>
+                <br />
+            </div>
+            <ToastContainer />
         </div>
     )
 }
