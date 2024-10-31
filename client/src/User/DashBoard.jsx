@@ -16,7 +16,7 @@ function DashBoard() {
     const params = useParams()
     const id = params.id;
     
-
+    const [fetch, setFetch] = useState(false)
     const [analysis, setAnalysis] = useState([])
     const [dietType, setDietType] = useState("vegan")
     const [sleepQuality, setSleepQuality] = useState("fair")
@@ -35,6 +35,7 @@ function DashBoard() {
     const getUserAnalysis = async () => {
         const response = await axios.get(`http://localhost:5000/api/analysis/${id}`)
         setAnalysis(response.data.analysis)   
+        setFetch(prev=>!prev)
     }
 
     useEffect(() => {
@@ -45,7 +46,10 @@ function DashBoard() {
     //  to send data to backend
     const handleSubmit = async(e) => {
         e.preventDefault()
-        
+        if(mood.length===0 || dietType.length===0 || sleepQuality.length===0 || !screenTime || caffine.length===0 ){
+            alert("Please fill all fields")
+            return;
+        }
         const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition })
         
         if(response.data.success===false){
@@ -109,7 +113,7 @@ function DashBoard() {
                         </div>
                     </div>
                 </div> */}
-                <HealthTrendChart userID={id}/>
+                <HealthTrendChart userID={id} fetch={fetch}/>
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>

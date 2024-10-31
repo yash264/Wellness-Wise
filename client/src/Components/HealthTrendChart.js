@@ -4,7 +4,7 @@ import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, To
 import axios from 'axios';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend); 
-function HealthTrendChart({ userID }) {
+function HealthTrendChart({ userID,fetch }) {
     const [chartData, setChartData] = useState({});
 
     useEffect(() => {
@@ -50,7 +50,7 @@ function HealthTrendChart({ userID }) {
         };
         
         fetchData();
-    }, [userID]);
+    }, [userID,fetch]);
     
     const options = {
         responsive: true,
