@@ -1,6 +1,8 @@
 # To push the code 
 git add .  // file name
+
 git commit -m "message"
+
 git push origin main
 
 # To pull the code
