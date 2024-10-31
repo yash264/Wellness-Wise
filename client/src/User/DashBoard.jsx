@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ChatBox from "../Components/ChatBox";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from "../Components/Navbar";
@@ -193,6 +194,7 @@ function DashBoard() {
                 </div>
             </div>
             <ShowAnalysis data={analysis}/>
+            <ChatBox />
         </>
     )
 }
