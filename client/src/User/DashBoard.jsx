@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ChatBox from "../Components/ChatBox";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import Navbar from "../Components/Navbar";
@@ -69,51 +68,6 @@ function DashBoard() {
             <Navbar />
 
             <div class="container px-4 text-center">
-                {/* <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3">
-                            Welcome Back
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div style={{ border: "solid black" }} class="shadow p-3 mb-5 bg-body-tertiary rounded">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <td>{values === null ? "" : values.name}</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="col">Gender</th>
-                                        <td>{values === null ? "" : values.gender}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Email</th>
-                                        <td>{values === null ? "" : values.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Mobile No.</th>
-                                        <td>{values === null ? "" : values.mobile}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Date of Birth</th>
-                                        <td>{values === null ? "" : values.dob}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Qualification</th>
-                                        <td>{values === null ? "" : values.qualification}</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="col">Home Town</th>
-                                        <td>{values === null ? "" : values.city}, {values === null ? "" : values.state}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div> */}
                 <HealthTrendChart userID={id} fetch={fetch}/>
                 <MoodWordCloud userID={id} fetch={fetch}/>
                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -129,7 +83,7 @@ function DashBoard() {
                             </div>
                             <div class="modal-body">
                                 <form class="row g-3" onSubmit={handleSubmit}>
-                                    <div class="col-md-6">
+                                    <div class="col-md-10">
                                         <label for="inputDiet" class="form-label">Diet Type</label>
                                         <select class="form-select" aria-label="Default select example" onChange={(e) => setDietType(e.target.value)}>
                                             <option selected>Choose ... </option>
@@ -139,10 +93,6 @@ function DashBoard() {
                                             <option onChange={(e) => setDietType(e.target.value)} value="gluten-free">Gluten Free</option>
                                         </select>
                                     </div>
-                                    {/* <div class="col-md-6">
-                                        <label for="inputDate" class="form-label">Date</label>
-                                        <input type="date" class="form-control" onChange={(e) => setDate(e.target.value)} />
-                                    </div> */}
                                     <div class="col-md-6">
                                         <label for="inputSleep" class="form-label">Sleep Quality</label>
                                         <select class="form-select" aria-label="Default select example" onChange={(e) => setSleepQuality(e.target.value)}>
@@ -153,7 +103,7 @@ function DashBoard() {
                                         </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="inputSleep" class="form-label">Sleep <span class="badge bg-secondary">{sleep}</span></label>
+                                        <label for="inputSleep" class="form-label">Sleep <span class="badge bg-secondary">{sleep}</span></label><br/>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={sleep}
                                             onChange={(e) => setSleep(e.target.value)} />
                                     </div>
@@ -185,15 +135,15 @@ function DashBoard() {
                                         <input type="number" class="form-control" onChange={(e) => setScreenTime(e.target.value)} />
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="inputActivity" class="form-label">Activity <span class="badge bg-secondary">{activity}</span></label>
+                                        <label for="inputActivity" class="form-label">Activity <span class="badge bg-secondary">{activity}</span></label><br/>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={activity}
                                             onChange={(e) => setActivity(e.target.value)}/>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Save changes</button>
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" onClick={handleSubmit}>Submit</button>
                             </div>
                         </div>
                     </div>
