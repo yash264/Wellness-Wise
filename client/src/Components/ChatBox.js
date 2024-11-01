@@ -11,18 +11,49 @@ export default function ChatBox() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await axios.post('https://api.openai.com/v1/chat/completions', { model: 'gpt-3.5-turbo', messages: message }, {
-                headers: {
-                    'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-                }
-            });
-            const transcript = response.data.choices[0].message;
-            setValues(transcript);
+            const API_KEY = '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';
+
+            const response = await fetch('https://api.openai.com/v1/chat/completions',
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",
+                        messages: [{ role: 'user', content: message }],
+                        max_tokens: 200,
+                    })
+                });
+
+            if (response.ok) {
+                const data = await response.json();   // Extract JSON data here
+                const transcript = data.choices[0].message.content; // This should display the result content
+                console.log(transcript);
+                beautifyText(transcript);
+            } else {
+                console.log("Error Occured");
+            }
         }
         catch (error) {
             console.log(error);
         }
+    }
+
+    const beautifyText = (text) => {
+
+        //  work is under progress
+        const sentences = text.split('**');
+        const heading = text.split('"###');
+
+        const textWithLineBreaks = sentences.map(sentence => sentence.trim()) 
+        //.join('.<br>'); 
+
+
+        setValues(textWithLineBreaks);
     }
 
     return (
@@ -37,14 +68,13 @@ export default function ChatBox() {
                 <div class="offcanvas-body">
                     <form onSubmit={handleSubmit}>
                         <div className="form-floating mb-3">
-                            <input type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Name" />
+                            <input type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
                             <label for="floatingInput">Message </label>
                         </div>
                         <button type="submit" className="btn m-2 btn-outline-primary">Search</button>
                     </form>
                     <p>Your Message will display here</p>
-                    {values}
-                    <p>Try scrolling the rest of the page to see this option in action.</p>
+                    {values==null ? "" : values}
                 </div>
             </div>
         </>
