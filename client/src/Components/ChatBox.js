@@ -13,7 +13,7 @@ export default function ChatBox() {
         e.preventDefault();
 
         try {
-            const API_KEY = "process.env.OPEN_API_KEY";
+            const API_KEY = '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';
 
             const response = await fetch('https://api.openai.com/v1/chat/completions',
                 {
