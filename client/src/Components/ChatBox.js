@@ -25,13 +25,13 @@ export default function ChatBox() {
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
                         messages: [{ role: 'user', content: message }],
-                        max_tokens: 200,
+                        max_tokens: 150,
                     })
                 });
 
             if (response.ok) {
                 const data = await response.json();   // Extract JSON data here
-                const transcript = data.choices[0].message.content; // This should display the result content
+                const transcript = data.choices[0].message.content; 
                 console.log(transcript);
                 beautifyText(transcript);
             } else {
@@ -46,14 +46,14 @@ export default function ChatBox() {
     const beautifyText = (text) => {
 
         //  work is under progress
-        const sentences = text.split('**');
-        const heading = text.split('"###');
+        const sentences = text.split('###');
+        const heading = text.split('**');
 
-        const textWithLineBreaks = sentences.map(sentence => sentence.trim()) 
-        //.join('.<br>'); 
-
-
-        setValues(textWithLineBreaks);
+        const content = sentences.map(sentence => sentence.trim())
+        .join('<br/>'); // Add the line break after each period
+    
+        
+        setValues(content);
     }
 
     return (
