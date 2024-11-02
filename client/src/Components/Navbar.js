@@ -35,7 +35,7 @@ export default function Navbar() {
                           </a>
                           <ul class="dropdown-menu">
                               <Link class="nav-link" to="../User/update" >Update</Link>
-                              <Link class="nav-link" to="../User/delete" >My Post</Link>
+                              <Link class="nav-link" to="../User/post" >My Post</Link>
                           </ul>
                       </li>
                   </ul>

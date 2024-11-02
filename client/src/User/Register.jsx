@@ -9,7 +9,7 @@ import "bootstrap/dist/js/bootstrap.min.js";
 
 function Register() {
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const [name, setName] = useState()
     const [email, setEmail] = useState()
@@ -19,9 +19,9 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await axios.post('http://localhost:5000/api/register', { name, email, password })
-        if(response.data.status===false){
+        if (response.data.status === false) {
             toast.error(response.data.message)
-        }else{
+        } else {
             toast.success(response.data.message)
             navigate('/User/login')
         }
@@ -40,17 +40,17 @@ function Register() {
 
     const checkToken = async () => {
         const token = localStorage.getItem('authToken');
-        
+
         if (!token) return false;
 
         try {
-            
+
             const response = await axios.post('http://localhost:5000/api/verify-token', {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            return {isValid:response.data.valid,data:response.data.data}; 
+            return { isValid: response.data.valid, data: response.data.data };
         } catch (error) {
             console.error("Token verification failed:", error);
             return false;
@@ -58,12 +58,24 @@ function Register() {
     };
 
     return (
-        <div style={{ backgroundColor: "#f0f8ff",height:"100%",minHeight:"100vh" }} >
-            <div
-                className="pt-2 w-100 d-flex flex-column justify-content-center align-items-center text-center">
-                <div className="fs-5 fw-bold text-primary mb-3">WellNavi</div>
-                <div className=" text-secondary">Navigate your path to a Healthier you !!</div>
-            </div>
+
+        <div style={{ backgroundColor: "rgba(166, 238, 194, 0.153)", height: "80%", minHeight: "80vh" }} >
+            <nav class="navbar navbar-expand-lg bg-body-secondary mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/">WellNavi</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <Link class="nav-link" to="#" >Navigate your path to a Healthier you !!</Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
             <div className="container px-4 text-center">
                 <div className="row gx-5">
                     <div className="col">
