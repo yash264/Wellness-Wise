@@ -1,19 +1,21 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 export default function ChatBox() {
 
     const [message, setMessage] = useState([])
-    const [values, setValues] = useState([])
+    const [values, setValues] = useState()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const API_KEY = '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';
+            const API_KEY = process.env.OPEN_API_KEY;
+            console.log(API_KEY);
 
             const response = await fetch('https://api.openai.com/v1/chat/completions',
                 {
@@ -24,16 +26,18 @@ export default function ChatBox() {
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
-                        messages: [{ role: 'user', content: message }],
+                        messages: [{ role: "user", content: "Generate a list of instructions for " + message + " and Use '\n' to indicate each new line." }],
                         max_tokens: 150,
                     })
                 });
 
             if (response.ok) {
                 const data = await response.json();   // Extract JSON data here
-                const transcript = data.choices[0].message.content; 
+                const transcript = data.choices[0].message.content;
                 console.log(transcript);
-                beautifyText(transcript);
+                const formattedText = transcript.replace(/\n/g, "<br/>");
+
+                setValues(formattedText);
             } else {
                 console.log("Error Occured");
             }
@@ -41,19 +45,6 @@ export default function ChatBox() {
         catch (error) {
             console.log(error);
         }
-    }
-
-    const beautifyText = (text) => {
-
-        //  work is under progress
-        const sentences = text.split('###');
-        const heading = text.split('**');
-
-        const content = sentences.map(sentence => sentence.trim())
-        .join('<br/>'); // Add the line break after each period
-    
-        
-        setValues(content);
     }
 
     return (
@@ -71,12 +62,14 @@ export default function ChatBox() {
                             <input type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
                             <label for="floatingInput">Message </label>
                         </div>
-                        <button type="submit" className="btn m-2 btn-outline-primary">Search</button>
+                        <button type="submit" className="btn m-2 btn-outline-success">Search  < FaSearch /></button>
                     </form>
                     <p>Your Message will display here</p>
-                    {values==null ? "" : values}
-                </div>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: values }}
+                    ></div>
             </div>
+        </div >
         </>
     )
 }
