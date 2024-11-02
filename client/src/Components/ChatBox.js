@@ -15,7 +15,6 @@ export default function ChatBox() {
 
         try {
             const API_KEY = process.env.OPEN_API_KEY;
-            console.log(API_KEY);
 
             const response = await fetch('https://api.openai.com/v1/chat/completions',
                 {
