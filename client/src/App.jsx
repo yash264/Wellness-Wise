@@ -9,7 +9,6 @@ import Community from "./User/Community";
 import HealthGoal from "./User/HealthGoal";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ChatBox from "./Components/ChatBox";
-import Footer from "./Components/Footer";
 import Notification from "./Components/Notification";
 
 function App() {
@@ -26,10 +25,7 @@ function App() {
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
       </Routes> 
     </BrowserRouter>
-
     <ChatBox />
-    <Notification />
-    <Footer />
     </div>
   );
 }

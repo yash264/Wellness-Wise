@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Notification from "../Components/Notification";
 
 function Home() {
     return (
@@ -92,7 +93,7 @@ function Home() {
                     </div>
                 </div>
             </section>
-
+            <Notification />
         </div>
     );
 }

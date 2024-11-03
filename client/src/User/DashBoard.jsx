@@ -39,9 +39,9 @@ function DashBoard() {
         setFetch(prev=>!prev)
     }
 
-    useEffect(() => {
-        getUserAnalysis()
-    }, [])
+    // useEffect(() => {
+    //     getUserAnalysis()
+    // }, [])
 
 
     //  to send data to backend
