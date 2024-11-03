@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import WordCloud from 'react-wordcloud';
 import axios from 'axios';
 
-function MoodWordCloud({ userID ,fetch}) {
+function MoodWordCloud({ userID }) {
     const [words, setWords] = useState([]);
     
 
@@ -24,7 +24,7 @@ function MoodWordCloud({ userID ,fetch}) {
         };
 
         fetchMoods();
-    }, [userID,fetch]);
+    }, [userID]);
 
     return (
         <div>

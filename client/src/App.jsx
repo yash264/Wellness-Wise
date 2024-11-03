@@ -10,6 +10,7 @@ import HealthGoal from "./User/HealthGoal";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ChatBox from "./Components/ChatBox";
 import Notification from "./Components/Notification";
+import UserAnalysis from "./Components/UserAnalysis";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/User/register" element={<Register />}></Route> 
         <Route path="/User/login" element={<Login />}></Route>
         <Route path="/User/dashBoard/:id" element={<DashBoard />}></Route> 
+        <Route path="/User/analysis/:id" element={<UserAnalysis />}></Route> 
         <Route path="/User/community/:id" element={<Community />}></Route>
         <Route path="/User/googleFit" element={<GoogleFit />}></Route>
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 

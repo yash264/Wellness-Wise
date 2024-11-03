@@ -36,7 +36,7 @@ function Register() {
         };
 
         verifyUser();
-    }, [navigate]);
+    }, []);
 
     const checkToken = async () => {
         const token = localStorage.getItem('authToken');

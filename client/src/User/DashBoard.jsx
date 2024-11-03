@@ -39,9 +39,9 @@ function DashBoard() {
         setFetch(prev=>!prev)
     }
 
-    // useEffect(() => {
-    //     getUserAnalysis()
-    // }, [])
+    useEffect(() => {
+        getUserAnalysis()
+    }, [])
 
 
     //  to send data to backend
@@ -61,6 +61,8 @@ function DashBoard() {
             getUserAnalysis();
          }
     }
+
+    const URL_ANALYSIS=`/User/analysis/${id}`
 
     
     return (
@@ -114,11 +116,14 @@ function DashBoard() {
                         </div>
                     </div>
                 </div> */}
-                <HealthTrendChart userID={id} fetch={fetch}/>
-                <MoodWordCloud userID={id} fetch={fetch}/>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              
+                <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>
+
+                <Link to={URL_ANALYSIS} class="btn btn-outline-success m-3" >
+                    View Analysis
+                </Link>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable">

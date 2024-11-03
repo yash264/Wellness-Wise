@@ -6,7 +6,7 @@ import axios from 'axios';
 import AnalyzeHealthData from './AnalyzeHealthData';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend); 
-function HealthTrendChart({ userID,fetch }) {
+function HealthTrendChart({ userID }) {
     const [chartData, setChartData] = useState({});
     const [data, setData] = useState([]);
 
@@ -54,7 +54,7 @@ function HealthTrendChart({ userID,fetch }) {
         };
         
         fetchData();
-    }, [userID,fetch]);
+    }, [userID]);
     
     const options = {
         responsive: true,
