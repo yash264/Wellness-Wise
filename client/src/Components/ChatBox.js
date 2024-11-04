@@ -55,13 +55,13 @@ export default function ChatBox() {
                     <h5 class="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-floating mb-3">
-                            <input type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
+                <div class="offcanvas-body ">
+                    <form onSubmit={handleSubmit} className="d-flex flex-row">
+                        <div className="form-floating mb-3" style={{ width: "90%" }}>
+                            <textarea type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
                             <label for="floatingInput">Message </label>
                         </div>
-                        <button type="submit" className="btn m-2 btn-outline-success">Search  < FaSearch /></button>
+                        <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i class="fa-solid fa-circle-chevron-right"></i></button>
                     </form>
                     <p>Your Message will display here</p>
                     <div
