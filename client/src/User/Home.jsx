@@ -32,7 +32,7 @@ function Home() {
                                 <a href="#contact" className="nav-link">Contact</a>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="./User/register">Login</Link>
+                                <Link className="nav-link text-primary" to="./User/register">Get Started</Link>
                             </li>
                         </ul>
                     </div>

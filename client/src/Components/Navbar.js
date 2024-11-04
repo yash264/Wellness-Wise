@@ -6,7 +6,7 @@ export default function Navbar() {
     const logout = (e) => {
         e.preventDefault();
         localStorage.removeItem("authToken");
-        navigate("../User/login");
+        navigate("/");
     }
   return (
       <nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
