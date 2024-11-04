@@ -9,6 +9,7 @@ import DataLogging from "./User/DataLogging";
 import HealthGoal from "./User/HealthGoal";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ChatBox from "./Components/ChatBox";
+import Community from "./User/Community";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         {/* <Route path="/User/dataLogging" element={<DataLogging />}></Route> */}
         <Route path="/User/googleFit" element={<GoogleFit />}></Route>
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
+        <Route path="/User/community/:id" element={<Community />}></Route> 
       </Routes> 
     </BrowserRouter>
 
