@@ -34,7 +34,11 @@ function DashBoard() {
 
     // Get User Analysis
     const getUserAnalysis = async () => {
-        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`)
+        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`,{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
         setAnalysis(response.data.analysis)   
         setFetch(prev=>!prev)
     }
@@ -51,7 +55,11 @@ function DashBoard() {
             alert("Please fill all fields")
             return;
         }
-        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition })
+        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition },{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
         
         if(response.data.success===false){
             console.log("error");

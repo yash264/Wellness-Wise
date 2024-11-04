@@ -14,7 +14,12 @@ export default function Notification() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post('http://localhost:5000/api/sendMail',{name,email,message});
+        const response = await axios.post('http://localhost:5000/api/sendMail',{name,email,message},{
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+        });
         if(response.data == "mail send"){
             toast.success("Mail Send");
         }

@@ -46,9 +46,15 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
     }, [isOpen]);
 
     const fetchComments = async () => {
+        const authToken = localStorage.getItem('authToken');
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:5000/api/comment/${postId}`);
+            const response = await fetch(`http://localhost:5000/api/comment/${postId}`,{
+                method: "GET",
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                },
+            });
             const res = await response.json();
             setLoading(false);
             setComments(res);
@@ -59,6 +65,7 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
     };
 
     const handleAddComment = async () => {
+        const authToken = localStorage.getItem('authToken');
         try {
             const commentData = {
                 name: user.name,
@@ -69,6 +76,8 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
+                    'Authorization': `Bearer ${authToken}`
+
                 },
                 body: JSON.stringify(commentData),
             });
@@ -85,11 +94,13 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
         const [replyTo, setReplyTo] = useState(null);
 
         const handleAddReply = async (parentCommentId, replyToName) => {
+            const authToken = localStorage.getItem('authToken');
             try {
                 await fetch('http://localhost:5000/api/comment/reply/post', {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
+                        'Authorization': `Bearer ${authToken}`
                     },
                     body: JSON.stringify({
                         name: user.name,

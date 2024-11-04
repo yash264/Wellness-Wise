@@ -12,7 +12,11 @@ function HealthTrendChart({ userID }) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(`http://localhost:5000/api/health/${userID}`);
+            const response = await axios.get(`http://localhost:5000/api/health/${userID}`,{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
             const data = response.data.data;
             setData(response.data.data);
             const Log_data = {

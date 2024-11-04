@@ -8,7 +8,11 @@ function MoodWordCloud({ userID }) {
 
     useEffect(() => {
         const fetchMoods = async () => {
-            const response = await axios.get(`http://localhost:5000/api/health/${userID}`);
+            const response = await axios.get(`http://localhost:5000/api/health/${userID}`,{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
             
             
             const moods = response.data.data.flatMap(entry => entry.mood);

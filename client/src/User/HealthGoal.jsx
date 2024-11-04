@@ -24,7 +24,10 @@ function HealthGoal() {
     axios.defaults.withCredentials = true;
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost:5000/healthGoal', { stepGoal, hydrationGoal, sleepGoal, streak })
+        axios.post('http://localhost:5000/healthGoal', { stepGoal, hydrationGoal, sleepGoal, streak },{
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+
+        })
             .then(result => {
                 console.log(result);
             })
