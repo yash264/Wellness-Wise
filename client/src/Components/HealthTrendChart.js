@@ -80,7 +80,7 @@ function HealthTrendChart({ userID }) {
         <div>
             {data && <AnalyzeHealthData data={data} />}
             <h2>User Health Trends</h2>
-            {chartData.labels && <Line data={chartData} options={options} /> }
+            {chartData.labels && <Line data={chartData} options={options} width={"100%"} height={"100%"} /> }
         </div>
     );
 }
