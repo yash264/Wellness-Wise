@@ -37,40 +37,40 @@ function HealthGoal() {
         <>
            <Navbar />
 
-            <div class="col-md-6">
+            <div className="col-md-6">
                 <h5>Number of Continous Streak : {streak} </h5>
             </div>
 
-            <div class="container px-4 text-center">
-                <div class="row gx-5">
-                    <div class="col">
-                        <div class="p-3">
-                            <form class="row g-3" onSubmit={handleSubmit}>
-                                <div class="col-md-8">
-                                    <label class="form-label">Step Goal (in steps)<span className="badge bg-secondary">{stepGoal}</span></label>
+            <div className="container px-4 text-center">
+                <div className="row gx-5">
+                    <div className="col">
+                        <div className="p-3">
+                            <form className="row g-3" onSubmit={handleSubmit}>
+                                <div className="col-md-8">
+                                    <label className="form-label">Step Goal (in steps)<span className="badge bg-secondary">{stepGoal}</span></label>
                                     <input type="range" id="vol" name="vol" min="0" max="10000" value={stepGoal}
                                         onChange={(e) => setStepGoal(e.target.value)} />
                                     
                                 </div>
-                                <div class="col-md-8">
-                                    <label class="form-label">Hydration Goal (in ml) <span className="badge bg-secondary">{hydrationGoal}</span></label>
+                                <div className="col-md-8">
+                                    <label className="form-label">Hydration Goal (in ml) <span className="badge bg-secondary">{hydrationGoal}</span></label>
                                     <input type="range" id="vol" name="vol" min="0" max="10000" value={hydrationGoal}
                                         onChange={(e) => setHydration(e.target.value)} />
                                    
                                 </div>
-                                <div class="col-md-8">
-                                    <label class="form-label">Sleep Goal (in hours) <span className="badge bg-secondary">{sleepGoal}</span></label>
+                                <div className="col-md-8">
+                                    <label className="form-label">Sleep Goal (in hours) <span className="badge bg-secondary">{sleepGoal}</span></label>
                                     <input type="range" id="vol" name="vol" min="0" max="12" value={sleepGoal}
                                         onChange={(e) => setSleepGoal(e.target.value)} />
                                 </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-outline-primary">Set Goal</button>
+                                <div className="col-12">
+                                    <button type="submit" className="btn btn-outline-primary">Set Goal</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="p-3">Custom column padding</div>
+                    <div className="col">
+                        <div className="p-3">Custom column padding</div>
                     </div>
                 </div>
             </div>

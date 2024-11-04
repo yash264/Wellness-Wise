@@ -32,10 +32,10 @@ function DataLogging() {
         <>
             <Navbar />
 
-            <form class="row g-3">
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label">Activity</label>
-                    <select class="form-select" aria-label="Default select example" onChange={(e) => setActivity(e.target.value)}>
+            <form className="row g-3">
+                <div className="col-md-4">
+                    <label for="inputState" className="form-label">Activity</label>
+                    <select className="form-select" aria-label="Default select example" onChange={(e) => setActivity(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setActivity(e.target.value)}>1</option>
                         <option onChange={(e) => setActivity(e.target.value)}>2</option>
@@ -44,9 +44,9 @@ function DataLogging() {
                         <option onChange={(e) => setActivity(e.target.value)}>5</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label">Sleep</label>
-                    <select class="form-select" aria-label="Default select example" onChange={(e) => setSleep(e.target.value)}>
+                <div className="col-md-4">
+                    <label for="inputState" className="form-label">Sleep</label>
+                    <select className="form-select" aria-label="Default select example" onChange={(e) => setSleep(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setSleep(e.target.value)}>1</option>
                         <option onChange={(e) => setSleep(e.target.value)}>2</option>
@@ -55,9 +55,9 @@ function DataLogging() {
                         <option onChange={(e) => setSleep(e.target.value)}>5</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label for="inputState" class="form-label">Nutrition</label>
-                    <select class="form-select" aria-label="Default select example" onChange={(e) => setNutrition(e.target.value)}>
+                <div className="col-md-4">
+                    <label for="inputState" className="form-label">Nutrition</label>
+                    <select className="form-select" aria-label="Default select example" onChange={(e) => setNutrition(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setNutrition(e.target.value)}>1</option>
                         <option onChange={(e) => setNutrition(e.target.value)}>2</option>
@@ -66,8 +66,8 @@ function DataLogging() {
                         <option onChange={(e) => setNutrition(e.target.value)}>5</option>
                     </select>
                 </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                <div className="col-12">
+                    <button type="submit" className="btn btn-outline-primary">Submit</button>
                 </div>
             </form>
         </>

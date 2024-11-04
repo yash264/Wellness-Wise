@@ -77,3 +77,8 @@ body,html{
     border-radius: 0 10px 10px 0!important; 
     /* border-radius: ; */
 }
+
+.chart{
+    width: 100% !important;
+    height: 800px !important;
+}

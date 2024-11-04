@@ -48,20 +48,20 @@ export default function ChatBox() {
 
     return (
         <>
-            <button class="btn btn-round btn-outline-success chatbox-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style={{ float: "right" }} ><i class="fa-solid fa-microchip"></i> </button>
+            <button className="btn btn-round btn-outline-success chatbox-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style={{ float: "right" }} ><i className="fa-solid fa-microchip"></i> </button>
 
-            <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body ">
+                <div className="offcanvas-body ">
                     <form onSubmit={handleSubmit} className="d-flex flex-row">
                         <div className="form-floating mb-3" style={{ width: "90%" }}>
                             <textarea type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
                             <label for="floatingInput">Message </label>
                         </div>
-                        <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i class="fa-solid fa-circle-chevron-right"></i></button>
+                        <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i className="fa-solid fa-circle-chevron-right"></i></button>
                     </form>
                     <p>Your Message will display here</p>
                     <div
