@@ -25,6 +25,7 @@ function App() {
         <Route path="/User/community/" element={<Community />}></Route>
         <Route path="/User/googleFit" element={<GoogleFit />}></Route>
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
+        <Route path="/User/community/:id" element={<Community />}></Route> 
       </Routes> 
     </BrowserRouter>
     <ChatBox />
