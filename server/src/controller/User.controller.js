@@ -21,7 +21,7 @@ const login = async (req, res) => {
             if (isPasswordValid) {
 
                 const token = jwt.sign(
-                    { id: userExists._id, email: userExists.email },
+                    { id: userExists._id, email: userExists.email, name: userExists.name },
                     process.env.JWT_SECRET,
                     { expiresIn: '1d' } // Token expires in 1 day
                 );

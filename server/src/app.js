@@ -45,7 +45,7 @@ app.get("/",(req,res)=>{
 
 app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
-app.use("/api/post",PostRoute)
+app.use("/api/posts",PostRoute)
 app.use("/api/comment",CommentRoute)
 
 

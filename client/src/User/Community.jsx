@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '../Components/Card';
 import Navbar from '../Components/Navbar';
+import axios from 'axios';
+
 
 const Community = () => {
-    const [posts, setPosts] = useState([
-        {
-            id: 1,
-            text: "This is the first post!",
-            imgUrl: "https://via.placeholder.com/150",
-            likes: 0,
-            dislikes: 0,
-            comments: [{ userImage: "https://via.placeholder.com/40", userName: "User1", text: "Nice post!" }]
-        },
-        {
-            id: 2,
-            text: "Here's another post!",
-            imgUrl: "https://via.placeholder.com/150",
-            likes: 0,
-            dislikes: 0,
-            comments: [{ userImage: "https://via.placeholder.com/40", userName: "User2", text: "Great content!" }]
-        },
-    ]);
+    const [posts, setPosts] = useState([]);
 
+    const fetchPosts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/posts',{
+                headers: {
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
+            
+            setPosts(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
+  
+    useEffect(() => {
+        fetchPosts();
+    }, []);
   
     const [showModal, setShowModal] = useState(false);
     const [newPostText, setNewPostText] = useState("");
@@ -39,19 +43,22 @@ const Community = () => {
         }
     };
 
-    const handleCreatePost = () => {
-        const newPost = {
-            id: posts.length + 1,
-            text: newPostText,
-            imgUrl: newPostImgFile || "https://via.placeholder.com/150", // Default image if none provided
-            likes: 0,
-            dislikes: 0,
-            comments: []
-        };
-        setPosts([newPost, ...posts]);
+    const handleCreatePost =async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/posts/post', { caption: newPostText, imageURL: newPostImgFile }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                }
+            });
+
+            setPosts(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
         setShowModal(false);
         setNewPostText("");
         setNewPostImgFile(null);
+
     };
 
     return (
@@ -68,8 +75,8 @@ const Community = () => {
             </div>
 
             <div className='d-flex flex-row flex-wrap'>
-            {posts.map(post => (
-              <Card post={post} key={post.id}/> 
+            {posts.length>0 && posts.map(post => (
+              <Card post={post} key={post._id}/> 
             ))}
             </div>
             {/* Create Post Modal */}

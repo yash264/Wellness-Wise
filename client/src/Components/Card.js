@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 export default function Card({post}) {
-    const [showComments, setShowComments] = useState(null);
+    const [showComments, setShowComments] = useState(false);
 
     const handleLike = (id) => {
     };
@@ -10,10 +10,11 @@ export default function Card({post}) {
     };
 
     const handleComment = (id, comment) => {
+        
     };
 
-    const toggleComments = (id) => {
-        setShowComments(showComments === id ? null : id);
+    const toggleComments = () => {
+        setShowComments(showComments === true ? false : true);
     };
 
   return (
@@ -21,37 +22,37 @@ export default function Card({post}) {
         <div  className="card m-3" style={{ width: "300px", height: "auto" }}>
             <div className="card-body m-0 p-0">
 
-                {post.imgUrl && <img src={post.imgUrl} alt="Post" className="card-img-top mb-3" style={{ width: "100%", height: "200px" }} />}
-
-                <p className="card-text m-2">{post.text}</p>
+              {post.imageURL && <img src={post.imageURL} alt="Post" className="card-img-top mb-3" style={{ width: "100%", height: "200px" }} />}
+               <p className='m-2'>By: {post.name}</p>
+              <p className="card-text m-2">{post.caption}</p>
 
                 <div className="d-flex justify-content-between m-2">
                     <div>
                         <button onClick={() => handleLike(post.id)} className="btn btn-sm btn-outline-success me-2">
-                            👍 {post.likes}
+                          👍 {post.upvote.length}
                         </button>
                         <button onClick={() => handleDislike(post.id)} className="btn btn-sm btn-outline-danger me-2">
-                            👎 {post.dislikes}
+                          👎 {post.downvote.length}
                         </button>
                         <button onClick={() => toggleComments(post.id)} className="btn btn-sm btn-outline-primary">
-                            💬 Comment
+                          💬 <span>{post.comment.length}</span>
                         </button>
                     </div>
                 </div>
 
                 {/* Comments Section */}
-                {showComments === post.id && (
+                {showComments && (
                     <div className="mt-3">
                         <h6>Comments</h6>
                         <ul className="list-group mb-2">
-                            {post.comments.map((comment, index) => (
+                            {post.comment.length > 0 && post.comments.map((comment, index) => (
                                 <li key={index} className="list-group-item d-flex align-items-center">
                                     <img src={comment.userImage} alt="User" className="rounded-circle me-2" width="40" height="40" />
                                     <strong className="me-2">{comment.userName}:</strong> {comment.text}
                                 </li>
                             ))}
                         </ul>
-                        <AddCommentForm onAddComment={(comment) => handleComment(post.id, comment)} />
+                        <AddCommentForm onAddComment={(comment) => handleComment(post._id, comment)} />
                     </div>
                 )}
             </div>

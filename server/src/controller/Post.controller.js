@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 
 async function createPost(req, res){
     try{
-        const { name, caption, imageURL } = req.body;
-        const userid = req.params.id;
+        const { caption, imageURL } = req.body;
+        const userid = req.user._id;
+        const name= req.user.name;
         const user = await userModel.findOne({ name: name});
 
         var postData = {
@@ -44,22 +45,21 @@ async function createPost(req, res){
     }
 }
 
-async function getPagePost(req, res){
-    const limit = 5;
-    const page = parseInt(req.params.page);
-    const skip = (page-1)*limit; // how many post needs to be skipped   
-
+async function getAllPosts(req, res){
+   
     try{
-        const posts = await postModel.find({}).skip(skip).limit(limit).sort({ timestamp: -1 }).populate({
+        const posts = await postModel.find({}).sort({ timestamp: -1 }).populate({
             path: "comment",
             options: { sort: { timestamp: -1 } }
         });
         res.status(201).json({
+            success: true,
             data: posts
         });
     }
     catch(error){
         res.status(500).json({
+            success: false,
             msg : "error: "+error
         })
     }
@@ -291,7 +291,7 @@ async function getUpDownVote(req, res){
 
 async function deletePost(req, res){
     try{
-        const postId = req.params.id;
+        const postId = req.user._id;
         const { userName } = req.body;
 
         await userModel.findOneAndUpdate({ name: userName },{
@@ -312,4 +312,4 @@ async function deletePost(req, res){
 }
 
 
-module.exports = { getPagePost, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, deletePost};
+module.exports = { getAllPosts, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, deletePost};

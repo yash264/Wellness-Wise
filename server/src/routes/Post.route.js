@@ -3,16 +3,16 @@ const express = require('express');
 
 const PostRoute = express.Router();
 
-const { getPagePost, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, fetchUpvotedUserPosts, fetchDownvotedUserPosts, deletePost } = require('../controller/Post.controller');
+const { getAllPosts, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, fetchUpvotedUserPosts, fetchDownvotedUserPosts, del, getAllPostsetePost, deletePost } = require('../controller/Post.controller');
 const authenticateUser = require('../middleware/auth.middleware');
 
 PostRoute
-.route('/page/:page')
-    .get(authenticateUser,getPagePost);
+.route('/')
+    .get(authenticateUser,getAllPosts);
 
 // routes for post:
 PostRoute
-.route('/:id')
+.route('/post')
 .post(authenticateUser,createPost)
 .delete(authenticateUser,deletePost)
 
