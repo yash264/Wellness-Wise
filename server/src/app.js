@@ -10,6 +10,7 @@ app.use(cookieParser());
 const DB=require("./db/connection");
 DB();
 const port = process.env.PORT || 5000;
+const { sendMail } = require("./middleware/SendMail");
 
 const partials = require("partials");
 const Machinerouter = require("./routes/Machine.route");
@@ -46,6 +47,23 @@ app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
 app.use("/api/post",PostRoute)
 app.use("/api/comment",CommentRoute)
+
+
+// to send mail to a person
+app.post("/api/sendMail",async(req,res)=>{
+    try{
+        const email = req.body.email;
+        const name = req.body.name;
+        const message = req.body.message;
+
+        const notification = await sendMail(email,name,message);
+        
+        res.status(201).json("mail send");
+
+    }catch(error){
+        res.status(400).send(error);
+    }
+})
 
 
 

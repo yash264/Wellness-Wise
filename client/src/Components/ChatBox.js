@@ -1,24 +1,45 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 export default function ChatBox() {
 
     const [message, setMessage] = useState([])
-    const [values, setValues] = useState([])
+    const [values, setValues] = useState()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const response = await axios.post('https://api.openai.com/v1/chat/completions', { model: 'gpt-3.5-turbo', messages: message }, {
-                headers: {
-                    'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-                }
-            });
-            const transcript = response.data.choices[0].message;
-            setValues(transcript);
+            const API_KEY = process.env.OPEN_API_KEY;
+
+            const response = await fetch('https://api.openai.com/v1/chat/completions',
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`,
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4o-mini",
+                        messages: [{ role: "user", content: "Generate a list of instructions for " + message + " and Use '\n' to indicate each new line." }],
+                        max_tokens: 150,
+                    })
+                });
+
+            if (response.ok) {
+                const data = await response.json();   // Extract JSON data here
+                const transcript = data.choices[0].message.content;
+                console.log(transcript);
+                const formattedText = transcript.replace(/\n/g, "<br/>");
+
+                setValues(formattedText);
+            } else {
+                console.log("Error Occured");
+            }
         }
         catch (error) {
             console.log(error);
@@ -34,19 +55,20 @@ export default function ChatBox() {
                     <h5 class="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-floating mb-3">
-                            <input type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Name" />
+                <div class="offcanvas-body ">
+                    <form onSubmit={handleSubmit} className="d-flex flex-row">
+                        <div className="form-floating mb-3" style={{ width: "90%" }}>
+                            <textarea type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
                             <label for="floatingInput">Message </label>
                         </div>
-                        <button type="submit" className="btn m-2 btn-outline-primary">Search</button>
+                        <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i class="fa-solid fa-circle-chevron-right"></i></button>
                     </form>
                     <p>Your Message will display here</p>
-                    {values}
-                    <p>Try scrolling the rest of the page to see this option in action.</p>
-                </div>
+                    <div
+                        dangerouslySetInnerHTML={{ __html: values }}
+                    ></div>
             </div>
+        </div >
         </>
     )
 }

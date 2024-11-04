@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Notification from "../Components/Notification";
 
 function Home() {
     return (
@@ -31,7 +32,7 @@ function Home() {
                                 <a href="#contact" className="nav-link">Contact</a>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="./User/register">Login</Link>
+                                <Link className="nav-link text-primary" to="./User/register">Get Started</Link>
                             </li>
                         </ul>
                     </div>
@@ -92,31 +93,7 @@ function Home() {
                     </div>
                 </div>
             </section>
-
-            {/* Contact Form Section */}
-            <section className="contact-section py-5 text-center" id="contact">
-                <h2>Contact Us</h2>
-                <p className="text-muted">We’d love to hear from you! Fill out the form below to reach out to our team.</p>
-                <div className="container">
-                    <form className="row g-3">
-                        <div className="col-md-6">
-                            {/* <label htmlFor="name" className="form-label">Name</label> */}
-                            <input type="text" className="form-control" id="name" placeholder="Your Name" />
-                        </div>
-                        <div className="col-md-6">
-                            {/* <label htmlFor="email" className="form-label">Email</label> */}
-                            <input type="email" className="form-control" id="email" placeholder="Your Email" />
-                        </div>
-                        <div className="col-12">
-                            {/* <label htmlFor="message" className="form-label">Message</label> */}
-                            <textarea className="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
-                        </div>
-                        <div className="col-12">
-                            <button type="submit" className="btn btn-primary">Send Message</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
+            <Notification />
         </div>
     );
 }
