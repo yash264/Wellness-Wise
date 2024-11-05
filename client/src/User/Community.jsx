@@ -7,10 +7,10 @@ import CryptoJS from 'crypto-js';
 
 const Community = () => {
     const [posts, setPosts] = useState([]);
-    const API_KEY = process.env.API_KEY;
-    const API_SECRET = process.env.API_SECRET;
-    const UPLOAD_PRESET = process.env.UPLOAD_PRESET;
-    const CLOUD_NAME = process.env.CLOUD_NAME;
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    const API_SECRET = process.env.REACT_APP_API_SECRET;
+    const UPLOAD_PRESET = process.env.REACT_APP_UPLOAD_PRESET;
+    const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
 
     // const fetchPosts = async () => {
     //     try {

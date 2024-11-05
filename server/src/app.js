@@ -1,6 +1,6 @@
 const express = require("express");
 const {google} = require('googleapis') ;
-const {dotenv} = require('dotenv');
+const dotenv = require('dotenv');
 
 const path = require("path");
 const cors = require("cors");
@@ -67,7 +67,7 @@ app.post("/api/sendMail",async(req,res)=>{
         res.status(400).send(error);
     }
 })
-dotenv.config();
+
 //const app = express();
 const PORT = process.env.PORT || 5000;
 

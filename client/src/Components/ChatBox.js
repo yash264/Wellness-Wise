@@ -16,7 +16,6 @@ export default function ChatBox() {
         e.preventDefault();
 
         try {
-            // const API_KEY = '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';
             const API_KEY = process.env.REACT_APP_OPEN_API_KEY;
             
             
