@@ -31,7 +31,11 @@ const userSchema = new mongoose.Schema({
     post: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"postModel"
-    }]
+    }],
+    pic: {
+        type: String,
+        default: "https://static.vecteezy.com/system/resources/previews/014/554/760/original/man-profile-negative-photo-anonymous-silhouette-human-head-businessman-worker-support-illustration-vector.jpg"
+    }
 });
 
 userSchema.pre('save', async function (next) {

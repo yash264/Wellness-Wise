@@ -15,7 +15,7 @@ const { sendMail } = require("./middleware/SendMail");
 const partials = require("partials");
 const Machinerouter = require("./routes/Machine.route");
 const UserRoute = require("./routes/User.route");
-const PostRoute = require("./routes/Post.route");
+const postRoutes = require("./routes/Post.route");
 const CommentRoute = require("./routes/Comment.route");
 
 //  cors policy
@@ -45,7 +45,7 @@ app.get("/",(req,res)=>{
 
 app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
-app.use("/api/posts",PostRoute)
+app.use("/api/posts",postRoutes)
 app.use("/api/comment",CommentRoute)
 
 

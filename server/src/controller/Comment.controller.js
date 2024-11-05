@@ -1,13 +1,16 @@
-const mongoose = require('mongoose');
 const postModel = require('../models/Post.model.js');
 const {commentModel} = require('../models/Comment.Model.js');
 
 async function createComments(req, res){
     try{
         const body = req.body;
+        const user = req.user;
+        const userId = user._id;
+        const name = user.name;
+
         const comment = await commentModel.create({
-            name:body.name,
-            userId:body.userId,
+            name:name,
+            userId: userId,
             content:body.content
         });
         const commentId = comment._id;  
@@ -23,15 +26,15 @@ async function createComments(req, res){
         }
         );
 
-        res.json({
-            status:201,
+        res.status(201).json({
+            success:true,
             msg : "Comment created sucessfully",
             data : comment
         })
 
     } catch(error){
-        res.json({
-            msg : "error: "+error
+        res.status(400).json({
+            msg : ""+error
         })
     }
 
@@ -59,8 +62,8 @@ async function getComments(req, res){
         res.status(201).json(comment);
 
     } catch(error){
-        res.json({
-            msg : "error: "+error
+        res.status(400).json({
+            msg : ""+error
         })
     }
 
@@ -68,7 +71,11 @@ async function getComments(req, res){
 
 async function postReply(req, res){
     try{
-        const { name, userId, content, parentCommentId } = req.body;
+        const { content, parentCommentId } = req.body;
+        const user = req.user;
+        const userId = user._id;
+        const name = user.name;
+
         const reply = await commentModel.create({
             name: name,
             userId: userId,
@@ -90,8 +97,8 @@ async function postReply(req, res){
         res.status(201).json(reply);
 
     } catch(err){
-        res.json({
-            msg : "error: "+err
+        res.status(400).json({
+            msg : ""+err
         })
     }
 }
