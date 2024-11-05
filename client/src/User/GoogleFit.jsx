@@ -13,7 +13,8 @@ function GoogleFit() {
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
+            <FitDataDisplay/>
         </>
     )
 }
