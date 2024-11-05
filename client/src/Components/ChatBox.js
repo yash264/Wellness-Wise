@@ -5,6 +5,8 @@ import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
+
+ 
 export default function ChatBox() {
 
     const [message, setMessage] = useState([])
@@ -14,18 +16,21 @@ export default function ChatBox() {
         e.preventDefault();
 
         try {
-            const API_KEY = process.env.OPEN_API_KEY;
+            // const API_KEY = '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';
+            const API_KEY = process.env.REACT_APP_OPEN_API_KEY;
+            
+            
 
             const response = await fetch('https://api.openai.com/v1/chat/completions',
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Bearer ${API_KEY}`,
+                        "Authorization": `Bearer ${process.env.REACT_APP_OPEN_API_KEY}`,
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
-                        messages: [{ role: "user", content: "Generate a list of instructions for " + message + " and Use '\n' to indicate each new line." }],
+                        messages: [{ role: "user", content:  message + " .In under 150 words" }],
                         max_tokens: 150,
                     })
                 });
@@ -67,8 +72,8 @@ export default function ChatBox() {
                     <div
                         dangerouslySetInnerHTML={{ __html: values }}
                     ></div>
-            </div>
-        </div >
+                </div>
+            </div >
         </>
     )
 }
