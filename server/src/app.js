@@ -1,4 +1,7 @@
 const express = require("express");
+const {google} = require('googleapis') ;
+const {dotenv} = require('dotenv');
+
 const path = require("path");
 const cors = require("cors");
 const hbs = require("hbs");
@@ -64,6 +67,59 @@ app.post("/api/sendMail",async(req,res)=>{
         res.status(400).send(error);
     }
 })
+dotenv.config();
+//const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Set up the OAuth2 client
+const oauth2Client = new google.auth.OAuth2(
+  process.env.CLIENT_ID,
+  process.env.CLIENT_SECRET,
+  'http://localhost:3000/callback'  // Change to your frontend's redirect URI
+);
+
+// Route to initiate the Google Fit authentication
+app.get('/auth/google', (req, res) => {
+  const scopes = [
+    'https://www.googleapis.com/auth/fitness.activity.read',
+    'https://www.googleapis.com/auth/fitness.body.read'
+  ];
+  const authUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: scopes,
+  });
+  res.redirect(authUrl);
+});
+
+// Route to handle the OAuth callback
+app.get('/callback', async (req, res) => {
+  const code = req.query.code;
+  try {
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+    res.json({ message: 'Authorization successful', tokens });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to exchange code for tokens' });
+  }
+});
+
+// Route to fetch Google Fit data
+app.get('/fit-data', async (req, res) => {
+  try {
+    const fitness = google.fitness({
+      version: 'v1',
+      auth: oauth2Client,
+    });
+
+    const response = await fitness.users.dataSources.list({
+      userId: 'me',
+    });
+
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve data from Google Fit' });
+  }
+});
 
 
 
