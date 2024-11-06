@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../Components/Navbar";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 function HealthGoal() {
     const [stepGoal, setStepGoal] = useState(5000);

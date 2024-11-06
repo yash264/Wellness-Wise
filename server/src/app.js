@@ -1,11 +1,6 @@
 const express = require("express");
-<<<<<<< HEAD
-const dotenv = require('dotenv');
-=======
 const {google} = require('googleapis') ;
 const dotenv = require('dotenv');
-
->>>>>>> 8eb13688412322e159292445b54b104e55c54627
 const path = require("path");
 const cors = require("cors");
 const hbs = require("hbs");
@@ -13,7 +8,6 @@ const axios = require("axios")
 const app = express();
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-const { google } = require('googleapis');
 const request = require("request");
 const urlParse = require('url-parse');
 const queryParse = import('query-string');
@@ -27,11 +21,9 @@ const Machinerouter = require("./routes/Machine.route");
 const UserRoute = require("./routes/User.route");
 const postRoutes = require("./routes/Post.route");
 const CommentRoute = require("./routes/Comment.route");
-<<<<<<< HEAD
 const { aggregate } = require("./models/User_Health.model");
-=======
 const SetGoalRoute = require("./routes/SetGoal.route");
->>>>>>> 8eb13688412322e159292445b54b104e55c54627
+
 
 //  cors policy
 const corsOptions = {
@@ -58,18 +50,17 @@ app.get("/", (req, res) => {
 })
 
 
-<<<<<<< HEAD
+
 app.use("/api/", Machinerouter)
 app.use("/api/", UserRoute)
-app.use("/api/posts", PostRoute)
+app.use("/api/posts", postRoutes)
 app.use("/api/comment", CommentRoute)
-=======
 app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
 app.use("/api/posts",postRoutes)
 app.use("/api/comment",CommentRoute)
 app.use("/goals/",SetGoalRoute)
->>>>>>> 8eb13688412322e159292445b54b104e55c54627
+
 
 
 // to send mail to a person
@@ -87,12 +78,6 @@ app.post("/api/sendMail", async (req, res) => {
     res.status(400).send(error);
   }
 })
-<<<<<<< HEAD
-=======
-
-//const app = express();
-const PORT = process.env.PORT || 5000;
->>>>>>> 8eb13688412322e159292445b54b104e55c54627
 
 /*app.post("/api/fitnessData", async (req, res) => {
   const { accessToken, requestData } = req.body;

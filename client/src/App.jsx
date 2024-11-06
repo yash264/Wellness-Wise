@@ -11,10 +11,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ChatBox from "./Components/ChatBox";
 import Update from "./User/Update";
 import UserAnalysis from "./Components/UserAnalysis";
-<<<<<<< HEAD
-=======
 import FitDataDisplay from '../src/Components/FitDataDisplay';
->>>>>>> 8eb13688412322e159292445b54b104e55c54627
 
 function App() {
   return (
