@@ -143,7 +143,7 @@ function DashBoard() {
                             <div className="modal-body">
                                 <form className="row g-3" onSubmit={handleSubmit}>
                                     <div className="col-md-6">
-                                        <label for="inputDiet" className="form-label">Diet Type</label>
+                                        <label htmlFor="inputDiet" className="form-label">Diet Type</label>
                                         <select className="form-select" aria-label="Default select example" onChange={(e) => setDietType(e.target.value)}>
                                             <option selected>Choose ... </option>
                                             <option onChange={(e) => setDietType(e.target.value)} value="vegetarian">Vegeterian</option>
@@ -153,11 +153,11 @@ function DashBoard() {
                                         </select>
                                     </div>
                                     {/* <div className="col-md-6">
-                                        <label for="inputDate" className="form-label">Date</label>
+                                        <label htmlFor="inputDate" className="form-label">Date</label>
                                         <input type="date" className="form-control" onChange={(e) => setDate(e.target.value)} />
                                     </div> */}
                                     <div className="col-md-6">
-                                        <label for="inputSleep" className="form-label">Sleep Quality</label>
+                                        <label htmlFor="inputSleep" className="form-label">Sleep Quality</label>
                                         <select className="form-select" aria-label="Default select example" onChange={(e) => setSleepQuality(e.target.value)}>
                                             <option selected>Choose ... </option>
                                             <option onChange={(e) => setSleepQuality(e.target.value)} value="good">Good </option>
@@ -166,12 +166,12 @@ function DashBoard() {
                                         </select>
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputSleep" className="form-label">Sleep <span className="badge bg-secondary">{sleep}</span></label>
+                                        <label htmlFor="inputSleep" className="form-label">Sleep <span className="badge bg-secondary">{sleep}</span></label>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={sleep}
                                             onChange={(e) => setSleep(e.target.value)} />
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputCaffine" className="form-label">Caffine Intake</label>
+                                        <label htmlFor="inputCaffine" className="form-label">Caffine Intake</label>
                                         <select className="form-select" aria-label="Default select example" onChange={(e) => setCaffine(e.target.value)}>
                                             <option selected>Choose ... </option>
                                             <option onChange={(e) => setCaffine(e.target.value)} value="high">High </option>
@@ -180,25 +180,25 @@ function DashBoard() {
                                         </select>
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputNutrition" className="form-label">Nutrition <span className="badge bg-secondary">{nutrition}</span></label>
+                                        <label htmlFor="inputNutrition" className="form-label">Nutrition <span className="badge bg-secondary">{nutrition}</span></label>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={nutrition}
                                             onChange={(e) => setNutrition(e.target.value)} />
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputMood" className="form-label">Mood</label>
+                                        <label htmlFor="inputMood" className="form-label">Mood</label>
                                         <input type="text" className="form-control" onChange={(e) => setMood(e.target.value)} />
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputStress" className="form-label">Stress Level <span className="badge bg-secondary">{stress}</span></label>
+                                        <label htmlFor="inputStress" className="form-label">Stress Level <span className="badge bg-secondary">{stress}</span></label>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={stress}
                                             onChange={(e) => setStress(e.target.value)} />
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputScreen" className="form-label">Screen Time (mins)</label>
+                                        <label htmlFor="inputScreen" className="form-label">Screen Time (mins)</label>
                                         <input type="number" className="form-control" onChange={(e) => setScreenTime(e.target.value)} />
                                     </div>
                                     <div className="col-md-6">
-                                        <label for="inputActivity" className="form-label">Activity <span className="badge bg-secondary">{activity}</span></label>
+                                        <label htmlFor="inputActivity" className="form-label">Activity <span className="badge bg-secondary">{activity}</span></label>
                                         <input type="range" id="vol" name="vol" min="0" max="10" value={activity}
                                             onChange={(e) => setActivity(e.target.value)}/>
                                     </div>

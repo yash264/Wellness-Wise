@@ -20,6 +20,7 @@ const Machinerouter = require("./routes/Machine.route");
 const UserRoute = require("./routes/User.route");
 const postRoutes = require("./routes/Post.route");
 const CommentRoute = require("./routes/Comment.route");
+const SetGoalRoute = require("./routes/SetGoal.route");
 
 //  cors policy
 const corsOptions ={
@@ -50,6 +51,7 @@ app.use("/api/",Machinerouter)
 app.use("/api/",UserRoute)
 app.use("/api/posts",postRoutes)
 app.use("/api/comment",CommentRoute)
+app.use("/goals/",SetGoalRoute)
 
 
 // to send mail to a person

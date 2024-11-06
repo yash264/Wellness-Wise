@@ -1,31 +1,19 @@
+
 const mongoose = require("mongoose");
 
-const GoalGoalSchema = new mongoose.Schema({
+const GoalSchema = new mongoose.Schema({
     userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
         required: true
     },
-    sleep_goal: {
-        type: Number,
-        required: true
-    },
-    hydration_goal: {
-        type: Number,
-        required: true
-    },
-    step_goal: {
-        type: Number,
-        required: true
-    },
-    streak:{    
-        type: Number,
-        default: 0,
-    },
-
+    step_goal: { type: Number, required: true },
+    hydration_goal: { type: Number, required: true },
+    sleep_goal: { type: Number, required: true },
+    streak: { type: Number, default: 0 },
+    lastLogDate: { type: Date, default: null }
 });
 
-
-const Goal = mongoose.model("GoalGoal", GoalGoalSchema);
+const Goal = mongoose.model("Goal", GoalSchema);
 
 module.exports = Goal;

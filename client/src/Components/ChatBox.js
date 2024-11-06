@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 
- 
+
 export default function ChatBox() {
 
     const [message, setMessage] = useState([])
@@ -17,8 +17,8 @@ export default function ChatBox() {
 
         try {
             const API_KEY = process.env.REACT_APP_OPEN_API_KEY;
-            
-            
+
+
 
             const response = await fetch('https://api.openai.com/v1/chat/completions',
                 {
@@ -29,7 +29,7 @@ export default function ChatBox() {
                     },
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
-                        messages: [{ role: "user", content:  message + " .In under 150 words" }],
+                        messages: [{ role: "user", content: message + " .In under 150 words" }],
                         max_tokens: 250,
                     })
                 });
@@ -54,25 +54,25 @@ export default function ChatBox() {
         <>
             <button className="btn btn-round btn-outline-success chatbox-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" style={{ float: "right" }} ><i className="fa-solid fa-microchip"></i> </button>
 
-            <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-                <div className="offcanvas-header">
-                    <h5 className="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
-                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div className="offcanvas-body ">
-                    <form onSubmit={handleSubmit} className="d-flex flex-row">
-                        <div className="form-floating mb-3" style={{ width: "90%" }}>
-                            <textarea type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
-                            <label for="floatingInput">Message </label>
-                        </div>
-                        <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i className="fa-solid fa-circle-chevron-right"></i></button>
-                    </form>
-                    <p>Your Message will display here</p>
-                    <div
-                        dangerouslySetInnerHTML={{ __html: values }}
-                    ></div>
-                </div>
-            </div >
+            <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div className="offcanvas-header">
+                <h5 className="offcanvas-title" id="offcanvasScrollingLabel">AI Chat Box</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div className="offcanvas-body ">
+                <form onSubmit={handleSubmit} className="d-flex flex-row">
+                    <div className="form-floating mb-3" style={{ width: "90%" }}>
+                        <textarea type="text" className="form-control" onChange={(e) => setMessage(e.target.value)} placeholder="Enter your Queries" />
+                        <label htmlFor="floatingInput">Message </label>
+                    </div>
+                    <button type="submit" className="btn mb-3 btn-success border-0 send-btn"><i className="fa-solid fa-circle-chevron-right"></i></button>
+                </form>
+                <p>Your Message will display here</p>
+                <div
+                    dangerouslySetInnerHTML={{ __html: values }}
+                ></div>
+            </div>
+        </div >
         </>
     )
 }
