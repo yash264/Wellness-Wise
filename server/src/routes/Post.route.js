@@ -1,35 +1,36 @@
-
 const express = require('express');
+const postRoutes = express.Router();
+const authenticateUser = require('../middleware/auth.middleware')
+const { getPagePost, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, fetchUpvotedUserPosts, fetchDownvotedUserPosts, deletePost } = require('../controller/Post.controller');
 
-const PostRoute = express.Router();
+// postRoutes.get('/', getAllPosts);
 
-const { getAllPosts, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, fetchUpvotedUserPosts, fetchDownvotedUserPosts, del, getAllPostsetePost, deletePost } = require('../controller/Post.controller');
-const authenticateUser = require('../middleware/auth.middleware');
-
-PostRoute
-.route('/')
-    .get(authenticateUser,getAllPosts);
+// to get a page posts
+postRoutes
+.route('/page/:page')
+.get(authenticateUser, getPagePost);
 
 // routes for post:
-PostRoute
-.route('/post')
-.post(authenticateUser,createPost)
-.delete(authenticateUser,deletePost)
+postRoutes
+.route('/:id')
+.post(authenticateUser, createPost)
+.delete(authenticateUser, deletePost)
 
-PostRoute
+postRoutes
 .route("/profile/:id")
-.post(authenticateUser,fetchUserPosts)
-.get(authenticateUser,getUserData);
+.post(authenticateUser, fetchUserPosts)
+.get(authenticateUser, getUserData);
 
 
 // routes for up/downvotes:
-PostRoute
+postRoutes
 .route('/upvote/:id')
-.post(authenticateUser,postUpvote)
-.get(authenticateUser,getUpDownVote);
+.post(authenticateUser, postUpvote)
+.get(authenticateUser, getUpDownVote);
 
-PostRoute
+postRoutes
 .route('/downvote/:id')
-.post(authenticateUser,postDownvote);
+.post(authenticateUser, postDownvote);
 
-module.exports = PostRoute;
+
+module.exports = postRoutes;

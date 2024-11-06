@@ -34,7 +34,7 @@ function DataLogging() {
 
             <form className="row g-3">
                 <div className="col-md-4">
-                    <label for="inputState" className="form-label">Activity</label>
+                    <label htmlFor="inputState" className="form-label">Activity</label>
                     <select className="form-select" aria-label="Default select example" onChange={(e) => setActivity(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setActivity(e.target.value)}>1</option>
@@ -45,7 +45,7 @@ function DataLogging() {
                     </select>
                 </div>
                 <div className="col-md-4">
-                    <label for="inputState" className="form-label">Sleep</label>
+                    <label htmlFor="inputState" className="form-label">Sleep</label>
                     <select className="form-select" aria-label="Default select example" onChange={(e) => setSleep(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setSleep(e.target.value)}>1</option>
@@ -56,7 +56,7 @@ function DataLogging() {
                     </select>
                 </div>
                 <div className="col-md-4">
-                    <label for="inputState" className="form-label">Nutrition</label>
+                    <label htmlFor="inputState" className="form-label">Nutrition</label>
                     <select className="form-select" aria-label="Default select example" onChange={(e) => setNutrition(e.target.value)}>
                         <option selected>Choose ... </option>
                         <option onChange={(e) => setNutrition(e.target.value)}>1</option>

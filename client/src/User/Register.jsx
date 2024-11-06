@@ -82,15 +82,15 @@ function Register() {
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-floating mb-3">
                                         <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} placeholder="Enter your Name" />
-                                        <label for="floatingInput">Name </label>
+                                        <label htmlFor="floatingInput">Name </label>
                                     </div>
                                     <div className="form-floating mb-3">
                                         <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email Address" />
-                                        <label for="floatingInput">Email address </label>
+                                        <label htmlFor="floatingInput">Email address </label>
                                     </div>
                                     <div className="form-floating">
                                         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" />
-                                        <label for="floatingPassword">Password </label>
+                                        <label htmlFor="floatingPassword">Password </label>
                                     </div>
                                     <br />
                                     <button type="submit" className="btn m-2 btn-outline-primary">Register</button>

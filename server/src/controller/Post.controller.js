@@ -1,18 +1,18 @@
 const postModel = require('../models/Post.model');
 const userModel = require('../models/User.model');
-const mongoose = require('mongoose');
 
 async function createPost(req, res){
     try{
         const { caption, imageURL } = req.body;
-        const userid = req.user._id;
-        const name= req.user.name;
-        const user = await userModel.findOne({ name: name});
+        const user = req.user;
+        const name = user.name;
+        const userid = user._id;
 
         var postData = {
             name,
             caption,
-            imageURL
+            imageURL,
+            userPic: user.pic
         };
 
         const post = await postModel.create(postData);
@@ -31,35 +31,36 @@ async function createPost(req, res){
         );
 
 
-        res.json({
-            status:201,
+        res.status(201).json({
+            success:true,
             msg : "Post created sucessfully",
             data : post
         })
     }
     catch(error){
 
-        res.status().json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
 }
 
-async function getAllPosts(req, res){
-   
+async function getPagePost(req, res){
+    const limit = 5;
+    const page = parseInt(req.params.page);
+    const skip = (page-1)*limit; // how many post needs to be skipped   
+
     try{
-        const posts = await postModel.find({}).sort({ timestamp: -1 }).populate({
+        const posts = await postModel.find({}).skip(skip).limit(limit).sort({ timestamp: -1 }).populate({
             path: "comment",
             options: { sort: { timestamp: -1 } }
         });
         res.status(201).json({
-            success: true,
             data: posts
         });
     }
     catch(error){
         res.status(500).json({
-            success: false,
             msg : "error: "+error
         })
     }
@@ -69,9 +70,8 @@ async function getAllPosts(req, res){
 // returns all the posts of the user and the total sum of upvotes and downvotes of all posts
 async function getUserData(req, res){
     try{
-        const userName = req.params.id;
-
-        const user = await userModel.findOne({ name: userName }).populate("post");
+        const userId = req.user._id;
+        const user = await userModel.findOne({ _id: userId }).populate("post");
         
         var up=0,down=0;
         for(var i=0;i<user.post.length;i++){
@@ -81,6 +81,7 @@ async function getUserData(req, res){
 
         res.status(200).json({
             _id: user._id,
+            pic: user.pic,
             // post:user.post,
             upvote:up,
             downvote:down
@@ -89,7 +90,7 @@ async function getUserData(req, res){
 
     } catch(error){
         
-        res.json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
@@ -102,11 +103,10 @@ async function fetchUserPosts(req, res){
         const { page, tab } = req.body;
         const skip = (page-1)*limit;
 
-        const userName = req.params.id;
-        const user = await userModel.findOne({name: userName});
+        const user = req.user;
 
         if (tab === 0) {
-            filter = { name: userName };
+            filter = { name: user.name };
         } else if (tab === 1) {
             filter = { upvote: { $in: [user._id] } };
         } else {
@@ -125,7 +125,7 @@ async function fetchUserPosts(req, res){
 
     } catch(error){
         
-        res.json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
@@ -140,15 +140,15 @@ async function getAPost(req, res){
         const post = await postModel.findOne({ _id: postId }).populate("comment");
         
 
-        res.json({
-            status:201,
+        res.status(201).json({
+            success:true,
             data:post
         });
      
 
     } catch(error){
         
-        res.json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
@@ -156,8 +156,8 @@ async function getAPost(req, res){
 
 async function postUpvote(req, res){
     try{
-        const body = req.body;
-        const userid = body.userid;
+        const user = req.user;
+        const userid = user._id;
         const postid = req.params.id;
         const post = await postModel.findOne({
             _id: postid
@@ -192,8 +192,8 @@ async function postUpvote(req, res){
             );
             
 
-        res.json({
-            status:201,
+        res.status(201).json({
+            success:true,
             msg: "Upvoted successfully",
             isUpvoted: ifUpvoteExists,
             isDownvoted: ifDownvoteExists,
@@ -203,7 +203,7 @@ async function postUpvote(req, res){
 
     } catch(error){
 
-        res.json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
@@ -211,8 +211,8 @@ async function postUpvote(req, res){
 
 async function postDownvote(req, res){
     try{
-        const body = req.body;
-        const userid = body.userid;
+        const user = req.user;
+        const userid = user._id;
         const postid = req.params.id;
         const post = await postModel.findOne({
             _id: postid
@@ -247,8 +247,8 @@ async function postDownvote(req, res){
             );
         
 
-        res.json({
-            status: 201,
+        res.status(201).json({
+            success:true,
             msg: "Downvoted successfully",
             isUpvoted: ifUpvoteExists,
             isDownvoted: ifDownvoteExists,
@@ -258,7 +258,7 @@ async function postDownvote(req, res){
 
     } catch(error){
 
-        res.json({
+        res.status(400).json({
             msg : "error"+error
         })
     }
@@ -291,8 +291,9 @@ async function getUpDownVote(req, res){
 
 async function deletePost(req, res){
     try{
-        const postId = req.user._id;
-        const { userName } = req.body;
+        const postId = req.params.id;
+        const user = req.user;
+        const userName = user.name;
 
         await userModel.findOneAndUpdate({ name: userName },{
             $pull: { post: postId }
@@ -312,4 +313,4 @@ async function deletePost(req, res){
 }
 
 
-module.exports = { getAllPosts, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, deletePost};
+module.exports = { getPagePost, createPost, getUserData, postUpvote, postDownvote, getUpDownVote, getAPost, fetchUserPosts, deletePost};

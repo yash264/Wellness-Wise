@@ -3,63 +3,92 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '../Components/Card';
 import Navbar from '../Components/Navbar';
 import axios from 'axios';
-
+import CryptoJS from 'crypto-js';
 
 const Community = () => {
     const [posts, setPosts] = useState([]);
+    const API_KEY = process.env.REACT_APP_API_KEY;
+    const API_SECRET = process.env.REACT_APP_API_SECRET;
+    const UPLOAD_PRESET = process.env.REACT_APP_UPLOAD_PRESET;
+    const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
 
-    const fetchPosts = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/posts',{
-                headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
+    // const fetchPosts = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:5000/api/posts',{
+    //             headers: {
+    //             'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+    //             }
+    //         });
             
-            setPosts(response.data.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    //         setPosts(response.data.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
 
   
-    useEffect(() => {
-        fetchPosts();
-    }, []);
+    // useEffect(() => {
+    //     fetchPosts();
+    // }, []);
   
     const [showModal, setShowModal] = useState(false);
     const [newPostText, setNewPostText] = useState("");
     const [newPostImgFile, setNewPostImgFile] = useState(null);
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setNewPostImgFile(reader.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
+    // const handleImageUpload = (e) => {
+    //     const file = e.target.files[0];
+    //     if (file) {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //             setNewPostImgFile(reader.result);
+    //         };
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
 
-    const handleCreatePost =async () => {
+    async function handleImageUpload(e) {
+        const file = e.target.files[0]; 
+        if(!file) return;
+
+        const timestamp = Math.round((new Date).getTime() / 1000);
+        const signature = CryptoJS.SHA1(`timestamp=${timestamp}${API_SECRET}`).toString(CryptoJS.enc.Hex);
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('api_key', API_KEY);
+        formData.append('timestamp', timestamp);
+        formData.append('signature', signature);
+        formData.append('upload_preset', UPLOAD_PRESET);
+      
         try {
-            const response = await axios.post('http://localhost:5000/api/posts/post', { caption: newPostText, imageURL: newPostImgFile }, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-                }
-            });
-
-            setPosts(response.data.data);
+          const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, formData );
+          console.log('Upload successful:', response.data.secure_url);
+          console.log('Upload successful:', response.data.url);
         } catch (error) {
-            console.error(error);
+          console.error('Upload error:', error);
         }
-        setShowModal(false);
-        setNewPostText("");
-        setNewPostImgFile(null);
+      }
 
-    };
+
+
+    // const handleCreatePost =async () => {
+    //     try {
+    //         const response = await axios.post('http://localhost:5000/api/posts/post', { caption: newPostText, imageURL: newPostImgFile }, {
+    //             headers: {
+    //                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+    //             }
+    //         });
+
+    //         setPosts(response.data.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    //     setShowModal(false);
+    //     setNewPostText("");
+    //     setNewPostImgFile(null);
+
+    // };
 
     return (
         <>
@@ -75,9 +104,9 @@ const Community = () => {
             </div>
 
             <div className='d-flex flex-row flex-wrap'>
-            {posts.length>0 && posts.map(post => (
-              <Card post={post} key={post._id}/> 
-            ))}
+            {/* {posts.length>0 && posts.map(post => ( */}
+              <Card post={'ra'} key={'alala'}/> 
+            {/* ))} */}
             </div>
             {/* Create Post Modal */}
             {showModal && (
@@ -112,7 +141,8 @@ const Community = () => {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
+                                {/* <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button> */}
+                                <button type="button" className="btn btn-primary">Post</button>
                             </div>
                         </div>
                     </div>

@@ -49,7 +49,7 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
         const authToken = localStorage.getItem('authToken');
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:5000/api/comment/${postId}`,{
+            const response = await fetch(`http://localhost:5000/api/comment/${postId}`, {
                 method: "GET",
                 headers: {
                     'Authorization': `Bearer ${authToken}`
@@ -152,7 +152,7 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
                                     placeholder={`Reply to ${replyTo ? replyTo.name : comment.name}`}
                                     value={newReply}
                                     onChange={(e) => setNewReply(e.target.value)}
-                                    style={{marginTop:"0.5rem", border: "1px solid #EAEAEA"}}
+                                    style={{ marginTop: "0.5rem", border: "1px solid #EAEAEA" }}
                                 />
                                 <button
                                     type='button'
@@ -172,7 +172,7 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
 
     return (
         <>
-            <div class={`modal ${isOpen ? 'show' : ''}`} style={{ display: isOpen ? 'block' : 'none' }} tabindex="-1" role="dialog">
+            <div class={`modal ${isOpen ? 'show' : ''}`} style={{ display: isOpen ? 'block' : 'none' }} tabIndex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content" style={{ borderRadius: "25px" }}>
                         <div class="modal-header" style={{ justifyContent: "center" }}>
