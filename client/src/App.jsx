@@ -9,9 +9,8 @@ import Community from "./User/Community";
 import HealthGoal from "./User/HealthGoal";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ChatBox from "./Components/ChatBox";
-import Notification from "./Components/Notification";
+import Update from "./User/Update";
 import UserAnalysis from "./Components/UserAnalysis";
-import FitDataDisplay from './FitDataDisplay';
 
 function App() {
   return (
@@ -27,7 +26,7 @@ function App() {
         <Route path="/User/googleFit" element={<GoogleFit />}></Route>
         <Route path="/User/healthGoal" element={<HealthGoal />}></Route> 
         <Route path="/User/community/:id" element={<Community />}></Route> 
-        
+        <Route path="/User/update" element={<Update />}></Route>
       </Routes> 
     </BrowserRouter>
     <ChatBox />

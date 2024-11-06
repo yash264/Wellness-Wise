@@ -1,33 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
 const FitDataDisplay = () => {
-  const [fitData, setFitData] = useState(null);   // State to hold the fetched data
-  const [loading, setLoading] = useState(true);    // State to handle loading
 
-  useEffect(() => {
-    // Fetch data from the backend route we created
-    fetch('http://localhost:5000/fit-data')        // Adjust URL as needed
-      .then(response => response.json())
-      .then(data => {
-        setFitData(data);
-        setLoading(false);  // Set loading to false when data is loaded
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-        setLoading(false);  // Set loading to false if there's an error
+  const [token, setToken] = useState("");
+  const [fitnessData, setFitnessData] = useState(null);
+
+  const navigate = useNavigate()
+
+  const handleSuccess = (response) => {
+    const accessToken = response.credential;
+    getFitnessData(accessToken);
+  };
+
+  const handleFailure = () => {
+    console.log("Login Failed");
+  };
+
+  const getFitnessData = async (accessToken) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/fitness-data", {
+        accessToken,
+        requestData: {
+          aggregateBy: [
+            {
+              dataTypeName: "com.google.step_count.delta",
+              dataSourceId: "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps",
+            },
+          ],
+          bucketByTime: { durationMillis: 86400000 },
+          startTimeMillis: Date.now() - 7 * 86400000, // Last 7 days
+          endTimeMillis: Date.now(),
+        },
       });
-  }, []);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching fitness data:", error);
+    }
+  };
 
   return (
     <div>
       <h2>Google Fit Data</h2>
-      {loading ? (
-        <p>Loading...</p>
-      ) : fitData ? (
-        <pre>{JSON.stringify(fitData, null, 2)}</pre>
-      ) : (
-        <p>No data available.</p>
-      )}
+
+      <GoogleLogin
+        onSuccess={handleSuccess} onFailure={handleFailure}
+      />
+
     </div>
   );
 };
