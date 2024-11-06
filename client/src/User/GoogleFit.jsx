@@ -1,11 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Navbar from "../Components/Navbar";
 import FitDataDisplay from '../Components/FitDataDisplay';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
@@ -13,8 +9,10 @@ function GoogleFit() {
 
     return (
         <>
-            <Navbar />
-            <FitDataDisplay/>
+            <GoogleOAuthProvider clientId="872238526034-s704pdne3nvpcf3j59i1vfjsesu8p7o1.apps.googleusercontent.com">
+                <Navbar />
+                <FitDataDisplay/>
+            </GoogleOAuthProvider>
         </>
     )
 }
