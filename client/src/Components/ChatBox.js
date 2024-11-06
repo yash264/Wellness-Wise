@@ -30,7 +30,7 @@ export default function ChatBox() {
                     body: JSON.stringify({
                         model: "gpt-4o-mini",
                         messages: [{ role: "user", content:  message + " .In under 150 words" }],
-                        max_tokens: 150,
+                        max_tokens: 250,
                     })
                 });
 
