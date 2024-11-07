@@ -1,4 +1,7 @@
 import React from "react";
+import logo from './logo.svg';
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter , Routes, Route } from "react-router-dom";
 import Home from "./User/Home";
 import Register from "./User/Register";
@@ -12,12 +15,28 @@ import ChatBox from "./Components/ChatBox";
 import Update from "./User/Update";
 import UserAnalysis from "./Components/UserAnalysis";
 import FitDataDisplay from '../src/Components/FitDataDisplay';
+import { Banner } from "../src/Components/Banner";
+import Navbar from "./Components/Navbar";
+import { Features } from "./Components/Features";
+import { Aboutus } from "./Components/Aboutus";
+import { Contact } from "./Components/Contact";
 
 function App() {
   return (
+    
     <div>
-    <BrowserRouter>
+     
+    <Navbar/>
+      <Banner/>
+      <Features/>
+      <Aboutus/>
+      <Contact/>
+    
+       
+     
       <Routes>
+      
+    
         <Route path="/" element={<Home />}></Route>  
         <Route path="/User/register" element={<Register />}></Route> 
         <Route path="/User/login" element={<Login />}></Route>
@@ -29,9 +48,11 @@ function App() {
         <Route path="/User/community/:id" element={<Community />}></Route> 
         <Route path="/User/update" element={<Update />}></Route>
       </Routes> 
-    </BrowserRouter>
+      
+    
     <ChatBox />
     </div>
+    
   );
 }
 
