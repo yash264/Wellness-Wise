@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import headerImg from "../assets/img/header-img.svg";
+import AI from "../assets/img/AI-in-personalized-healthcare.webp";
 import { useNavigate } from "react-router-dom";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
@@ -62,7 +63,9 @@ export const Banner = () => {
               {({ isVisible }) =>
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                 <span className="tagline">Track your Health update on...</span>
-                <h1>{`Wellnavi`} <br></br><span className="txt-rotate" dataPeriod="1000" data-rotate='  [ "Navigate your path to a Healthier you !! ", "Your Health Asistant" ]'><span className="wrap">{text}</span></span></h1>
+                <h1>{`Wellnavi`} <br></br>
+                    {/* <span className="txt-rotate" dataPeriod="1000" data-rotate='  [ "Navigate your path to a Healthier you !! ", "Your Health Asistant" ]'><span className="wrap">{text}</span></span>  */}
+                </h1>
                   <p>Navigate your path to a Healthier you !!</p>
                   <button onClick={() => redirect()}>Let’s Connect <ArrowRightCircle size={25} /></button>
               </div>}
@@ -72,7 +75,7 @@ export const Banner = () => {
             <TrackVisibility>
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
-                  <img src={headerImg} alt="Header Img"/>
+                  <img src={AI} alt="Header Img"/>
                 </div>}
             </TrackVisibility>
           </Col>

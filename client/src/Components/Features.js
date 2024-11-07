@@ -30,32 +30,36 @@ export const Features = () => {
 
   return (
     <section className="skill" id="skills">
-        <div className="container">
-            <div className="row">
-                <div className="col-12">
-                    <div className="skill-bx wow zoomIn">
-                        <h2>Features</h2>
-                        <p>Explore the top features that WellNavi offers to support your health journey.</p>
-                        <Carousel responsive={responsive} infinite={true} className="owl-carousel owl-theme skill-slider">
-                            <div className="item">
-                                <img src={meter1} alt="Image" />
-                                <h5>Personalized Health Recommendations</h5>
-                            </div>
-                            <div className="item">
-                                <img src={meter2} alt="Image" />
-                                <h5>Mindfulness Session Suggestions</h5>
-                            </div>
-                            <div className="item">
-                                <img src={meter3} alt="Image" />
-                                <h5>Burnout Detection</h5>
-                            </div>
-                           
-                        </Carousel>
-                    </div>
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <div className="skill-bx wow zoomIn">
+              <h2>Features</h2>
+              <p>Explore the top features that WellNavi offers to support your health journey.</p>
+              <Carousel responsive={responsive} infinite={true} className="owl-carousel owl-theme skill-slider">
+                <div className="item">
+                  <img src={meter1} alt="Image" />
+                  <h5>Personalized Health Recommendations</h5>
                 </div>
+                <div className="item">
+                  <img src={meter2} alt="Image" />
+                  <h5>Mindfulness Session Suggestions</h5>
+                </div>
+                <div className="item">
+                  <img src={meter3} alt="Image" />
+                  <h5>Personalized Health Detection</h5>
+                </div>
+                <div className="item">
+                  <img src={meter2} alt="Image" />
+                  <h5>AI Based ChatBot Recommendations</h5>
+                </div>
+
+              </Carousel>
             </div>
+          </div>
         </div>
-        <img className="background-image-left" src={colorSharp} alt="Image" />
+      </div>
+      <img className="background-image-left" src={colorSharp} alt="Image" />
     </section>
   )
 }

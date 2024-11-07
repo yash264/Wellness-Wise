@@ -25,7 +25,6 @@ function Home() {
             {/* Contact Section */}
             <Contact/>
 
-            <Notification />
         </div>
     );
 }

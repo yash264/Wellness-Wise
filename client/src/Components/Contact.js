@@ -3,6 +3,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import contactImg from "../assets/img/contact-img.svg";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Contact = () => {
   const formInitialDetails = {
@@ -23,28 +28,23 @@ export const Contact = () => {
       })
   }
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setButtonText("Sending...");
-    let response = await fetch("http://localhost:5000/contact", {
-      method: "POST",
+    const response = await axios.post('http://localhost:5000/api/sendMail', { name: formDetails.firstName+" "+formDetails.lastName, email: formDetails.email, message: formDetails.message }, {
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(formDetails),
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+      }
     });
-    setButtonText("Send");
-    let result = await response.json();
-    setFormDetails(formInitialDetails);
-    if (result.code == 200) {
-      setStatus({ succes: true, message: 'Message sent successfully'});
-    } else {
-      setStatus({ succes: false, message: 'Something went wrong, please try again later.'});
+    if (response.data == "mail send") {
+      toast.success("Mail Send");
     }
-  };
+  }
 
   return (
     <section className="contact" id="connect">
+      <ToastContainer />
       <Container>
         <Row className="align-items-center">
           <Col size={12} md={6}>
