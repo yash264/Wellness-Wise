@@ -33,7 +33,13 @@ function DashBoard() {
 
     // Get User Analysis
     const getUserAnalysis = async () => {
-        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`)
+        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            }
+        )
         setAnalysis(response.data.analysis)   
         setFetch(prev=>!prev)
     }
@@ -50,7 +56,14 @@ function DashBoard() {
             alert("Please fill all fields")
             return;
         }
-        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition })
+        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition }
+            ,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            }
+        )
         
         if(response.data.success===false){
             console.log("error");
@@ -68,11 +81,10 @@ function DashBoard() {
             <br/><br/><br/>
 
             <div class="container px-4 text-center">
-                <HealthTrendChart userID={id} fetch={fetch}/>
-                <MoodWordCloud userID={id} fetch={fetch}/>
-                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button m-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>
+                <Link to={`/User/analysis/${id}`}> <button type="button m-2" class="btn btn-warning">Analysis</button></Link>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-scrollable">
