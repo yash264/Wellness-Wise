@@ -8,13 +8,11 @@ import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 
 const FitDataDisplay = () => {
 
-  const [token, setToken] = useState([]);
   const [values, setValues] = useState([]);
-  const [fitnessData, setFitnessData] = useState([]);
 
   const navigate = useNavigate()
 
-  const login = useGoogleLogin({
+  /*const login = useGoogleLogin({
     onSuccess: async (response) => {
       try {
         const result = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo',
@@ -49,9 +47,9 @@ const FitDataDisplay = () => {
         {
           aggregateBy: [
             { dataTypeName: "com.google.step_count.delta" },
-            /*{ dataTypeName: "com.google.height" },
+            { dataTypeName: "com.google.height" },
             { dataTypeName: "com.google.weight" },
-            { dataTypeName: "com.google.heart_rate.bpm" }*/
+            { dataTypeName: "com.google.heart_rate.bpm" }
           ],
           bucketByTime: { durationMillis: 86400000 }, 
           startTimeMillis: Date.now() - 24 * 60 * 60 * 1000, 
@@ -63,7 +61,39 @@ const FitDataDisplay = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
+
+  const API_KEY = 'AIzaSyC-SamqDmPaufQZ0zMSqyG6IApbWx078IY';
+  const BASE_URL = 'https://www.googleapis.com/youtube/v3/search';
+
+  const showVideo = async(query) => {
+    try {
+      const response = await axios.get(BASE_URL, {
+          params: {
+              key: API_KEY,
+              part: 'snippet',
+              q: query,
+              maxResults: 10,
+              type: 'video',
+          },
+      });
+      console.log(response.data);
+      //return response.data.items;
+  } catch (error) {
+      console.error("Error fetching videos:", error);
+      return [];
+  }
+  }
+
+  const [videos, setVideos] = useState([]);
+
+    useEffect(() => {
+        const getMeditationVideos = async () => {
+           // const meditationVideos = await fetchVideos("meditation");
+            //setVideos(meditationVideos);
+        };
+        getMeditationVideos();
+    }, []);
 
   return (
     <div>
@@ -90,15 +120,30 @@ const FitDataDisplay = () => {
       }}
     />;*/}
 
-      <button onClick={login} class="btn btn-outline-primary" >Login</button>
+      <button  class="btn btn-outline-primary" >Login</button>
       <br/>
       <br/>
-      <button onClick={() => getFitnessData(token)} class="btn btn-outline-danger">Fitness Data</button><br />
-        <div>
-          <h5>Step Count Data (Last 24 Hours) : {fitnessData.endTimeMillis/86400000 - fitnessData.startTimeMillis/86400000}</h5>
-        </div>
+      <button  class="btn btn-outline-danger">Fitness Data</button><br />
+        
 
-
+        <button onClick={()=> showVideo('cricket')} class="btn btn-outline-primary" >Show Video</button>
+        <h2>Meditation Videos</h2>
+            <ul>
+                {videos.map((video) => (
+                    <li key={video.id.videoId}>
+                        <h3>{video.snippet.title}</h3>
+                        <iframe
+                            width="560"
+                            height="315"
+                            src={`https://www.youtube.com/embed/${video.id.videoId}`}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            title={video.snippet.title}
+                        ></iframe>
+                    </li>
+                ))}
+            </ul>
     </div>
   );
 };

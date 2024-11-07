@@ -1,28 +1,29 @@
-import React from "react";
-import { ImLocation, ImEnvelop } from "react-icons/im";
+import { Container, Row, Col } from "react-bootstrap";
+import { MailchimpForm } from "./MailchimpForm";
+import logo from "../assets/img/logo.svg";
+import navIcon1 from "../assets/img/nav-icon1.svg";
+import navIcon2 from "../assets/img/nav-icon2.svg";
+import navIcon3 from "../assets/img/nav-icon3.svg";
 
-function Footer() {
-
-    return (
-        <>
-            <div style={{backgroundColor:"rgba(50, 50, 49, 0.953)"}} >
-                <div className="container text-center p-3 ">
-                    <div className="row">
-                        <div className="col">
-                            <h4 style={{color:"white"}} >Stay Connected to us</h4>
-                            <p style={{color:"white"}} >Keep in touch for more Updates.</p>
-                        </div>
-                        <div className="col">
-                        </div>
-                        <div className="col-4 " style={{ textAlign: "left" }} >
-                            <p style={{color:"white"}} ><ImEnvelop />  Team : Dev Designers</p>
-                            <p style={{color:"white"}} ><ImLocation /> National Institute of Technology Allahabad</p>
-                        </div>
-                    </div>
-                </div>
+export const Footer = () => {
+  return (
+    <footer className="footer">
+      <Container>
+        <Row className="align-items-center">
+          <MailchimpForm />
+          <Col size={12} sm={6}>
+            <img src={logo} alt="Logo" />
+          </Col>
+          <Col size={12} sm={6} className="text-center text-sm-end">
+            <div className="social-icon">
+              <a href="#"><img src={navIcon1} alt="Icon" /></a>
+              <a href="#"><img src={navIcon2} alt="Icon" /></a>
+              <a href="#"><img src={navIcon3} alt="Icon" /></a>
             </div>
-        </>
-    )
+            <p>Copyright 2022. All Rights Reserved</p>
+          </Col>
+        </Row>
+      </Container>
+    </footer>
+  )
 }
-
-export default Footer;
