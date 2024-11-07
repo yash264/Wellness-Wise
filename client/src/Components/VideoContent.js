@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_KEY = process.env.REACT_APP_VIDEO_API_KEY;
 const BASE_URL = process.env.REACT_APP_VIDEO_BASE_URL;
 
-console.log(API_KEY);
+
 
 export const fetchVideos = async (query) => {
     try {

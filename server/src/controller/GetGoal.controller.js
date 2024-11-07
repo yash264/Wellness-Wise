@@ -5,7 +5,7 @@ const Goal = require("../models/HealthGoal.model");
 const setGoal = async (req, res) => {
     const { stepGoal, hydrationGoal, sleepGoal } = req.body;
     const userID = req.user.id;
-    console.log(userID);
+
     
     try {
         const newGoal = new Goal({

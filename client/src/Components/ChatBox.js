@@ -37,7 +37,7 @@ export default function ChatBox() {
             if (response.ok) {
                 const data = await response.json();   // Extract JSON data here
                 const transcript = data.choices[0].message.content;
-                console.log(transcript);
+                // console.log(transcript);
                 const formattedText = transcript.replace(/\n/g, "<br/>");
 
                 setValues(formattedText);

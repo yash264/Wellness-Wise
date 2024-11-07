@@ -41,7 +41,7 @@ const MainNavbar = () => {
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <Link class="nav-link" to={"/User/update"}>Update</Link>
+                                    <Link class="nav-link" to={"/User/update/"}>Update</Link>
                                     <Link class="nav-link" to={"/User/myPost"}>My Post</Link>
                                 </ul>
                             </li>
