@@ -1,30 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Notification from "../Components/Notification";
+import { Banner } from "../Components/Banner";
+import  Navbar  from "../Components/Navbar";
 import { Features } from "../Components/Features";
-import Navbar from "../Components/Navbar";
 import { Aboutus } from "../Components/Aboutus";
+import { Contact } from "../Components/Contact";
 
 function Home() {
     return (
-        <div className="container-fluid m-0 p-0">
+        <div className="container-fluid m-0 p-0" style={{ "background-color": "#121212", "color": "#fff"}} >
             {/* Navbar */}
             <Navbar/>
 
             {/* Header */}
-            {/* <div
-                className="w-100 home d-flex flex-column justify-content-center align-items-center text-center"
-                style={{ height: "400px", backgroundColor: "#f0f8ff" }}
-                id="home"
-            >
-                <div className="display-1 fw-bold mb-3">WellNavi</div>
-                <div className="text-small text-dark">Navigate your path to a Healthier you !!</div>
-            </div> */}
+            <Banner/>
 
             {/* Features Section */}
            <Features/>
+
             {/* About Us Section */}
             <Aboutus/>
+
+            {/* Contact Section */}
+            <Contact/>
+
             <Notification />
         </div>
     );

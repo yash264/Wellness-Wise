@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import { Footer } from "../Components/Footer";
 
 function Register() {
 
@@ -60,14 +61,16 @@ function Register() {
     return (
 
         <div style={{ backgroundColor: "rgba(166, 238, 194, 0.153)", height: "80%", minHeight: "80vh" }} >
-            <nav className="navbar navbar-expand-lg bg-body-secondary mb-3">
+            <nav className="navbar navbar-expand-lg bg-body-secondary mb-3" >
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">WellNavi</a>
+                    <p>Navigate your path to a Healthier you !!</p>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                 </div>
             </nav>
+            <br/><br/><br/>
 
             <div className="container px-4 text-center">
                 <div className="row gx-5">

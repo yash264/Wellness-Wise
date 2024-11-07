@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import headerImg from "../assets/img/header-img.svg";
+import { useNavigate } from "react-router-dom";
 import { ArrowRightCircle } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
@@ -47,6 +48,11 @@ export const Banner = () => {
     }
   }
 
+  const navigate = useNavigate()
+  const redirect = () => {
+    navigate("../User/register");
+  }
+
   return (
     <section className="banner" id="home">
       <Container>
@@ -58,7 +64,7 @@ export const Banner = () => {
                 <span className="tagline">Track your Health update on...</span>
                 <h1>{`Wellnavi`} <br></br><span className="txt-rotate" dataPeriod="1000" data-rotate='  [ "Navigate your path to a Healthier you !! ", "Your Health Asistant" ]'><span className="wrap">{text}</span></span></h1>
                   <p>Navigate your path to a Healthier you !!</p>
-                  <button onClick={() => console.log('connect')}>Let’s Connect <ArrowRightCircle size={25} /></button>
+                  <button onClick={() => redirect()}>Let’s Connect <ArrowRightCircle size={25} /></button>
               </div>}
             </TrackVisibility>
           </Col>

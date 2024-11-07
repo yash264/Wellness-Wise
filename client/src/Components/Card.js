@@ -32,15 +32,15 @@ export default function Card({post}) {
                     <div>
                         <button onClick={() => handleLike(post.id)} className="btn btn-sm btn-outline-success me-2">
                           {/* 👍 {post.upvote.length} */}
-                          33
+                          👍
                         </button>
                         <button onClick={() => handleDislike(post.id)} className="btn btn-sm btn-outline-danger me-2">
                           {/* 👎 {post.downvote.length} */}
-                          55
+                          👎
                         </button>
                         <button onClick={() => toggleComments(post.id)} className="btn btn-sm btn-outline-primary">
                           {/* 💬 <span>{post.comment.length}</span> */}
-                          <span>55</span>
+                          <span>💬</span>
                         </button>
                     </div>
                 </div>

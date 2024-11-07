@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Navbar from "../Components/Navbar";
+import MainNavbar from "../Components/MainNavbar";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -69,7 +69,8 @@ function HealthGoal() {
 
     return (
         <>
-            <Navbar />
+            <MainNavbar />
+            <br/><br/><br/>
 
         <div className="container mt-5">
             <Button variant="primary" onClick={() => setShowModal(true)}>

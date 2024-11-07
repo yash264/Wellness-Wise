@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
-import Navbar from "../Components/Navbar";
+import MainNavbar from "../Components/MainNavbar";
 
 function DataLogging() {
 
@@ -30,7 +30,7 @@ function DataLogging() {
 
     return (
         <>
-            <Navbar />
+            <MainNavbar />
 
             <form className="row g-3">
                 <div className="col-md-4">

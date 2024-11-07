@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import Navbar from "../Components/Navbar";
+import MainNavbar from "../Components/MainNavbar";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -42,7 +42,8 @@ function Update() {
     return (
         <div>
             
-            <Navbar />
+            <MainNavbar />
+            <br/><br/><br/>
 
             <div class="container px-4 text-center">
                 <form class="row g-3" onSubmit={handleSubmit}>

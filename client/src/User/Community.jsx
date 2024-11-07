@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '../Components/Card';
-import Navbar from '../Components/Navbar';
+import MainNavbar from '../Components/MainNavbar';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
@@ -92,7 +92,7 @@ const Community = () => {
 
     return (
         <>
-        <Navbar />
+        <MainNavbar />
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <input
