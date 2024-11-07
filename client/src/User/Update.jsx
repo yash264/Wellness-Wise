@@ -25,18 +25,7 @@ function Update() {
     axios.defaults.withCredentials = true;
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('http://localhost/api/update', { id, name, gender, mobile, qualification, dob, city, state, about })
-            .then(result => {
-                if(result.data === "updated" ){
-                    toast.success("Updated Successfully");
-                }
-                else if(result.data === "failed" ){
-                    toast.error("Email Id can't exist");
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
+       
     }
 
     return (
@@ -63,18 +52,7 @@ function Update() {
                         <label for="mobile" class="form-label">Mobile Number</label>
                         <input type="number" class="form-control" onChange={(e) => setMobile(e.target.value)} placeholder="Enter Mobile number" />
                     </div>
-                    <div class="col-md-5">
-                        <label for="qualification" class="form-label" >Highest Qualification</label>
-                        <select class="form-select" name="qualification" onChange={(e) => setQualification(e.target.value)}>
-                            <option selected >Choose...</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>High School X</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>Inter Mediate XII</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>Bachelor's of Technology</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>Bachelor's of Science</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>Final Year of Graduation</option>
-                            <option onChange={(e) => setQualification(e.target.value)}>Other's</option>
-                        </select>
-                    </div>
+                   
                     <div class="col-md-5">
                         <label for="dob" class="form-label">Date of Birth</label>
                         <input type="date" class="form-control" onChange={(e) => setDob(e.target.value)} />
@@ -97,10 +75,7 @@ function Update() {
                             <option onChange={(e) => setState(e.target.value)}>Other</option>
                         </select>
                     </div>
-                    <div class="col-md-5">
-                        <label for="about" class="form-label">About Yourself</label>
-                        <input type="text" class="form-control" onChange={(e) => setAbout(e.target.value)} placeholder="Tell about yourself" />
-                    </div>
+                    
                     <div class="col-12">
                         <button type="submit" class="btn btn-outline-primary">Update</button>
                     </div>
