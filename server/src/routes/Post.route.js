@@ -5,16 +5,16 @@ const { getPagePost, createPost, getUserData, postUpvote, postDownvote, getUpDow
 
 // postRoutes.get('/', getAllPosts);
 
+// routes for post:
+postRoutes
+.route('/')
+.post(authenticateUser, createPost)
+.delete(authenticateUser, deletePost)
+
 // to get a page posts
 postRoutes
 .route('/page/:page')
 .get(authenticateUser, getPagePost);
-
-// routes for post:
-postRoutes
-.route('/:id')
-.post(authenticateUser, createPost)
-.delete(authenticateUser, deletePost)
 
 postRoutes
 .route("/profile/:id")

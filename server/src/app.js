@@ -55,10 +55,6 @@ app.use("/api/", Machinerouter)
 app.use("/api/", UserRoute)
 app.use("/api/posts", postRoutes)
 app.use("/api/comment", CommentRoute)
-app.use("/api/",Machinerouter)
-app.use("/api/",UserRoute)
-app.use("/api/posts",postRoutes)
-app.use("/api/comment",CommentRoute)
 app.use("/goals/",SetGoalRoute)
 
 
