@@ -27,7 +27,7 @@ const SetGoalRoute = require("./routes/SetGoal.route");
 
 //  cors policy
 const corsOptions = {
-  origin: ["*","http://localhost:3000"],
+  origin: ["http://localhost:3000","*"],
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
   credentials: true,
 };
@@ -77,6 +77,7 @@ app.post("/api/sendMail", async (req, res) => {
 
 app.get("/api/youtube", async (req, res) => {
   const query = req.query.q; 
+  
   try {
     const response = await axios.get(`https://www.googleapis.com/youtube/v3/search`, {
       params: {
