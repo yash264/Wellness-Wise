@@ -13,7 +13,7 @@ export const Banner = () => {
   const [text, setText] = useState('');
   const [delta, setDelta] = useState(300 - Math.random() * 100);
   const [index, setIndex] = useState(1);
-  const toRotate = [ "Navigate your path to a Healthier you !! ", "Your Health Asistant" ];
+  const toRotate = [ "Your Wellness, ", "Our Priority" ];
   const period = 2000;
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const Banner = () => {
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                 <span className="tagline">Track your Health update on...</span>
                 <h1>{`Wellnavi`} <br></br>
-                    {/* <span className="txt-rotate" dataPeriod="1000" data-rotate='  [ "Navigate your path to a Healthier you !! ", "Your Health Asistant" ]'><span className="wrap">{text}</span></span>  */}
+                    { <span className="txt-rotate" dataPeriod="1000" data-rotate='  [ "Your Wellness", "Our Priority" ]'><span className="wrap">{text}</span></span>  }
                 </h1>
                   <p>Navigate your path to a Healthier you !!</p>
                   <button onClick={() => redirect()}>Let’s Connect <ArrowRightCircle size={25} /></button>
