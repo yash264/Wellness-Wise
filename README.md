@@ -5,21 +5,26 @@ support.
 
 
 # Features Announcement -
-# 1. Personalized Health Recommendation
+1. Personalized Health Recommendation
+   
 Based on User diets and habbits , suggest mood, sleep, meal, activity response. Use sentiment
 analysis on mood logs to identify trends.
 
-# 2. Health Goal
+2. Health Goal
+
 A section where user can track his/ her progress , as they set their goals and check their number
 of continuous streak.
 
-# 3. AI ChatBox
+3. AI ChatBox
+
 Implement a chatBox which can suggest health realted questions, provide motivational support.
 
-# Health Tips 
+4. Health Tips 
+
 Builds a system using google youtube API which provides you a motivational videos related to health, meditation, yoga, nutrition, exercises .
 
-# 5. Community section
+5. Community section
+   
 Provide a platform using nodejs Backend where users can post, comment, and like responses.
 
 
