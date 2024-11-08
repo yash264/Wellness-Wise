@@ -5,10 +5,13 @@ import { fetchVideos } from '../Components/VideoContent';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 
+
 function GoogleFit() {
 
     const [search,setSearch] = useState([]);
     const [videos, setVideos] = useState([]);
+    const API_KEY = process.env.REACT_APP_VIDEO_API_KEY;
+    const BASE_URL = process.env.REACT_APP_VIDEO_BASE_URL;
 
     /*useEffect(() => {
         const getMeditationVideos = async () => {
@@ -18,23 +21,34 @@ function GoogleFit() {
         getMeditationVideos();
     }, []);*/
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const getMeditationVideos = async () => {
-            const meditationVideos = await fetchVideos(search);
-            setVideos(meditationVideos);
-        };
-        getMeditationVideos();
+
+            const meditationVideos = await fetch(BASE_URL,
+            {
+                method: 'GET',
+                params: {
+                    key: API_KEY,
+                    part: 'snippet',
+                    q: search,
+                    maxResults: 10,
+                    type: 'video',
+                },
+            });
+            console.log(meditationVideos);
+            
+            // setVideos(meditationVideos);
+
     }
 
     return (
         <>
             <MainNavbar />
-            <br /><br /><br />
 
+            <div className="p-2 d-flex flex-column  align-items-center">
             <h3>Motivational Videos</h3>
             <form class="row g-3" onSubmit={handleSubmit}>
-                <div class="col-md-4">
+                <div class="col-8">
                     <select id="inputText" class="form-select" onChange={(e) => setSearch(e.target.value)}>
                         <option selected onChange={(e) => setSearch(e.target.value)}>Choose...</option>
                         <option onChange={(e) => setSearch(e.target.value)}>Health Tips</option>
@@ -63,6 +77,7 @@ function GoogleFit() {
                         ></iframe>
                     </section>
                 ))}
+            </div>
             </div>
         </>
     )
