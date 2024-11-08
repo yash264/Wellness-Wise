@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-export default function Card({post}) {
+export default function Card({ post }) {
     const [showComments, setShowComments] = useState(false);
 
     const handleLike = (id) => {
@@ -22,11 +22,9 @@ export default function Card({post}) {
         <div  className="card m-3" style={{ width: "300px", height: "auto" }}>
             <div className="card-body m-0 p-0">
 
-              {/* {post.imageURL && <img src={post.imageURL} alt="Post" className="card-img-top mb-3" style={{ width: "100%", height: "200px" }} />} */}
-              {<img src={'https://i.pinimg.com/236x/6e/e0/52/6ee05249faa091d6fc67c30ad45b2aa5.jpg'} alt="Post" className="card-img-top mb-3" style={{ width: "100%", height: "200px" }} />}
-               {/* <p className='m-2'>By: {post.name}</p> */}
-               <p className='m-2'>By: {'Lakshit'}</p>
-              <p className="card-text m-2">{'Its a caption'}</p>
+              {post.imageURL && <img src={post.imageURL} alt="Post" className="card-img-top mb-3" style={{ width: "100%", height: "200px" }} />}
+               <p className='m-2'>By: {post.name}</p>
+              <p className="card-text m-2">{post.caption}</p>
 
                 <div className="d-flex justify-content-between m-2">
                     <div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -14,6 +15,36 @@ const MainNavbar = () => {
         navigate("/");
     }
 
+    useEffect(() => {
+        const verifyUser = async () => {
+            const isTokenValid = await checkToken();
+            if (isTokenValid.isValid) {
+                setValues(isTokenValid.data); // Redirect to main page if token is valid
+            }
+        };
+
+        verifyUser();
+    }, []);
+
+    const checkToken = async () => {
+        const token = localStorage.getItem('authToken');
+
+        if (!token) return false;
+
+        try {
+
+            const response = await axios.post('http://localhost:5000/api/verify-token', {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return { isValid: response.data.valid, data: response.data.data };
+        } catch (error) {
+            console.error("Token verification failed:", error);
+            return false;
+        }
+    };
+
     return (
         <>
         <nav class="navbar navbar-expand-lg bg-body-tertiary" style={{position:"sticky",top:"0",zIndex:"1"}}>
@@ -25,24 +56,24 @@ const MainNavbar = () => {
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <Link class="nav-link" to={"/User/login/"}>Dashboard</Link>
+                                <Link class="nav-link" to={`../User/dashboard/${values}`}>Dashboard</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={"/User/healthGoal"}>Health Goal</Link>
+                                <Link class="nav-link" to={"../User/healthGoal"}>Health Goal</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={"/User/healthTips"}>HealthTips</Link>
+                                <Link class="nav-link" to={"../User/healthTips"}>HealthTips</Link>
                             </li>
                             <li class="nav-item">
-                                <Link class="nav-link" to={"/User/community"}>Community</Link>
+                                <Link class="nav-link" to={`../User/community/${values}`}>Community</Link>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Profile
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <Link class="nav-link" to={"/User/update/"}>Update</Link>
-                                    <Link class="nav-link" to={"/User/myPost"}>My Post</Link>
+                                    <Link class="nav-link" to={"../User/update/"}>Update</Link>
+                                    <Link class="nav-link" to={"../User/myPost"}>My Post</Link>
                                 </ul>
                             </li>
                         </ul>
