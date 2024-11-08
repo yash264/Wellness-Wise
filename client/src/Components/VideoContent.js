@@ -17,6 +17,8 @@ export const fetchVideos = async (query) => {
                 type: 'video',
             },
         });
+        console.log(response);
+        
         return response.data.items;
     }catch (error) {
         console.log(error);

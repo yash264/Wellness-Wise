@@ -66,22 +66,27 @@ function DashBoard() {
             return;
         }
         setLoading(true)
-        const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition }
-            ,{
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        try {
+            const response = await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level: stress, activity: activity, sleep: sleep, nutrition: nutrition }
+                , {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                    }
                 }
+            )
+
+            if (response.data.success === false) {
+                console.log("error");
+
+            } else {
+                toast.success("Analysis Generated");
+                getUserAnalysis();
             }
-        )
-        
-        if(response.data.success===false){
-            console.log("error");
+        } catch (error) {
+            console.log(error);
             
-        }else{
-            toast.success("Analysis Generated");
-            getUserAnalysis();
-         }
+        }
         setLoading(false)
     }
 
@@ -89,7 +94,7 @@ function DashBoard() {
     return (
         <>           
             <MainNavbar />
-            <br/><br/><br/>
+
              {
                 loading && <div class="d-flex justify-content-center m-4 ">
                     <div className=" bg-dark text-light p-3 text-center">
@@ -97,7 +102,7 @@ function DashBoard() {
                 </div>
                 </div> 
              }
-            <div class="container px-4 text-center">
+            <div class="container px-4 text-center mt-3">
                 <button type="button m-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging
                 </button>

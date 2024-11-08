@@ -15,7 +15,7 @@ function HealthGoal() {
     const [sleepCompleted, setSleepCompleted] = useState(0);
 
  
-    const [streaks, setStreaks] = useState([]); 
+    const [trackGoal, setTrackGoal] = useState([]); 
     const [showModal, setShowModal] = useState(false);
 
  
@@ -47,7 +47,7 @@ function HealthGoal() {
             { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } }
         )
             .then(res => {
-                alert("Progress logged successfully!");
+                alert(res.data.message);
                 fetchStreaks();
             })
             .catch(err => console.error(err));
@@ -59,21 +59,21 @@ function HealthGoal() {
            const res=await axios.get("http://localhost:5000/goals/streaks", {
                 headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` }
             })
-            // console.log(res.data.streaks);
-            
-            setStreaks(res.data.streaks)     
+            setTrackGoal(res.data.goals)     
         } catch (error) {
             console.error(error);
         }
     };
-
+    
+    console.log(trackGoal);
+    
     return (
         <>
             <MainNavbar />
-            <br/><br/><br/>
 
-        <div className="container mt-5">
-            <Button variant="primary" onClick={() => setShowModal(true)}>
+
+        <div className="container mt-2">
+            <Button variant="primary " onClick={() => setShowModal(true)}>
                 Set Goal
             </Button>
 
@@ -116,12 +116,19 @@ function HealthGoal() {
 
             <div className="mt-5">
                 <h4>Goal Streaks</h4>
-                {streaks.length > 0 ? (
-                    <ul className="list-group">
-                            {streaks.map((streak, index) => (
-                                <li key={streak._id || index} className="list-group-item">
-                                    Streak: {streak.streak}{" "}
-                                    {streak.streak > 10 ? "🌟" : streak.streak > 2 ? "🔥" : "💤"}
+                    {trackGoal.length > 0 ? (
+                        <ul className="list-group">
+                            {trackGoal.map((track, index) => (
+                                <li key={track._id || index} className="list-group-item">
+                                    <strong>Streak:</strong> {track.streak}{" "}
+                                    {track.streak > 5 ? "🌟" : track.streak > 1 ? "🔥" : "💤"} 
+                                   
+                                    <div className="mt-2">
+                                    <p>Hydration : {track.hydration_goal} ml</p>
+                                    <p>Step : {track.step_goal} steps</p>
+                                    <p>Sleep : {track.sleep_goal} hours</p>
+                                        <strong>Set Date:</strong> {new Date(track.createdAt).toLocaleDateString()}
+                                    </div>
                                 </li>
                             ))}
                     </ul>
