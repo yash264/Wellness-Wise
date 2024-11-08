@@ -1,72 +1,66 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import MainNavbar from "../Components/MainNavbar";
-import { fetchVideos } from '../Components/VideoContent';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import axios from "axios";
 
 
 function GoogleFit() {
 
-    const [search,setSearch] = useState([]);
+    const [search,setSearch] = useState('Meditation');
     const [videos, setVideos] = useState([]);
-    const API_KEY = process.env.REACT_APP_VIDEO_API_KEY;
-    const BASE_URL = process.env.REACT_APP_VIDEO_BASE_URL;
+;
 
-    /*useEffect(() => {
-        const getMeditationVideos = async () => {
-            const meditationVideos = await fetchVideos("meditation");
-            setVideos(meditationVideos);
-        };
-        getMeditationVideos();
-    }, []);*/
+    const fetchVideos = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/youtube`, {
+                params: { q: search },
+            });
+            setVideos(response.data.items);
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchVideos();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-            const meditationVideos = await fetch(BASE_URL,
-            {
-                method: 'GET',
-                params: {
-                    key: API_KEY,
-                    part: 'snippet',
-                    q: search,
-                    maxResults: 10,
-                    type: 'video',
-                },
-            });
-            console.log(meditationVideos);
-            
-            // setVideos(meditationVideos);
-
+           fetchVideos();
     }
 
     return (
         <>
             <MainNavbar />
 
-            <div className="p-2 d-flex flex-column  align-items-center">
+            <div className="mt-3 d-flex flex-column  align-items-center">
             <h3>Motivational Videos</h3>
             <form class="row g-3" onSubmit={handleSubmit}>
-                <div class="col-8">
+                <div class="col-12">
                     <select id="inputText" class="form-select" onChange={(e) => setSearch(e.target.value)}>
                         <option selected onChange={(e) => setSearch(e.target.value)}>Choose...</option>
                         <option onChange={(e) => setSearch(e.target.value)}>Health Tips</option>
                         <option onChange={(e) => setSearch(e.target.value)}>Meditation</option>
                         <option onChange={(e) => setSearch(e.target.value)}>Exercises</option>
                         <option onChange={(e) => setSearch(e.target.value)}>Yoga</option>
+                        <option onChange={(e) => setSearch(e.target.value)}>Sleep Music</option>
+                        <option onChange={(e) => setSearch(e.target.value)}>Stress Relief</option>
+                        <option onChange={(e) => setSearch(e.target.value)}>Healthy Eating Recipe</option>
                     </select>
                 </div>
-                <div class="col-4">
+                <div class="col-12 d-flex justify-content-center">
                     <button type="submit" class="btn btn-outline-primary">Search</button>
                 </div>
             </form>
             <br/>
 
-            <div className="video-grid">
+            <div className="d-flex flex-row flex-wrap mt-2">
                 {videos.map((video) => (
-                    <section key={video.id.videoId}>
-                        <h6 style={{float:"right"}} >{video.snippet.title}</h6>
+                    <section key={video.id.videoId} className="d-flex flex-column overflow-hidden yt-card" style={{width:"300px",margin:"10px",height:"300px"}}>
+                        <h6 style={{float:"right",width:"300px",height:"60px"}} >{video.snippet.title}</h6>
                         <iframe
                             width="300"
                             height="220"

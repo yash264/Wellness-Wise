@@ -98,3 +98,12 @@ body {
       monospace;
   }
   
+.yt-card{
+    background-color: #141413;
+    color: white;
+    padding: 10px;
+    box-shadow: 3px 3px 5px 6px rgba(0, 0, 0, 0.646);
+}
+.yt-card:hover{
+    box-shadow: 3px 3px 5px 6px rgba(4, 233, 96, 0.622);
+}
