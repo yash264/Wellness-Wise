@@ -6,16 +6,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
+import { Spinner } from "../Components/Spinner";
 
 function Login() {
 
     const [email, setEmail] = useState([])
     const [password, setPassword] = useState([])
     const navigate = useNavigate()
+    const [loading,setLoading] = useState(false)
 
     axios.defaults.withCredentials = true;
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         const response = await axios.post('http://localhost:5000/api/login', { email, password })
         if (response.data.success) {
             toast.success(response.data.message)
@@ -24,8 +27,10 @@ function Login() {
         } else {
             toast.error(response.data.message)
         }
+        setLoading(false)
     }
     useEffect(() => {
+        setLoading(true)
         const verifyUser = async () => {
             const isTokenValid = await checkToken();
             if (isTokenValid.isValid) {
@@ -34,6 +39,7 @@ function Login() {
         };
 
         verifyUser();
+        setLoading(false)
     }, [navigate]);
 
     const checkToken = async () => {
@@ -89,7 +95,8 @@ function Login() {
                                         <label htmlFor="floatingPassword">Password </label>
                                     </div>
                                     <br />
-                                    <button type="submit" className="btn btn-outline-primary m-2">Login</button>
+                                    {loading ? <button type="submit" className="btn btn-outline-primary m-2" disabled><Spinner /></button> : <button type="submit" className="btn btn-outline-primary m-2">Login</button>}
+                     
                                     <Link to="/User/register" className="btn btn-outline-secondary m-2">Not a User?</Link>
                                 </form>
                                 <ToastContainer />

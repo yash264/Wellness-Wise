@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import ShowAnalysis from "../Components/ShowAnalysis";
 import HealthTrendChart from "../Components/HealthTrendChart";
 import MoodWordCloud from "../Components/MoodWordCloud";
+import { Spinner } from "../Components/Spinner";
 
 function DashBoard() {
 
@@ -28,20 +29,28 @@ function DashBoard() {
     const [sleep, setSleep] = useState(5)
     const [nutrition, setNutrition] = useState(5)
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     axios.defaults.withCredentials = true;
 
     // Get User Analysis
     const getUserAnalysis = async () => {
-        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        setLoading(true)
+        try {
+            const response = await axios.get(`http://localhost:5000/api/analysis/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                    }
                 }
-            }
-        )
-        setAnalysis(response.data.analysis)   
-        setFetch(prev=>!prev)
+            )
+            setAnalysis(response.data.analysis)   
+            setFetch(prev=>!prev)
+            setLoading(false)
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -56,6 +65,7 @@ function DashBoard() {
             alert("Please fill all fields")
             return;
         }
+        setLoading(true)
         const response=await axios.post('http://localhost:5000/api/recommendations', { userID: id, diet: dietType, sleep_quality: sleepQuality, Scrren_time_minutes: screenTime, Caffine_intake: caffine, mood: mood, stress_level:stress, activity: activity, sleep: sleep, nutrition: nutrition }
             ,{
                 headers: {
@@ -72,6 +82,7 @@ function DashBoard() {
             toast.success("Analysis Generated");
             getUserAnalysis();
          }
+        setLoading(false)
     }
 
     
@@ -79,7 +90,13 @@ function DashBoard() {
         <>           
             <MainNavbar />
             <br/><br/><br/>
-
+             {
+                loading && <div class="d-flex justify-content-center m-4 ">
+                    <div className=" bg-dark text-light p-3 text-center">
+                    Connecting to server...   <Spinner />
+                </div>
+                </div> 
+             }
             <div class="container px-4 text-center">
                 <button type="button m-2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Data Logging

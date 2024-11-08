@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { Footer } from "../Components/Footer";
+import { Spinner } from "../Components/Spinner";
 
 function Register() {
 
@@ -16,9 +17,12 @@ function Register() {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
 
+    const [loading, setLoading] = useState(false)
+
     axios.defaults.withCredentials = true;
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         const response = await axios.post('http://localhost:5000/api/register', { name, email, password })
         if (response.data.status === false) {
             toast.error(response.data.message)
@@ -26,9 +30,11 @@ function Register() {
             toast.success(response.data.message)
             navigate('/User/login')
         }
+        setLoading(false)
     }
 
     useEffect(() => {
+        setLoading(true)
         const verifyUser = async () => {
             const isTokenValid = await checkToken();
             if (isTokenValid.isValid) {
@@ -37,6 +43,8 @@ function Register() {
         };
 
         verifyUser();
+
+        setLoading(false)
     }, []);
 
     const checkToken = async () => {
@@ -96,7 +104,8 @@ function Register() {
                                         <label htmlFor="floatingPassword">Password </label>
                                     </div>
                                     <br />
-                                    <button type="submit" className="btn m-2 btn-outline-primary">Register</button>
+                                    {loading ? <button type="submit" className="btn m-2 btn-primary" disabled><Spinner /></button> : <button type="submit" className="btn m-2 btn-primary">Register</button>}
+                                 
                                     <Link to="/User/login" className="btn btn-outline-secondary m-2">Already Registered?</Link>
                                 </form>
                             </div>
