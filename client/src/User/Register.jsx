@@ -16,8 +16,23 @@ function Register() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [error, setError] = useState('')
 
     const [loading, setLoading] = useState(false)
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        console.log(e.target.value);
+
+        const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+        if (!e.target.value.match(isValidEmail)) {
+            setError("Please enter a valid email address.");
+        }
+        else{
+            setError('');
+        }
+    }
+    
 
     axios.defaults.withCredentials = true;
     const handleSubmit = async (e) => {
@@ -68,17 +83,17 @@ function Register() {
 
     return (
 
-        <div style={{ backgroundColor: "rgba(166, 238, 194, 0.153)", height: "80%", minHeight: "80vh" }} >
+        <div style={{ backgroundColor: "rgba(166, 238, 194, 0.153)", height: "85%", minHeight: "85vh" }} >
             <nav className="navbar navbar-expand-lg bg-body-secondary mb-3" >
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">WellNavi</a>
-                    {/* <p>Navigate your path to a Healthier you !!</p> */}
+                    <a>Navigate your path to a Healthier you !!</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                 </div>
             </nav>
-            <br/><br/><br/>
+            <br /><br /><br />
 
             <div className="container px-4 text-center">
                 <div className="row gx-5">
@@ -90,14 +105,16 @@ function Register() {
                     <div className="col">
                         <div className="p-3">
                             <div className="container px-4 text-center">
+                                <h4>Register</h4>
                                 <form onSubmit={handleSubmit}>
                                     <div className="form-floating mb-3">
                                         <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} placeholder="Enter your Name" />
                                         <label htmlFor="floatingInput">Name </label>
                                     </div>
                                     <div className="form-floating mb-3">
-                                        <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email Address" />
+                                        <input type="email" className="form-control" onChange={handleChange} placeholder="Enter Email Address" />
                                         <label htmlFor="floatingInput">Email address </label>
+                                        <span style={{color:"red"}} >{error}</span>
                                     </div>
                                     <div className="form-floating">
                                         <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} placeholder="Enter Password" />
@@ -105,7 +122,7 @@ function Register() {
                                     </div>
                                     <br />
                                     {loading ? <button type="submit" className="btn m-2 btn-primary" disabled><Spinner /></button> : <button type="submit" className="btn m-2 btn-primary">Register</button>}
-                                 
+
                                     <Link to="/User/login" className="btn btn-outline-secondary m-2">Already Registered?</Link>
                                 </form>
                             </div>
