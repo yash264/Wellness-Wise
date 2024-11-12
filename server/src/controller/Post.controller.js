@@ -46,7 +46,7 @@ async function createPost(req, res){
 }
 
 async function getPagePost(req, res){
-    const limit = 5;
+    const limit = 6;
     const page = parseInt(req.params.page);
     const skip = (page-1)*limit; // how many post needs to be skipped   
 
@@ -99,7 +99,7 @@ async function getUserData(req, res){
 
 async function fetchUserPosts(req, res){
     try{
-        const limit = 10;
+        const limit = 6;
         const { page, tab } = req.body;
         const skip = (page-1)*limit;
 
@@ -124,7 +124,7 @@ async function fetchUserPosts(req, res){
        
 
     } catch(error){
-        
+        console.log(error);
         res.status(400).json({
             msg : "error"+error
         })

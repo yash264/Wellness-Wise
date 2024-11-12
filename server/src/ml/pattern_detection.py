@@ -11,7 +11,7 @@ from textblob import TextBlob
 
 app = Flask(__name__)
 
-# Load model and scaler
+
 model = joblib.load("kmeans_clustering_model.pkl")
 scaler = joblib.load("scaler.pkl")
 
@@ -24,7 +24,7 @@ def get_recommendation():
         sleep = data.get("sleep")
         nutrition = data.get("nutrition")
 
-        # Prepare and scale input
+  
         user_input = scaler.transform([[activity, sleep, nutrition]])
         cluster = model.predict(user_input)[0]
         
@@ -39,7 +39,7 @@ def get_recommendation():
         return jsonify({"error": str(e)}), 500
     
 
-# In-memory log for tracking meals
+
 nutrition_log = []
 
 @app.route('/api/meal/recommendations', methods=['POST'])
@@ -56,7 +56,7 @@ def log_meal():
     calories = data.get('calories')
     protein = data.get('protein')
     
-    # Log the meal
+ 
     nutrition_log.append({
         'meal': meal,
         'calories': calories,
@@ -67,7 +67,7 @@ def log_meal():
 
 @app.route('/api/meal/nutrition_summary', methods=['GET'])
 def nutrition_summary():
-    # Convert log to DataFrame for analysis
+   
     df = pd.DataFrame(nutrition_log)
     total_calories = df['calories'].sum() if not df.empty else 0
     total_protein = df['protein'].sum() if not df.empty else 0
@@ -90,7 +90,7 @@ def log_mood():
     stress_level = data.get('stress_level')
     timestamp = datetime.now().isoformat()
 
-    # Insert log into MongoDB
+
     mood_logs_collection.append({
         "mood": mood,
         "stress_level": stress_level,
@@ -102,15 +102,15 @@ def log_mood():
 # Endpoint for analyzing mood trends
 @app.route('/api/analyze_mood', methods=['GET'])
 def analyze_mood():
-    # Analyze trends using sentiment analysis
+
     mood_trends = []
 
     for log in mood_logs_collection:
-        # Compute sentiment for the current log entry
+   
         mood_value = log.get('mood')
-        stress_level = int(log.get('stress_level', 0))  # Convert stress_level to int
+        stress_level = int(log.get('stress_level', 0))  
 
-        if mood_value:  # Check if mood_value is not None
+        if mood_value: 
             sentiment = TextBlob(mood_value).sentiment.polarity
             trend = "High stress" if stress_level > 7 else "Low stress"
 
@@ -122,8 +122,8 @@ def analyze_mood():
                 "timestamp": log['timestamp']
             })
 
-    # Provide recommendations based on mood trends
-    recommendations = set()  # Use a set to store unique recommendations
+    
+    recommendations = set()  
     for trend in mood_trends:
         if trend['trend'] == "High stress":
             recommendations.add("Consider breathing exercises or a short walk.")
@@ -148,10 +148,9 @@ def log_sleep():
 
 # Function to analyze sleep patterns
 def analyze_sleep():
-   # Extract sleep_hours values, excluding logs without this field or with non-numeric values
     sleep_hours = [log.get("sleep_hours", 0) for log in sleep_logs_collection if isinstance(log.get("sleep_hours"), (int, float))]
     
-    # Calculate average sleep hours if we have valid entries, otherwise default to 0
+    
     avg_sleep = np.mean(sleep_hours) if sleep_hours else 0
     quality_counts = {
         "good": sum(1 for log in sleep_logs_collection if log["quality"] == "good"),
@@ -191,10 +190,10 @@ def sleep_analysis():
     }), 200
 
 
-# Mock database collections for demonstration
+
 user_logs = []
 
-# Helper function to calculate rolling averages
+
 def calculate_rolling_average(data, window_size):
     if len(data) < window_size:
         return np.mean(data)
@@ -215,43 +214,43 @@ def log_health_data():
         "mood_score": data.get("mood_score"),
         "timestamp": timestamp
     }
-    user_logs.append(log_entry)  # Log entry to mock DB
+    user_logs.append(log_entry) 
     return jsonify({"message": "Health data logged successfully"}), 201
 
 # Endpoint for analyzing burnout risk
 @app.route('/api/analyze_burnout', methods=['GET'])
 def analyze_burnout():
     user_id = request.args.get("user_id")
-    days_to_consider = 14  # Define a period to analyze burnout risk
+    # No of days is set at 3
+    days_to_consider = 3 
+      
 
-    # Filter logs for this user within the specified timeframe
     recent_logs = [
         log for log in user_logs
         if log["user_id"] == user_id and log["timestamp"] >= datetime.now() - timedelta(days=days_to_consider)
     ]
 
-    # If not enough data is available
+    
     if len(recent_logs) < days_to_consider:
         return jsonify({"message": "Not enough data to assess burnout risk"}), 201
 
-    # Extract data points
     stress_levels = [log["stress_level"] for log in recent_logs]
     activity_levels = [log["activity_level"] for log in recent_logs]
     sleep_qualities = [log["sleep_quality"] for log in recent_logs]
     mood_scores = [log["mood_score"] for log in recent_logs]
 
-    # Calculate average metrics over the analysis period
+   
     avg_stress = calculate_rolling_average(stress_levels, days_to_consider)
     avg_activity = calculate_rolling_average(activity_levels, days_to_consider)
     avg_sleep = calculate_rolling_average(sleep_qualities, days_to_consider)
     avg_mood = calculate_rolling_average(mood_scores, days_to_consider)
 
-    # Define thresholds for burnout risk
+    
     burnout_risk = False
     if avg_stress > 7 and avg_activity < 4 and avg_sleep < 5 and avg_mood < 3:
         burnout_risk = True
 
-    # Provide recommendations
+   
     recommendations = []
     if burnout_risk:
         recommendations.append("High burnout risk detected. Consider taking a break or engaging in relaxation activities.")
@@ -284,8 +283,7 @@ if __name__ == "__main__":
     app.run(port=5001)
 
 
+
+
 # Cluster 0 might represent users who have low activity and low nutrition.
 # Cluster 1 might represent users who are highly active and have a balanced diet.
-
-# If a user is in cluster 0, suggest workouts, meal plans, or sleep improvement tips that align with users in that group.
-# If a user is in cluster 1, suggest maintaining their current routines or advanced strategies for health optimization.

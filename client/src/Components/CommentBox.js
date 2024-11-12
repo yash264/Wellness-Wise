@@ -115,7 +115,7 @@ export const CommentModal = ({ isOpen,onClose,postId }) => {
         return (
             <div className='mb-4'>
                 <span className='font-weight-bold .fs-6'>{comment.name} <small style={{ fontWeight: "normal", fontSize: "0.75rem" }}>{getTimeStringComment(comment.timestamp)}</small></span>
-                <span>{comment.content}</span>
+                <span style={{display:"block"}}>{comment.content}</span>
                 <button type='button' class="btn btn-white btn-sm" style={{ cursor: "pointer", backgroundColor: "white" }} onClick={() => setShowReplies(!showReplies)}>
                     {showReplies ? 'Hide Replies' : 'View Replies'}
                 </button>

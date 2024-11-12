@@ -17,7 +17,7 @@ postRoutes
 .get(authenticateUser, getPagePost);
 
 postRoutes
-.route("/profile/:id")
+.route("/profile")
 .post(authenticateUser, fetchUserPosts)
 .get(authenticateUser, getUserData);
 

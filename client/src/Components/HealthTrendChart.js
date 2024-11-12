@@ -20,7 +20,7 @@ function HealthTrendChart({ userID }) {
             const data = response.data.data;
             setData(response.data.data);
             const Log_data = {
-                labels: data.map(d => d._id),  // Assuming data has a 'date' field
+                labels: data.map(d => d._id),  
                 datasets: [
                     {
                         label: "Activity Level",
@@ -64,7 +64,7 @@ function HealthTrendChart({ userID }) {
         responsive: true,
         scales: {
             x: {
-                type: "category", // Ensure the x-axis is set to use 'category' scale
+                type: "category", 
                 title: {
                     display: true,
                     text: "Date",
