@@ -1,11 +1,17 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import {Spinner} from './Spinner.js'
+import { CommentModal } from './CommentBox.js';
 
 export default function Card({ post }) {
     const [showComments, setShowComments] = useState(false);
     const [activePost, setActivePost] = useState(post);
     const [loading,setLoading]=useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const onClose=()=>{
+        setIsOpen(false);
+    }
 
     const handleLike = async() => {
         setLoading(true);
@@ -73,10 +79,10 @@ export default function Card({ post }) {
                           {loading ? <Spinner /> : <>  👎 {activePost.downvote.length} </>}
                         
                         </button>
-                        <button onClick={() => toggleComments(post.id)} className="btn btn-sm btn-outline-primary">
-                          {/* 💬 <span>{post.comment.length}</span> */}
-                          <span>💬</span>
-                        </button>
+                      <button onClick={() => setIsOpen(true)} className="btn btn-sm btn-outline-danger me-2">
+                          💬
+                      </button>
+                      <CommentModal isOpen={isOpen} onClose={onClose} postId={activePost._id}/>
                     </div>
                 </div>
 
