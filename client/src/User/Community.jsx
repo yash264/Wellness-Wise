@@ -1,4 +1,4 @@
-import React, { useState ,useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '../Components/Card';
 import MainNavbar from '../Components/MainNavbar';
@@ -13,23 +13,25 @@ const Community = () => {
     const [hasMore, setHasMore] = useState(true);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [userId, setUserId] = useState('');
     const isInitialLoad = useRef(true);
     const cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
-    const upload_preset=process.env.REACT_APP_UPLOAD_PRESET;
+    const upload_preset = process.env.REACT_APP_UPLOAD_PRESET;
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/posts/page/${page}`,{
+            const response = await axios.get(`http://localhost:5000/api/posts/page/${page}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
             });
-            
+            setUserId(response.data.userId);
+
             if (response.data.data.length > 0) {
                 setPosts((prevPosts) => [...prevPosts, ...response.data.data]);
                 setPage(prevPage => prevPage + 1);
             } else {
-                setHasMore(false); 
+                setHasMore(false);
             }
             // console.log(response.data.data);
         } catch (error) {
@@ -38,7 +40,7 @@ const Community = () => {
     };
 
 
-  
+
     // useEffect(() => {
     //     fetchPosts(); 
     // }, []);
@@ -60,7 +62,7 @@ const Community = () => {
         }
     }, [posts, searchTerm]);
 
-  
+
     const [showModal, setShowModal] = useState(false);
     const [newPostText, setNewPostText] = useState("");
 
@@ -90,7 +92,7 @@ const Community = () => {
 
 
 
-    const handleCreatePost =async () => {
+    const handleCreatePost = async () => {
         try {
             const response = await axios.post('http://localhost:5000/api/posts/', { caption: newPostText, imageURL: imageUrl }, {
                 headers: {
@@ -109,19 +111,19 @@ const Community = () => {
 
     return (
         <>
-        <MainNavbar />
-        <div className="container mt-4">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <input
-                    type="text"
-                    className="form-control w-50 mx-auto"
-                    placeholder="Search..."
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button className="btn btn-primary" onClick={() => setShowModal(true)}>Create Post</button>
-            </div>
+            <MainNavbar />
+            <div className="container mt-4">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <input
+                        type="text"
+                        className="form-control w-50 mx-auto"
+                        placeholder="Search..."
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button className="btn btn-primary" onClick={() => setShowModal(true)}>Create Post</button>
+                </div>
 
-            <InfiniteScroll
+                <InfiniteScroll
                     dataLength={posts.length}
                     next={fetchPosts}
                     hasMore={hasMore}
@@ -129,55 +131,65 @@ const Community = () => {
                     endMessage={<p style={{ textAlign: 'center' }}>No more posts</p>}
                 >
                     <div className="d-flex flex-row flex-wrap">
-                        {filteredPosts.length > 0 && filteredPosts.map(post => (
-                            <Card post={post} key={post._id} />
-                        ))}
+                        {filteredPosts.length > 0 && filteredPosts.map(post => {
+                            const isLiked = post.upvote.indexOf(userId);
+                            const isDisliked = post.downvote.indexOf(userId);
+
+                            return (
+                                <Card
+                                    key={post._id}
+                                    post={post}
+                                    isLiked={isLiked}
+                                    isDisliked={isDisliked}
+                                />
+                            );
+                        })}
                     </div>
                 </InfiniteScroll>
-            {/* Create Post Modal */}
-            {showModal && (
-                <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Create New Post</h5>
-                                <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="mb-3">
-                                    <label htmlFor="postText" className="form-label">Post Text</label>
-                                    <textarea
-                                        id="postText"
-                                        className="form-control"
-                                        rows="3"
-                                        value={newPostText}
-                                        onChange={(e) => setNewPostText(e.target.value)}
-                                        placeholder="What's on your mind?"
-                                    ></textarea>
+                {/* Create Post Modal */}
+                {showModal && (
+                    <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Create New Post</h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                                 </div>
-                                <div className="mb-3">
-                                    <label htmlFor="postImgFile" className="form-label">Upload Image</label>
-                                    <input
-                                        type="file"
-                                        id="postImgFile"
-                                        className="form-control"
-                                        onChange={handleImageUpload}
-                                        disabled={uploading}
-                                    />
-                                    {uploading && <div className="spinner-border text-primary mt-2" role="status">
-                                        <span className="visually-hidden">Uploading...</span>
-                                    </div>}
+                                <div className="modal-body">
+                                    <div className="mb-3">
+                                        <label htmlFor="postText" className="form-label">Post Text</label>
+                                        <textarea
+                                            id="postText"
+                                            className="form-control"
+                                            rows="3"
+                                            value={newPostText}
+                                            onChange={(e) => setNewPostText(e.target.value)}
+                                            placeholder="What's on your mind?"
+                                        ></textarea>
+                                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="postImgFile" className="form-label">Upload Image</label>
+                                        <input
+                                            type="file"
+                                            id="postImgFile"
+                                            className="form-control"
+                                            onChange={handleImageUpload}
+                                            disabled={uploading}
+                                        />
+                                        {uploading && <div className="spinner-border text-primary mt-2" role="status">
+                                            <span className="visually-hidden">Uploading...</span>
+                                        </div>}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
-                                <button type="button" className="btn btn-primary" disabled={uploading || !imageUrl || !newPostText} onClick={handleCreatePost} >Post</button>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                                    <button type="button" className="btn btn-primary" disabled={uploading || !imageUrl || !newPostText} onClick={handleCreatePost} >Post</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
         </>
     );
 };

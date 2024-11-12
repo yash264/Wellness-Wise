@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import {Spinner} from './Spinner.js'
 import { CommentModal } from './CommentBox.js';
 
-export default function Card({ post }) {
+export default function Card({ post, isLiked, isDisliked }) {
     const [showComments, setShowComments] = useState(false);
     const [activePost, setActivePost] = useState(post);
     const [loading,setLoading]=useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [hasLiked, setLiked] = useState(isLiked);
+    const [hasDisliked, setDisliked] = useState(isDisliked);
 
     const onClose=()=>{
         setIsOpen(false);
@@ -22,7 +24,8 @@ export default function Card({ post }) {
                 
                 if(response.data.success){
                    setActivePost(response.data.data)
-                
+                   setLiked(response.data.isUpvoted);
+                   setDisliked(response.data.isDownvoted);
                 }
             
         } catch (error) {
@@ -41,7 +44,8 @@ export default function Card({ post }) {
                 
             if (response.data.success) {
                 setActivePost(response.data.data)
-
+                setLiked(response.data.isUpvoted);
+                setDisliked(response.data.isDownvoted);
             }
 
         } catch (error) {
@@ -58,7 +62,6 @@ export default function Card({ post }) {
         setShowComments(showComments === true ? false : true);
     };
 
-    console.log(post);
     
   return (
     
@@ -71,15 +74,18 @@ export default function Card({ post }) {
 
                 <div className="d-flex justify-content-between m-2">
                     <div>
-                        <button onClick={() => handleLike(post.id)} className="btn btn-sm btn-outline-success me-2">
+                        <button onClick={() => handleLike(post.id)} 
+                        className={`btn btn-sm me-2 ${hasLiked !== -1 ? 'btn-danger' : 'btn-outline-danger'}`}>
                           {loading ? <Spinner /> : <> 👍 {activePost.upvote.length} </>}
                         
                         </button>
-                        <button onClick={() => handleDislike(post.id)} className="btn btn-sm btn-outline-danger me-2">
+                        <button onClick={() => handleDislike(post.id)} 
+                        className={`btn btn-sm me-2 ${hasDisliked !== -1 ? 'btn-success' : 'btn-outline-success'}`}>
                           {loading ? <Spinner /> : <>  👎 {activePost.downvote.length} </>}
                         
                         </button>
-                      <button onClick={() => setIsOpen(true)} className="btn btn-sm btn-outline-danger me-2">
+                      <button onClick={() => setIsOpen(true)} 
+                      className="btn btn-sm btn-outline-danger me-2">
                           💬
                       </button>
                       <CommentModal isOpen={isOpen} onClose={onClose} postId={activePost._id}/>

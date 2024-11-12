@@ -13,6 +13,7 @@ const MyPost = () => {
     const [hasMore, setHasMore] = useState(true);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [userId, setUserId] = useState('');
     const isInitialLoad = useRef(true);
     const cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
     const upload_preset=process.env.REACT_APP_UPLOAD_PRESET;
@@ -30,7 +31,8 @@ const MyPost = () => {
                     'Content-type': 'application/json'
                 }
             });
-            
+            setUserId(response.data.userId);
+
             if (response.data.data.length > 0) {
                 setPosts((prevPosts) => [...prevPosts, ...response.data.data]);
                 setPage(prevPage => prevPage + 1);
@@ -134,9 +136,19 @@ const MyPost = () => {
                     endMessage={<p style={{ textAlign: 'center' }}>No more posts</p>}
                 >
                     <div className="d-flex flex-row flex-wrap">
-                        {filteredPosts.length > 0 && filteredPosts.map(post => (
-                            <Card post={post} key={post._id} />
-                        ))}
+                        {filteredPosts.length > 0 && filteredPosts.map(post => {
+                            const isLiked = post.upvote.indexOf(userId);
+                            const isDisliked = post.downvote.indexOf(userId);
+
+                            return (
+                                <Card
+                                    key={post._id}
+                                    post={post}
+                                    isLiked={isLiked}
+                                    isDisliked={isDisliked}
+                                />
+                            );
+                        })}
                     </div>
                 </InfiniteScroll>
             {/* Create Post Modal */}

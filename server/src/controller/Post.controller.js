@@ -49,6 +49,7 @@ async function getPagePost(req, res){
     const limit = 6;
     const page = parseInt(req.params.page);
     const skip = (page-1)*limit; // how many post needs to be skipped   
+    const userId = req.user.id;
 
     try{
         const posts = await postModel.find({}).skip(skip).limit(limit).sort({ timestamp: -1 }).populate({
@@ -56,7 +57,8 @@ async function getPagePost(req, res){
             options: { sort: { timestamp: -1 } }
         });
         res.status(201).json({
-            data: posts
+            data: posts,
+            userId: userId
         });
     }
     catch(error){
@@ -80,7 +82,7 @@ async function getUserData(req, res){
         }
 
         res.status(200).json({
-            _id: user._id,
+            _id: userId,
             pic: user.pic,
             // post:user.post,
             upvote:up,
@@ -119,7 +121,8 @@ async function fetchUserPosts(req, res){
                 options: { sort: { timestamp: -1 } }
             });
             res.status(201).json({
-                data: posts
+                data: posts,
+                userId: user.id
             });
        
 
@@ -181,6 +184,9 @@ async function postUpvote(req, res){
             post.upvote.push(userid);
             ifUpvoteExists = post.upvote.length - 1;
         }
+
+        ifUpvoteExists = post.upvote.indexOf(userid);
+        ifDownvoteExists = post.downvote.indexOf(userid);
         const result=await postModel.findByIdAndUpdate({_id:postid},
             { 
                 upvote:post.upvote,
@@ -236,6 +242,9 @@ async function postDownvote(req, res){
             post.downvote.push(userid);
             ifDownvoteExists = post.downvote.length - 1;
         }
+
+        ifUpvoteExists = post.upvote.indexOf(userid);
+        ifDownvoteExists = post.downvote.indexOf(userid);
         const result=await postModel.findByIdAndUpdate({_id:postid},
             { 
                 upvote:post.upvote,
