@@ -18,8 +18,8 @@ function Update() {
     const [imageUrl, setImageUrl] = useState('');
     const [uploading, setUploading] = useState(false);
 
-    const cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME || 'dznwp1clo';
-    const upload_preset=process.env.REACT_APP_UPLOAD_PRESET || 'wellnavi';
+    const cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME ;
+    const upload_preset=process.env.REACT_APP_UPLOAD_PRESET ;
 
 
     axios.defaults.withCredentials = true;

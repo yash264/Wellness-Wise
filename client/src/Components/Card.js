@@ -1,15 +1,56 @@
+import axios from 'axios';
 import React, { useState } from 'react'
+import {Spinner} from './Spinner.js'
+import { CommentModal } from './CommentBox.js';
 
 export default function Card({ post }) {
     const [showComments, setShowComments] = useState(false);
+    const [activePost, setActivePost] = useState(post);
+    const [loading,setLoading]=useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-    const handleLike = (id) => {
+    const onClose=()=>{
+        setIsOpen(false);
+    }
+
+    const handleLike = async() => {
+        setLoading(true);
+        try {
+            const response =await axios.post(`http://localhost:5000/api/posts/upvote/${activePost._id}`,{},
+                {headers:{'Authorization': `Bearer ${localStorage.getItem('authToken')}`}});
+
+                
+                if(response.data.success){
+                   setActivePost(response.data.data)
+                
+                }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+      setLoading(false);
     };
 
-    const handleDislike = (id) => {
+    const handleDislike =async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post(`http://localhost:5000/api/posts/downvote/${activePost._id}`, {},
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+
+                
+            if (response.data.success) {
+                setActivePost(response.data.data)
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
     };
 
-    const handleComment = (id, comment) => {
+    const handleComment = () => {
         
     };
 
@@ -17,6 +58,8 @@ export default function Card({ post }) {
         setShowComments(showComments === true ? false : true);
     };
 
+    console.log(post);
+    
   return (
     
         <div  className="card m-3" style={{ width: "300px", height: "auto" }}>
@@ -29,17 +72,17 @@ export default function Card({ post }) {
                 <div className="d-flex justify-content-between m-2">
                     <div>
                         <button onClick={() => handleLike(post.id)} className="btn btn-sm btn-outline-success me-2">
-                          {/* 👍 {post.upvote.length} */}
-                          👍
+                          {loading ? <Spinner /> : <> 👍 {activePost.upvote.length} </>}
+                        
                         </button>
                         <button onClick={() => handleDislike(post.id)} className="btn btn-sm btn-outline-danger me-2">
-                          {/* 👎 {post.downvote.length} */}
-                          👎
+                          {loading ? <Spinner /> : <>  👎 {activePost.downvote.length} </>}
+                        
                         </button>
-                        <button onClick={() => toggleComments(post.id)} className="btn btn-sm btn-outline-primary">
-                          {/* 💬 <span>{post.comment.length}</span> */}
-                          <span>💬</span>
-                        </button>
+                      <button onClick={() => setIsOpen(true)} className="btn btn-sm btn-outline-danger me-2">
+                          💬
+                      </button>
+                      <CommentModal isOpen={isOpen} onClose={onClose} postId={activePost._id}/>
                     </div>
                 </div>
 

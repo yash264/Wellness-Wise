@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
+
 
 export const getTimeStringComment = (timestamp) => {
     const currDate = new Date();
@@ -32,15 +32,15 @@ export const getTimeStringComment = (timestamp) => {
     }
 }
 
-export const CommentModal = ({ isOpen, onClose, postId }) => {
+export const CommentModal = ({ isOpen,onClose,postId }) => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(false);
-    const selectUser = (state) => state.UserReducer.user;
-    const user = useSelector(selectUser);
+
+
 
     useEffect(() => {
-        if (isOpen) {
+        if(isOpen){
             fetchComments();
         }
     }, [isOpen]);
@@ -68,8 +68,6 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
         const authToken = localStorage.getItem('authToken');
         try {
             const commentData = {
-                name: user.name,
-                userId: user.userId,
                 content: newComment,
             };
             await fetch(`http://localhost:5000/api/comment/${postId}`, {
@@ -77,7 +75,6 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
                 headers: {
                     "content-type": "application/json",
                     'Authorization': `Bearer ${authToken}`
-
                 },
                 body: JSON.stringify(commentData),
             });
@@ -103,8 +100,6 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
                         'Authorization': `Bearer ${authToken}`
                     },
                     body: JSON.stringify({
-                        name: user.name,
-                        userId: user.userId,
                         content: replyToName ? `@${replyToName} ${newReply}` : newReply,
                         parentCommentId: parentCommentId,
                     }),
@@ -172,13 +167,13 @@ export const CommentModal = ({ isOpen, onClose, postId }) => {
 
     return (
         <>
-            <div class={`modal ${isOpen ? 'show' : ''}`} style={{ display: isOpen ? 'block' : 'none' }} tabIndex="-1" role="dialog">
+            <div class={`modal ${isOpen ?'show':'' }`} style={{ display: isOpen ?'block':'none' }} tabIndex="-1" role="dialog">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content" style={{ borderRadius: "25px" }}>
                         <div class="modal-header" style={{ justifyContent: "center" }}>
                             <h5 class="modal-title">Comments</h5>
-                            <button type="button" class="close" onClick={onClose} aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                            <button type="button" class="close" onClick={onClose} aria-label="Close" style={{position:"absolute",top:"10px",right:"30px"}}>
+                                <span aria-hidden="true" className=' fs-2 text-danger'>&times;</span>
                             </button>
                         </div>
 
