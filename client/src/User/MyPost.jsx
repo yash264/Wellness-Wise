@@ -5,7 +5,7 @@ import MainNavbar from '../Components/MainNavbar';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 
-const Community = () => {
+const MyPost = () => {
     const [posts, setPosts] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
@@ -19,9 +19,15 @@ const Community = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/posts/page/${page}`,{
+            const response = await axios.post(`http://localhost:5000/api/posts/profile`,
+            {
+                page: page,
+                tab: 0
+            },
+            {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-type': 'application/json'
                 }
             });
             
@@ -29,9 +35,8 @@ const Community = () => {
                 setPosts((prevPosts) => [...prevPosts, ...response.data.data]);
                 setPage(prevPage => prevPage + 1);
             } else {
-                setHasMore(false); 
+                setHasMore(false);
             }
-            // console.log(response.data.data);
         } catch (error) {
             console.error(error);
         }
@@ -182,4 +187,4 @@ const Community = () => {
     );
 };
 
-export default Community;
+export default MyPost;

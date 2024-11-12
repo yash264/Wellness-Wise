@@ -99,7 +99,7 @@ async function getUserData(req, res){
 
 async function fetchUserPosts(req, res){
     try{
-        const limit = 10;
+        const limit = 6;
         const { page, tab } = req.body;
         const skip = (page-1)*limit;
 
@@ -124,7 +124,7 @@ async function fetchUserPosts(req, res){
        
 
     } catch(error){
-        
+        console.log(error);
         res.status(400).json({
             msg : "error"+error
         })
