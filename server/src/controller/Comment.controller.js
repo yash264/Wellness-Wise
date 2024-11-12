@@ -6,7 +6,7 @@ async function createComments(req, res){
         
         const body = req.body;
         const user = req.user;
-        const userId = user._id;
+        const userId = user.id;
         const name = user.name;
 
         const comment = await commentModel.create({
@@ -74,7 +74,7 @@ async function postReply(req, res){
     try{
         const { content, parentCommentId } = req.body;
         const user = req.user;
-        const userId = user._id;
+        const userId = user.id;
         const name = user.name;
 
         const reply = await commentModel.create({

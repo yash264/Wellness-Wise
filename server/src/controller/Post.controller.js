@@ -46,7 +46,7 @@ async function createPost(req, res){
 }
 
 async function getPagePost(req, res){
-    const limit = 5;
+    const limit = 6;
     const page = parseInt(req.params.page);
     const skip = (page-1)*limit; // how many post needs to be skipped   
 

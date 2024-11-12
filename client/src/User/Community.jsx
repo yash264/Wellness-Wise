@@ -1,26 +1,34 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from '../Components/Card';
 import MainNavbar from '../Components/MainNavbar';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 
 const Community = () => {
     const [posts, setPosts] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
-    const [newUpload, setNewUpload] = useState(false);
+    const [page, setPage] = useState(1);
+    const [hasMore, setHasMore] = useState(true);
+    const isInitialLoad = useRef(true);
     const cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
     const upload_preset=process.env.REACT_APP_UPLOAD_PRESET;
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/posts/page/1`,{
+            const response = await axios.get(`http://localhost:5000/api/posts/page/${page}`,{
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('authToken')}`
                 }
             });
             
-            setPosts(response.data.data);
+            if (response.data.data.length > 0) {
+                setPosts((prevPosts) => [...prevPosts, ...response.data.data]);
+                setPage(prevPage => prevPage + 1);
+            } else {
+                setHasMore(false); // No more posts to load
+            }
             // console.log(response.data.data);
         } catch (error) {
             console.error(error);
@@ -29,14 +37,16 @@ const Community = () => {
 
 
   
+    // useEffect(() => {
+    //     fetchPosts(); 
+    // }, []);
     useEffect(() => {
-        fetchPosts();
-
+        if (isInitialLoad.current) {
+            fetchPosts();
+            isInitialLoad.current = false;
+        }
     }, []);
-    useEffect(() => {
-        fetchPosts();
 
-    }, [newUpload]);
   
     const [showModal, setShowModal] = useState(false);
     const [newPostText, setNewPostText] = useState("");
@@ -82,7 +92,9 @@ const Community = () => {
         setShowModal(false);
         setNewPostText("");
         setImageUrl("");
-        setNewUpload((prev) => (!prev));
+        setPosts([]);
+        setPage(1);
+        fetchPosts();
     };
 
     return (
@@ -98,11 +110,19 @@ const Community = () => {
                 <button className="btn btn-primary" onClick={() => setShowModal(true)}>Create Post</button>
             </div>
 
-            <div className='d-flex flex-row flex-wrap'>
-                {posts.length>0 && posts.map(post => (
-                <Card post={post} key={post._id}/> 
-                ))}
-            </div>
+            <InfiniteScroll
+                    dataLength={posts.length}
+                    next={fetchPosts}
+                    hasMore={hasMore}
+                    loader={<h4>Loading...</h4>}
+                    endMessage={<p style={{ textAlign: 'center' }}>No more posts</p>}
+                >
+                    <div className="d-flex flex-row flex-wrap">
+                        {posts.length > 0 && posts.map(post => (
+                            <Card post={post} key={post._id} />
+                        ))}
+                    </div>
+                </InfiniteScroll>
             {/* Create Post Modal */}
             {showModal && (
                 <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
