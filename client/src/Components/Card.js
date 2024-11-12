@@ -75,12 +75,12 @@ export default function Card({ post, isLiked, isDisliked }) {
                 <div className="d-flex justify-content-between m-2">
                     <div>
                         <button onClick={() => handleLike(post.id)} 
-                        className={`btn btn-sm me-2 ${hasLiked !== -1 ? 'btn-danger' : 'btn-outline-danger'}`}>
+                        className={`btn btn-sm me-2 ${hasLiked !== -1 ? 'btn-success' : 'btn-outline-success'}`}>
                           {loading ? <Spinner /> : <> 👍 {activePost.upvote.length} </>}
                         
                         </button>
                         <button onClick={() => handleDislike(post.id)} 
-                        className={`btn btn-sm me-2 ${hasDisliked !== -1 ? 'btn-success' : 'btn-outline-success'}`}>
+                        className={`btn btn-sm me-2 ${hasDisliked !== -1 ? 'btn-danger' : 'btn-outline-danger'}`}>
                           {loading ? <Spinner /> : <>  👎 {activePost.downvote.length} </>}
                         
                         </button>
