@@ -27,6 +27,7 @@ function Register() {
         const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
         if (!e.target.value.match(isValidEmail)) {
             setError("Please enter a valid email address.");
+            setEmail(e.target.value);
         }
         else{
             setError('');
