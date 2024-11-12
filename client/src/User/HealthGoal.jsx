@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MainNavbar from "../Components/MainNavbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -47,7 +49,7 @@ function HealthGoal() {
             { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } }
         )
             .then(res => {
-                alert(res.data.message);
+                toast.error(res.data.message);
                 fetchStreaks();
             })
             .catch(err => console.error(err));
@@ -136,6 +138,7 @@ function HealthGoal() {
                     <p>No streaks yet. Start setting goals and tracking progress!</p>
                 )}
             </div>
+            <ToastContainer />
         </div>
         </>
     );
