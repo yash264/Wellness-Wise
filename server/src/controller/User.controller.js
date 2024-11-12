@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const Analysis = require("../models/Analysis.model");
 const Health = require("../models/User_Health.model");
 const { default: mongoose } = require("mongoose");
+const userModel = require("../models/User.model");
 dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 
 const login = async (req, res) => {
@@ -97,6 +98,38 @@ const verifyToken=async(req,res)=>{
     });
 }
 
+const getUser=async(req,res)=>{
+    try{
+
+        const user = await userModel.findById(req.user.id).select("-password -Health -Goals -Analysis "); 
+
+        res.status(200).json({
+            success: true,
+            data:user
+        });
+    }catch(error){
+        res.status(400).send({
+            success: false,
+            message: ""+error
+        });
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const updatedUser = await userModel.findByIdAndUpdate(req.user.id, req.body, { new: true });
+        res.status(201).json({
+            success: true,
+            data: updatedUser
+        });
+    } catch (error) {
+        res.status(400).send({
+            success: false,
+            message: ""+error
+        });
+    }
+}
+
 
 const getAllAnalysis = async (req, res) => {
     try {
@@ -149,4 +182,4 @@ const getHealthData = async (req, res) => {
 
 
 
-module.exports = { login, register, verifyToken, getAllAnalysis, getHealthData }
+module.exports = { login, register, verifyToken, getAllAnalysis, getHealthData,getUser,updateUser }

@@ -5,7 +5,7 @@ const Goal = require("../models/HealthGoal.model");
 const setGoal = async (req, res) => {
     const { stepGoal, hydrationGoal, sleepGoal } = req.body;
     const userID = req.user.id;
-    console.log(userID);
+
     
     try {
         const newGoal = new Goal({
@@ -64,10 +64,10 @@ const getStreaks = async (req, res) => {
     const userID = req.user.id;
 
     try {
-        const goals = await Goal.find({ userID }).select("streak createdAt").sort({ createdAt: -1 });
+        const goals = await Goal.find({ userID }).sort({ createdAt: -1 });
         const streaks = goals.map(goal => ({ streak: goal.streak, date: goal.createdAt }));
 
-        res.status(200).json({ streaks });
+        res.status(200).json({ goals });
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch streaks" });
     }

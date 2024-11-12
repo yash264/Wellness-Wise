@@ -4,7 +4,8 @@ const Sentiment = require('sentiment');
 export default function AnalyzeHealthData({data}) {
     const sentiment = new Sentiment();
     const [alert, setAlert] = useState([]);
-    console.log(alert);
+ 
+    
     
     
 
@@ -65,7 +66,7 @@ export default function AnalyzeHealthData({data}) {
         <div className='d-flex flex-column alert alert-danger'>
         
          { alert.map((value, index) => <div key={index} className='fs-6'>{value}</div>)}
-        </div> :<div  className='alert alert-success'>No Alert</div> }
+        </div> :<div  className='alert alert-success' >No Alert</div> }
     </>
   )
 }

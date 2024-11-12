@@ -18,6 +18,7 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "env": "^0.0.2",
     "express": "^4.21.1",
     "googleapis": "^144.0.0",
     "hbs": "^4.2.0",
@@ -31,6 +32,7 @@
     "query-string": "^9.1.1",
     "request": "^2.88.2",
     "short-unique-id": "^5.2.0",
+    "source": "^0.0.3",
     "url-parse": "^1.5.10"
   }
 }

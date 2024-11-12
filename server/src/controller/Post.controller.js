@@ -6,7 +6,7 @@ async function createPost(req, res){
         const { caption, imageURL } = req.body;
         const user = req.user;
         const name = user.name;
-        const userid = user._id;
+        const userid = user.id;
 
         var postData = {
             name,
@@ -40,7 +40,7 @@ async function createPost(req, res){
     catch(error){
 
         res.status(400).json({
-            msg : "error"+error
+            msg : ""+error
         })
     }
 }
@@ -70,7 +70,7 @@ async function getPagePost(req, res){
 // returns all the posts of the user and the total sum of upvotes and downvotes of all posts
 async function getUserData(req, res){
     try{
-        const userId = req.user._id;
+        const userId = req.user.id;
         const user = await userModel.findOne({ _id: userId }).populate("post");
         
         var up=0,down=0;
@@ -108,9 +108,9 @@ async function fetchUserPosts(req, res){
         if (tab === 0) {
             filter = { name: user.name };
         } else if (tab === 1) {
-            filter = { upvote: { $in: [user._id] } };
+            filter = { upvote: { $in: [user.id] } };
         } else {
-            filter = { downvote: { $in: [user._id] } };
+            filter = { downvote: { $in: [user.id] } };
         }
 
 
@@ -157,7 +157,7 @@ async function getAPost(req, res){
 async function postUpvote(req, res){
     try{
         const user = req.user;
-        const userid = user._id;
+        const userid = user.id;
         const postid = req.params.id;
         const post = await postModel.findOne({
             _id: postid
@@ -212,7 +212,7 @@ async function postUpvote(req, res){
 async function postDownvote(req, res){
     try{
         const user = req.user;
-        const userid = user._id;
+        const userid = user.id;
         const postid = req.params.id;
         const post = await postModel.findOne({
             _id: postid

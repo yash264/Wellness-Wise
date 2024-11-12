@@ -20,7 +20,7 @@ function DataLogging() {
     useEffect(() => {
         axios.post('http://localhost:5000/dataLogging', { email, activity, sleep, nutrition })
             .then(result => {
-                console.log(result);
+                // console.log(result);
                 setValues(result.data.userData);
             })
             .catch(error => {

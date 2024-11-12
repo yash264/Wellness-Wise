@@ -61,24 +61,16 @@ function Items({ currentItems }) {
 
 function ShowAnalysis({data}) {
     const itemsPerPage=3;
-    // Here we use item offsets; we could also use page offsets
-    // following the API or data you're working with.
+
     const [itemOffset, setItemOffset] = useState(0);
 
-    // Simulate fetching items from another resources.
-    // (This could be items from props; or items loaded in a local state
-    // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+
     const currentItems = data.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(itemOffset, endOffset);
     const pageCount = Math.ceil(data.length / itemsPerPage);
 
-    // Invoke when user click to request another page.
     const handlePageClick = (event) => {
         const newOffset = (event.selected * itemsPerPage) % data.length;
-        console.log(
-            `User requested page number ${event.selected}, which is offset ${newOffset}`
-        );
         setItemOffset(newOffset);
     };
     return (
@@ -94,10 +86,10 @@ function ShowAnalysis({data}) {
                 pageCount={pageCount}
                 previousLabel="<"
                 renderOnZeroPageCount={null}
-                containerClassName="pagination" // Main container styling
-                previousClassName="pagination-prev" // Custom class for previous button
-                nextClassName="pagination-next" // Custom class for next button
-                activeClassName="active" // Class for active page
+                containerClassName="pagination" 
+                previousClassName="pagination-prev" 
+                nextClassName="pagination-next" 
+                activeClassName="active"
             />
             </div>
         </>

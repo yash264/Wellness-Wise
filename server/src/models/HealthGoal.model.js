@@ -11,8 +11,8 @@ const GoalSchema = new mongoose.Schema({
     hydration_goal: { type: Number, required: true },
     sleep_goal: { type: Number, required: true },
     streak: { type: Number, default: 0 },
-    lastLogDate: { type: Date, default: null }
-});
+    lastLogDate: { type: Date, default: null },
+}, { timestamps: true });
 
 const Goal = mongoose.model("Goal", GoalSchema);
 

@@ -19,15 +19,6 @@ function App() {
   return (
     
     <div>
-     
-      {/*<Navbar/>*/}
-      {/*<Banner/>*/}
-      {/*<Features/>*/}
-      {/*<Aboutus/>*/}
-      {/*<Contact/>*/}
-    
-       
-     
       <Routes>
         <Route path="/" element={<Home />}></Route>  
         <Route path="/User/register" element={<Register />}></Route> 
