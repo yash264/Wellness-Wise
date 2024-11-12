@@ -26,7 +26,7 @@ const sendMail = async(email, name, message) => {
                             <h3>Welcome to WellNess Wise !! </h3>
                             <h5> Dear ${name} </h5>
                             <br>
-                            <h6> ${message} </h6>
+                            <h5> ${message} </h5>
                             <br>
                             <p>We’re excited to have you as part of our community!! . If you have any questions or need help getting started, feel free to reach out.</p>
                             <br>
