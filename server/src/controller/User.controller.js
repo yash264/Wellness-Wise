@@ -13,6 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        console.log(email);
         
         const userExists = await user.findOne({ email: email })
         

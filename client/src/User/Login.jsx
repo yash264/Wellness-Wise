@@ -10,8 +10,8 @@ import { Spinner } from "../Components/Spinner";
 
 function Login() {
 
-    const [email, setEmail] = useState([])
-    const [password, setPassword] = useState([])
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const [loading,setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -23,10 +23,10 @@ function Login() {
         const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
         if (!e.target.value.match(isValidEmail)) {
             setError("Please enter a valid email address.");
-            setEmail(e.target.value);
         }
         else{
             setError('');
+            setEmail(e.target.value);
         }
     }
 
