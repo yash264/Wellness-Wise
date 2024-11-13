@@ -127,7 +127,7 @@ const Community = () => {
                     dataLength={posts.length}
                     next={fetchPosts}
                     hasMore={hasMore}
-                    loader={<h4>Loading...</h4>}
+                    // loader={<h4>Loading...</h4>}
                     endMessage={<p style={{ textAlign: 'center' }}>No more posts</p>}
                 >
                     <div className="d-flex flex-row flex-wrap">
