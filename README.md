@@ -28,8 +28,16 @@ Builds a system using google youtube API which provides you a motivational video
 Provide a platform using nodejs Backend where users can post, comment, and like responses.
 
 
+# PPTX link :
+https://drive.google.com/file/d/1jDYqHxROlVpYknaJ8LTaAGFMD6GGrfXL/view?usp=sharing
+
+
 # Tech Stack Used :
 React js , Node js , Express js , Mongodb , Machine Learning , Bootstrap , Tailwind .
+
+
+# Video Link : 
+https://drive.google.com/file/d/1LhxO7a5kWl311F8hOAXbrcNWKGUcpBwl/view?usp=drivesdk
 
 
 # Team Members : 
@@ -41,16 +49,6 @@ Member 2 : Lakshit Rajput ( 20220030, Electronics & Communication Engineering)
 
 Member 3 : Gurmeet Singh Rathor ( 20222025, Chemical Engineering)
 
-
-# To push the code 
-git add .  // file name
-
-git commit -m "message"
-
-git push origin main
-
-# To pull the code
-git pull origin main
 
 # To start frontend 
 - cd client/
@@ -69,8 +67,3 @@ git pull origin main
 - py pattern_detection.py  or  python pattern_detection.py 
 
 
-# env file setup
-- create env file outside client and server folder
-- MONGODB_URL=..........
-- PORT=5000
-- JWT_SECRET=...........
